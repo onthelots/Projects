@@ -1,8 +1,8 @@
 //
 //  ViewController.swift
-//  AppleStore_Clone_Project
+//  AppleStore_Clone
 //
-//  Created by Jae hyuk Yim on 2023/04/10.
+//  Created by Jae hyuk Yim on 2023/04/23.
 //
 
 import UIKit
