@@ -9,13 +9,19 @@
 /* Begin PBXBuildFile section */
 		3F0E8EF229F5126000FC2006 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0E8EF129F5126000FC2006 /* AppDelegate.swift */; };
 		3F0E8EF429F5126000FC2006 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0E8EF329F5126000FC2006 /* SceneDelegate.swift */; };
-		3F0E8EF629F5126000FC2006 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0E8EF529F5126000FC2006 /* ViewController.swift */; };
 		3F0E8EF929F5126000FC2006 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3F0E8EF729F5126000FC2006 /* Main.storyboard */; };
 		3F0E8EFB29F5126100FC2006 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F0E8EFA29F5126100FC2006 /* Assets.xcassets */; };
 		3F0E8EFE29F5126100FC2006 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3F0E8EFC29F5126100FC2006 /* LaunchScreen.storyboard */; };
 		3F0E8F0929F5126100FC2006 /* AppleStore_CloneTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0E8F0829F5126100FC2006 /* AppleStore_CloneTests.swift */; };
 		3F0E8F1329F5126100FC2006 /* AppleStore_CloneUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0E8F1229F5126100FC2006 /* AppleStore_CloneUITests.swift */; };
 		3F0E8F1529F5126100FC2006 /* AppleStore_CloneUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0E8F1429F5126100FC2006 /* AppleStore_CloneUITestsLaunchTests.swift */; };
+		3F0E8F2629F513B600FC2006 /* Today.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3F0E8F2529F513B600FC2006 /* Today.storyboard */; };
+		3F0E8F2E29F513D700FC2006 /* Search.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3F0E8F2D29F513D700FC2006 /* Search.storyboard */; };
+		3F0E8F3529F5140400FC2006 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0E8F3429F5140400FC2006 /* TodayViewController.swift */; };
+		3F0E8F3929F514B500FC2006 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0E8F3829F514B500FC2006 /* MainTabBarController.swift */; };
+		3F0E8F4129F5156500FC2006 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0E8F4029F5156500FC2006 /* SearchViewController.swift */; };
+		3F0E8F4329F518AB00FC2006 /* TodayNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0E8F4229F518AB00FC2006 /* TodayNavigationController.swift */; };
+		3F0E8F4529F5200D00FC2006 /* SearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0E8F4429F5200D00FC2006 /* SearchCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,7 +45,6 @@
 		3F0E8EEE29F5126000FC2006 /* AppleStore_Clone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AppleStore_Clone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F0E8EF129F5126000FC2006 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3F0E8EF329F5126000FC2006 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		3F0E8EF529F5126000FC2006 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		3F0E8EF829F5126000FC2006 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3F0E8EFA29F5126100FC2006 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3F0E8EFD29F5126100FC2006 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -49,6 +54,13 @@
 		3F0E8F0E29F5126100FC2006 /* AppleStore_CloneUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppleStore_CloneUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F0E8F1229F5126100FC2006 /* AppleStore_CloneUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleStore_CloneUITests.swift; sourceTree = "<group>"; };
 		3F0E8F1429F5126100FC2006 /* AppleStore_CloneUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleStore_CloneUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		3F0E8F2529F513B600FC2006 /* Today.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Today.storyboard; sourceTree = "<group>"; };
+		3F0E8F2D29F513D700FC2006 /* Search.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Search.storyboard; sourceTree = "<group>"; };
+		3F0E8F3429F5140400FC2006 /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
+		3F0E8F3829F514B500FC2006 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
+		3F0E8F4029F5156500FC2006 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		3F0E8F4229F518AB00FC2006 /* TodayNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayNavigationController.swift; sourceTree = "<group>"; };
+		3F0E8F4429F5200D00FC2006 /* SearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,8 +113,9 @@
 			children = (
 				3F0E8EF129F5126000FC2006 /* AppDelegate.swift */,
 				3F0E8EF329F5126000FC2006 /* SceneDelegate.swift */,
-				3F0E8EF529F5126000FC2006 /* ViewController.swift */,
-				3F0E8EF729F5126000FC2006 /* Main.storyboard */,
+				3F0E8F2129F512FD00FC2006 /* Main */,
+				3F0E8F2F29F513E900FC2006 /* Today */,
+				3F0E8F3329F513F900FC2006 /* Search */,
 				3F0E8EFA29F5126100FC2006 /* Assets.xcassets */,
 				3F0E8EFC29F5126100FC2006 /* LaunchScreen.storyboard */,
 				3F0E8EFF29F5126100FC2006 /* Info.plist */,
@@ -125,6 +138,35 @@
 				3F0E8F1429F5126100FC2006 /* AppleStore_CloneUITestsLaunchTests.swift */,
 			);
 			path = AppleStore_CloneUITests;
+			sourceTree = "<group>";
+		};
+		3F0E8F2129F512FD00FC2006 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				3F0E8EF729F5126000FC2006 /* Main.storyboard */,
+				3F0E8F3829F514B500FC2006 /* MainTabBarController.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		3F0E8F2F29F513E900FC2006 /* Today */ = {
+			isa = PBXGroup;
+			children = (
+				3F0E8F2529F513B600FC2006 /* Today.storyboard */,
+				3F0E8F3429F5140400FC2006 /* TodayViewController.swift */,
+				3F0E8F4229F518AB00FC2006 /* TodayNavigationController.swift */,
+			);
+			path = Today;
+			sourceTree = "<group>";
+		};
+		3F0E8F3329F513F900FC2006 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				3F0E8F2D29F513D700FC2006 /* Search.storyboard */,
+				3F0E8F4429F5200D00FC2006 /* SearchCell.swift */,
+				3F0E8F4029F5156500FC2006 /* SearchViewController.swift */,
+			);
+			path = Search;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -231,8 +273,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3F0E8F2629F513B600FC2006 /* Today.storyboard in Resources */,
 				3F0E8EFE29F5126100FC2006 /* LaunchScreen.storyboard in Resources */,
 				3F0E8EFB29F5126100FC2006 /* Assets.xcassets in Resources */,
+				3F0E8F2E29F513D700FC2006 /* Search.storyboard in Resources */,
 				3F0E8EF929F5126000FC2006 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -258,9 +302,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3F0E8EF629F5126000FC2006 /* ViewController.swift in Sources */,
+				3F0E8F4129F5156500FC2006 /* SearchViewController.swift in Sources */,
 				3F0E8EF229F5126000FC2006 /* AppDelegate.swift in Sources */,
 				3F0E8EF429F5126000FC2006 /* SceneDelegate.swift in Sources */,
+				3F0E8F4529F5200D00FC2006 /* SearchCell.swift in Sources */,
+				3F0E8F3929F514B500FC2006 /* MainTabBarController.swift in Sources */,
+				3F0E8F3529F5140400FC2006 /* TodayViewController.swift in Sources */,
+				3F0E8F4329F518AB00FC2006 /* TodayNavigationController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
