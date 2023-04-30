@@ -1,13 +1,13 @@
 //
-//  MainViewController.swift
+//  SearchViewController.swift
 //  CustomAppStore
 //
-//  Created by Jae hyuk Yim on 2023/04/29.
+//  Created by Jae hyuk Yim on 2023/04/30.
 //
 
 import UIKit
 
-class MainViewController: UIViewController {
+class SearchViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

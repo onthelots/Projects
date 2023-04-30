@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-// Defines the Network service errors.
+// 에러타입
 enum NetworkError: Error {
     case invalidRequest
     case invalidResponse
@@ -19,35 +19,28 @@ enum NetworkError: Error {
 // NetworkSevice (+ Combine)
 final class NetworkService {
     
-    // URLSession
+    // URLSession 초기값이 없는 프로퍼티
     let session: URLSession
     
-    // URLSessionConfiguration
+    // URLSessionConfiguration (초기화)
     init(configuration: URLSessionConfiguration) {
-        session = URLSession(configuration: configuration)
+        self.session = URLSession(configuration: configuration)
     }
     
-    // decoding -> Resource<T> (Return AnyPublisher<T or Error>
-    func load<T>(_ resource: Resource<T>) -> AnyPublisher<T, Error> {
+    // Decoding
+    func fetchAppStoreInfo(payment: String, limit: Int) -> AnyPublisher<Feed, Error> {
         
-        // errorhandling
-        guard let request = resource.urlRequest else {
-            return .fail(NetworkError.invalidRequest)
-        }
+        // url
+        let urlString: String = "https://itunes.apple.com/kr/rss/\(payment)/limit=\(limit)/json"
+        let url = URL(string: urlString)!
         
         return session
-            .dataTaskPublisher(for: request)
+            .dataTaskPublisher(for: url)
             .tryMap { result -> Data in
                 guard let response = result.response as? HTTPURLResponse,
                       (200..<300).contains(response.statusCode)
-                else {
-                    let response = result.response as? HTTPURLResponse
-                    let statusCode = response?.statusCode ?? -1
-                    throw NetworkError.responseError(statusCode: statusCode)
-                }
-                return result.data
             }
-            .decode(type: T.self, decoder: JSONDecoder())
-            .eraseToAnyPublisher()
+        
     }
+    
 }

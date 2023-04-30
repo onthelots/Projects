@@ -10,6 +10,14 @@
 		3F06FB8429FE55BB00CA96FD /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F06FB8329FE55BB00CA96FD /* NetworkService.swift */; };
 		3F06FB8629FE56A500CA96FD /* Resource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F06FB8529FE56A500CA96FD /* Resource.swift */; };
 		3F06FB8829FE571700CA96FD /* Publisher+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F06FB8729FE571700CA96FD /* Publisher+Utils.swift */; };
+		3F9C269429FE5CFF00C7393B /* App.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3F9C269329FE5CFF00C7393B /* App.storyboard */; };
+		3F9C269629FE5D0D00C7393B /* Search.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3F9C269529FE5D0D00C7393B /* Search.storyboard */; };
+		3F9C269829FE5D1800C7393B /* AppViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9C269729FE5D1800C7393B /* AppViewController.swift */; };
+		3F9C269A29FE5D2000C7393B /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9C269929FE5D2000C7393B /* SearchViewController.swift */; };
+		3F9C26A129FE5E7500C7393B /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9C26A029FE5E7500C7393B /* MainTabBarController.swift */; };
+		3F9C26A329FE685700C7393B /* iTunesAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9C26A229FE685700C7393B /* iTunesAPI.swift */; };
+		3F9C26A529FE6C0500C7393B /* iTunesAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9C26A429FE6C0500C7393B /* iTunesAPI.swift */; };
+		3FB9992F29FE759A00B386AE /* AppStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB9992E29FE759A00B386AE /* AppStore.swift */; };
 		3FF5F7CE29FD314500CA67EB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF5F7CD29FD314500CA67EB /* AppDelegate.swift */; };
 		3FF5F7D029FD314500CA67EB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF5F7CF29FD314500CA67EB /* SceneDelegate.swift */; };
 		3FF5F7D529FD314500CA67EB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3FF5F7D329FD314500CA67EB /* Main.storyboard */; };
@@ -18,7 +26,6 @@
 		3FF5F7E529FD314600CA67EB /* CustomAppStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF5F7E429FD314600CA67EB /* CustomAppStoreTests.swift */; };
 		3FF5F7EF29FD314600CA67EB /* CustomAppStoreUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF5F7EE29FD314600CA67EB /* CustomAppStoreUITests.swift */; };
 		3FF5F7F129FD314600CA67EB /* CustomAppStoreUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF5F7F029FD314600CA67EB /* CustomAppStoreUITestsLaunchTests.swift */; };
-		3FF5F7FE29FD316700CA67EB /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF5F7FD29FD316700CA67EB /* MainViewController.swift */; };
 		3FF5F80129FD36A800CA67EB /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 3FF5F80029FD36A800CA67EB /* Alamofire */; };
 		3FF5F80329FD36EB00CA67EB /* Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF5F80229FD36EB00CA67EB /* Alamofire.swift */; };
 /* End PBXBuildFile section */
@@ -44,6 +51,14 @@
 		3F06FB8329FE55BB00CA96FD /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		3F06FB8529FE56A500CA96FD /* Resource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resource.swift; sourceTree = "<group>"; };
 		3F06FB8729FE571700CA96FD /* Publisher+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publisher+Utils.swift"; sourceTree = "<group>"; };
+		3F9C269329FE5CFF00C7393B /* App.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = App.storyboard; sourceTree = "<group>"; };
+		3F9C269529FE5D0D00C7393B /* Search.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Search.storyboard; sourceTree = "<group>"; };
+		3F9C269729FE5D1800C7393B /* AppViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewController.swift; sourceTree = "<group>"; };
+		3F9C269929FE5D2000C7393B /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		3F9C26A029FE5E7500C7393B /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
+		3F9C26A229FE685700C7393B /* iTunesAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iTunesAPI.swift; sourceTree = "<group>"; };
+		3F9C26A429FE6C0500C7393B /* iTunesAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iTunesAPI.swift; sourceTree = "<group>"; };
+		3FB9992E29FE759A00B386AE /* AppStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStore.swift; sourceTree = "<group>"; };
 		3FF5F7CA29FD314500CA67EB /* CustomAppStore.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CustomAppStore.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FF5F7CD29FD314500CA67EB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3FF5F7CF29FD314500CA67EB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -56,7 +71,6 @@
 		3FF5F7EA29FD314600CA67EB /* CustomAppStoreUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CustomAppStoreUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FF5F7EE29FD314600CA67EB /* CustomAppStoreUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAppStoreUITests.swift; sourceTree = "<group>"; };
 		3FF5F7F029FD314600CA67EB /* CustomAppStoreUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAppStoreUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		3FF5F7FD29FD316700CA67EB /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		3FF5F80229FD36EB00CA67EB /* Alamofire.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alamofire.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -103,6 +117,41 @@
 			path = Network;
 			sourceTree = "<group>";
 		};
+		3F9C269B29FE5D2400C7393B /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				3F9C269529FE5D0D00C7393B /* Search.storyboard */,
+				3F9C269929FE5D2000C7393B /* SearchViewController.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		3F9C269C29FE5D2600C7393B /* App */ = {
+			isa = PBXGroup;
+			children = (
+				3F9C269329FE5CFF00C7393B /* App.storyboard */,
+				3F9C269729FE5D1800C7393B /* AppViewController.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		3F9C269D29FE5D3200C7393B /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				3FF5F7D329FD314500CA67EB /* Main.storyboard */,
+				3F9C26A029FE5E7500C7393B /* MainTabBarController.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		3FB9993029FE75A900B386AE /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				3FB9992E29FE759A00B386AE /* AppStore.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		3FF5F7C129FD314500CA67EB = {
 			isa = PBXGroup;
 			children = (
@@ -128,14 +177,17 @@
 			children = (
 				3FF5F7CD29FD314500CA67EB /* AppDelegate.swift */,
 				3FF5F7CF29FD314500CA67EB /* SceneDelegate.swift */,
-				3FF5F7D329FD314500CA67EB /* Main.storyboard */,
-				3FF5F7FD29FD316700CA67EB /* MainViewController.swift */,
+				3FB9993029FE75A900B386AE /* Model */,
+				3F9C269D29FE5D3200C7393B /* Main */,
+				3F9C269C29FE5D2600C7393B /* App */,
+				3F9C269B29FE5D2400C7393B /* Search */,
 				3FF5F7D629FD314600CA67EB /* Assets.xcassets */,
 				3FF5F7D829FD314600CA67EB /* LaunchScreen.storyboard */,
 				3FF5F7DB29FD314600CA67EB /* Info.plist */,
 				3FF5F80429FD3AED00CA67EB /* Test */,
 				3F06FB8A29FE576000CA96FD /* Network */,
 				3F06FB8929FE575A00CA96FD /* Utils */,
+				3F9C26A229FE685700C7393B /* iTunesAPI.swift */,
 			);
 			path = CustomAppStore;
 			sourceTree = "<group>";
@@ -161,6 +213,7 @@
 			isa = PBXGroup;
 			children = (
 				3FF5F80229FD36EB00CA67EB /* Alamofire.swift */,
+				3F9C26A429FE6C0500C7393B /* iTunesAPI.swift */,
 			);
 			path = Test;
 			sourceTree = "<group>";
@@ -277,7 +330,9 @@
 			files = (
 				3FF5F7DA29FD314600CA67EB /* LaunchScreen.storyboard in Resources */,
 				3FF5F7D729FD314600CA67EB /* Assets.xcassets in Resources */,
+				3F9C269429FE5CFF00C7393B /* App.storyboard in Resources */,
 				3FF5F7D529FD314500CA67EB /* Main.storyboard in Resources */,
+				3F9C269629FE5D0D00C7393B /* Search.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -303,9 +358,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				3F06FB8429FE55BB00CA96FD /* NetworkService.swift in Sources */,
-				3FF5F7FE29FD316700CA67EB /* MainViewController.swift in Sources */,
+				3F9C269829FE5D1800C7393B /* AppViewController.swift in Sources */,
+				3F9C26A129FE5E7500C7393B /* MainTabBarController.swift in Sources */,
+				3FB9992F29FE759A00B386AE /* AppStore.swift in Sources */,
+				3F9C26A529FE6C0500C7393B /* iTunesAPI.swift in Sources */,
+				3F9C269A29FE5D2000C7393B /* SearchViewController.swift in Sources */,
 				3FF5F7CE29FD314500CA67EB /* AppDelegate.swift in Sources */,
 				3F06FB8629FE56A500CA96FD /* Resource.swift in Sources */,
+				3F9C26A329FE685700C7393B /* iTunesAPI.swift in Sources */,
 				3F06FB8829FE571700CA96FD /* Publisher+Utils.swift in Sources */,
 				3FF5F80329FD36EB00CA67EB /* Alamofire.swift in Sources */,
 				3FF5F7D029FD314500CA67EB /* SceneDelegate.swift in Sources */,
