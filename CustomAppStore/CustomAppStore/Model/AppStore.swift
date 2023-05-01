@@ -17,7 +17,7 @@ struct Feed: Codable {
 }
 
 struct Author: Codable {
-    let name: String // label,
+    let name: String
     let uri: String
 }
 

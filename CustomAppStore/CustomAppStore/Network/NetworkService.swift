@@ -27,20 +27,18 @@ final class NetworkService {
         self.session = URLSession(configuration: configuration)
     }
     
-    // Decoding
-    func fetchAppStoreInfo(payment: String, limit: Int) -> AnyPublisher<Feed, Error> {
-        
-        // url
-        let urlString: String = "https://itunes.apple.com/kr/rss/\(payment)/limit=\(limit)/json"
-        let url = URL(string: urlString)!
-        
-        return session
-            .dataTaskPublisher(for: url)
-            .tryMap { result -> Data in
-                guard let response = result.response as? HTTPURLResponse,
-                      (200..<300).contains(response.statusCode)
-            }
-        
-    }
-    
+//    // Decoding
+//    func fetchAppStoreInfo(payment: String, limit: Int) -> AnyPublisher<Feed, Error> {
+//        
+//        // url
+//        let urlString: String = "https://itunes.apple.com/kr/rss/\(payment)/limit=\(limit)/json"
+//        let url = URL(string: urlString)!
+//        
+//        return session
+//            .dataTaskPublisher(for: url)
+//            .tryMap { result -> Data in
+//                guard let response = result.response as? HTTPURLResponse,
+//                      (200..<300).contains(response.statusCode)
+//            }
+//    }
 }
