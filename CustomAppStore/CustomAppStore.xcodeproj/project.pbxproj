@@ -209,8 +209,8 @@
 		3FF5F80429FD3AED00CA67EB /* Test */ = {
 			isa = PBXGroup;
 			children = (
-				3FF5F80229FD36EB00CA67EB /* Alamofire.swift */,
 				3F9C26A429FE6C0500C7393B /* iTunesAPI.swift */,
+				3FF5F80229FD36EB00CA67EB /* Alamofire.swift */,
 			);
 			path = Test;
 			sourceTree = "<group>";
