@@ -128,6 +128,11 @@
                                             </constraints>
                                         </collectionViewCellContentView>
                                         <size key="customSize" width="393" height="79"/>
+                                        <connections>
+                                            <outlet property="appName" destination="bpc-WF-RJa" id="omR-yA-Elf"/>
+                                            <outlet property="appSummary" destination="tD1-QP-0WZ" id="eKs-Q8-Qv2"/>
+                                            <outlet property="iconImage" destination="fGU-zc-zFI" id="QGt-4v-uZP"/>
+                                        </connections>
                                     </collectionViewCell>
                                 </cells>
                                 <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="AppReusableView" id="Jmd-1X-WPp" customClass="AppReusableView" customModule="CustomAppStore" customModuleProvider="target">
@@ -175,6 +180,9 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="App" image="square.3.layers.3d.top.filled" catalog="system" id="m55-Ze-tq9"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="collectionView" destination="JW1-TI-qlh" id="VfF-w3-ftm"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

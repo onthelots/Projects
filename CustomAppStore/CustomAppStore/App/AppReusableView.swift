@@ -10,7 +10,7 @@ import UIKit
 class AppReusableView: UICollectionReusableView {
     @IBOutlet weak var categoryTitleLabel: UILabel!
     
-    func configure(title: String) {
-        categoryTitleLabel.text = title
+    func configure(title: Feed) {
+        categoryTitleLabel.text = title.entry.category.attributes.label
     }
 }

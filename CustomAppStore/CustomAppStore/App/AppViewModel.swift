@@ -42,8 +42,9 @@ final class AppViewModel {
             header: ["Content-Type": "application/json"]
         )
         
+        // networkService를 활용, resource(데이터)를 Combine 형식을 통해 불러옴(load)
         network.load(resource)
-            .receive(on: RunLoop.main)
+            .receive(on: RunLoop.main) // Main Thread
             .sink { completion in
                 switch completion {
                 case .failure(let error) :
