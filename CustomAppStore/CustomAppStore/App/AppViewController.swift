@@ -31,10 +31,10 @@ class AppViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.fetch() // 첫 번째, Fetch! (Network 데이터를 가져오기)
+        configuration()
     }
     
-    func configure() {
-        
+    private func configuration() {
         // dataSource -> Cell
         dataSource = UICollectionViewDiffableDataSource<Section, Item>(collectionView: collectionView, cellProvider: { collectionView, indexPath, item in
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AppViewCell", for: indexPath) as? AppViewCell else {
@@ -44,6 +44,21 @@ class AppViewController: UIViewController {
             return cell
         })
         
-        dataSource.supplementaryViewProvider
+//        dataSource.supplementaryViewProvider = { (collectionView, kind, IndexPath) in
+//            guard let header = collectionView.dequeueReusableSupplementaryView(
+//                ofKind: UICollectionView.elementKindSectionHeader,
+//                withReuseIdentifier: "AppReusableView",
+//                for: IndexPath) as? AppReusableView else {
+//                return nil
+//            }
+//            header.configure(title: IndexPath.section)
+//
+//            return header
+//        }
+        
+//        dataSource.supplementaryViewProvider
+        
+        // data
+        
     }
 }
