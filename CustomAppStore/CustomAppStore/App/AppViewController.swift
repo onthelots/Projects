@@ -83,8 +83,8 @@ class AppViewController: UIViewController {
         //input (데이터 불러오기)
         viewModel.$items
             .receive(on: RunLoop.main)
-            .sink { item in
-                self.addItems(item)
+            .sink { items in
+                self.addItems(items)
             }.store(in: &subscription)
         
         //output (사용자 인터렉션)
