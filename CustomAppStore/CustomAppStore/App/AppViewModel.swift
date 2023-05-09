@@ -17,7 +17,7 @@ final class AppViewModel {
     let network: NetworkService
     
     // ❷ Model 퍼블리셔
-    @Published var feeds: [Feed] = []
+    @Published var items: [Feed] = []
     
     // MARK: - User Interaction OupPut
     
@@ -37,7 +37,7 @@ final class AppViewModel {
         // 👆🏻 먼저, NetworkService(URLSession을 활용한 API 작업)을 진행하기 위해, Resource(JSON 형식으로 데이터가 담겨 있는 URL의 정보 혹은 리소스)를 선언해야 함
         let resource: Resource<[Feed]> = Resource(
             base: "https://itunes.apple.com/",
-            path: "kr/rss/topfreeapplications/limit=2/json",
+            path: "kr/rss/topfreeapplications/limit=5/json",
             params: [:],
             header: ["Content-Type": "application/json"]
         )
@@ -52,10 +52,8 @@ final class AppViewModel {
                 case .finished :
                     print("Finished")
                 }
-            } receiveValue: { feeds in
-                self.feeds = feeds // feeds 퍼블리셔에 할당
+            } receiveValue: { items in
+                self.items = items // feeds 퍼블리셔에 할당
             }.store(in: &subscriptions)
-
     }
-    
 }

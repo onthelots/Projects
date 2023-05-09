@@ -13,7 +13,7 @@ struct AppStore: Codable, Hashable {
 }
 
 // MARK: - Feed
-struct Feed: Codable {
+struct Feed: Codable, Hashable {
     let author: Author
     let entry: Entry
     let updated, rights, title, icon: Icon
@@ -22,17 +22,17 @@ struct Feed: Codable {
 }
 
 // MARK: - Author
-struct Author: Codable {
+struct Author: Codable, Hashable  {
     let name, uri: Icon
 }
 
 // MARK: - Icon
-struct Icon: Codable {
+struct Icon: Codable, Hashable  {
     let label: String
 }
 
 // MARK: - Entry (앱 세부정보)
-struct Entry: Codable {
+struct Entry: Codable, Hashable  {
     let imName: Icon // 앱 이름
     let imImage: [IMImage] // 앱 아이콘 (사이즈벼례)
     let summary: Icon // 앱 정보
@@ -59,12 +59,12 @@ struct Entry: Codable {
 }
 
 // MARK: - Category
-struct Category: Codable {
+struct Category: Codable, Hashable  {
     let attributes: CategoryAttributes
 }
 
 // MARK: - CategoryAttributes
-struct CategoryAttributes: Codable {
+struct CategoryAttributes: Codable, Hashable  {
     let imID, term: String
     let scheme: String
     let label: String
@@ -76,13 +76,13 @@ struct CategoryAttributes: Codable {
 }
 
 // MARK: - ID
-struct ID: Codable {
+struct ID: Codable, Hashable  {
     let label: String
     let attributes: IDAttributes
 }
 
 // MARK: - IDAttributes
-struct IDAttributes: Codable {
+struct IDAttributes: Codable, Hashable  {
     let imID, imBundleID: String
 
     enum CodingKeys: String, CodingKey {
@@ -92,56 +92,56 @@ struct IDAttributes: Codable {
 }
 
 // MARK: - IMArtist
-struct IMArtist: Codable {
+struct IMArtist: Codable, Hashable  {
     let label: String
     let attributes: IMArtistAttributes
 }
 
 // MARK: - IMArtistAttributes
-struct IMArtistAttributes: Codable {
+struct IMArtistAttributes: Codable, Hashable  {
     let href: String
 }
 
 // MARK: - IMContentType
-struct IMContentType: Codable {
+struct IMContentType: Codable, Hashable  {
     let attributes: IMContentTypeAttributes
 }
 
 // MARK: - IMContentTypeAttributes
-struct IMContentTypeAttributes: Codable {
+struct IMContentTypeAttributes: Codable, Hashable  {
     let term, label: String
 }
 
 // MARK: - IMImage
-struct IMImage: Codable {
+struct IMImage: Codable, Hashable  {
     let label: String
     let attributes: IMImageAttributes
 }
 
 // MARK: - IMImageAttributes
-struct IMImageAttributes: Codable {
+struct IMImageAttributes: Codable, Hashable  {
     let height: String
 }
 
 // MARK: - IMPrice
-struct IMPrice: Codable {
+struct IMPrice: Codable, Hashable  {
     let label: String
     let attributes: IMPriceAttributes
 }
 
 // MARK: - IMPriceAttributes
-struct IMPriceAttributes: Codable {
+struct IMPriceAttributes: Codable, Hashable  {
     let amount, currency: String
 }
 
 // MARK: - IMReleaseDate
-struct IMReleaseDate: Codable {
+struct IMReleaseDate: Codable, Hashable  {
     let label: Date
     let attributes: Icon
 }
 
 // MARK: - EntryLink
-struct EntryLink: Codable {
+struct EntryLink: Codable, Hashable  {
     let attributes: PurpleAttributes
     let imDuration: Icon?
 
@@ -152,7 +152,7 @@ struct EntryLink: Codable {
 }
 
 // MARK: - PurpleAttributes
-struct PurpleAttributes: Codable {
+struct PurpleAttributes: Codable, Hashable  {
     let rel, type: String
     let href: String
     let title, imAssetType: String?
@@ -164,12 +164,12 @@ struct PurpleAttributes: Codable {
 }
 
 // MARK: - FeedLink
-struct FeedLink: Codable {
+struct FeedLink: Codable, Hashable  {
     let attributes: FluffyAttributes
 }
 
 // MARK: - FluffyAttributes
-struct FluffyAttributes: Codable {
+struct FluffyAttributes: Codable, Hashable  {
     let rel: String
     let type: String?
     let href: String

@@ -13,52 +13,87 @@ class AppViewController: UIViewController {
     // ViewModel 선언하기
     let viewModel: AppViewModel = AppViewModel(network: NetworkService(configuration: .default))
     
+    // 구독자 선언하기
     var subscription = Set<AnyCancellable>()
     
+    // CollectionView
     @IBOutlet weak var collectionView: UICollectionView!
     
     // Item
-    typealias Item = AppStore
+    typealias Item = Feed
     
-    // Section -> 모든 Section을 가져옴
-    // TODO: - 동일한 Category를 Section으로 설정하는 방식을 생각해보아야 함
+    // Section -> 구조체의
     enum Section {
         case main
     }
     
+    // dataSource
     var dataSource: UICollectionViewDiffableDataSource<Section, Item>!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.fetch() // 첫 번째, Fetch! (Network 데이터를 가져오기)
         configuration()
+        bind()
     }
     
     private func configuration() {
-        // dataSource -> Cell
+        // dataSource -> Presentation
         dataSource = UICollectionViewDiffableDataSource<Section, Item>(collectionView: collectionView, cellProvider: { collectionView, indexPath, item in
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AppViewCell", for: indexPath) as? AppViewCell else {
                 return nil
             }
-            cell.configure(detail: item)
+            cell.configure(feed: item)
             return cell
         })
         
-//        dataSource.supplementaryViewProvider = { (collectionView, kind, IndexPath) in
-//            guard let header = collectionView.dequeueReusableSupplementaryView(
-//                ofKind: UICollectionView.elementKindSectionHeader,
-//                withReuseIdentifier: "AppReusableView",
-//                for: IndexPath) as? AppReusableView else {
-//                return nil
-//            }
-//            header.configure(title: IndexPath.section)
-//
-//            return header
-//        }
+        // Snapshot -> Data
+        var snapshot = NSDiffableDataSourceSnapshot<Section,Item>()
+        snapshot.appendSections([.main])
+        // 빈 배열로 snapshot을 찍어놓음
+        snapshot.appendItems([], toSection: .main)
+        dataSource.apply(snapshot)
         
-//        dataSource.supplementaryViewProvider
         
-        // data
+        // layout
+        self.collectionView.collectionViewLayout = layout()
         
+        // 탭 할때마다 피드백을 보여야 하므로 delegate 선언하기
+        self.collectionView.delegate = self
+    }
+    
+    private func layout() -> UICollectionViewCompositionalLayout {
+        
+        let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(1), heightDimension: .estimated(1))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        let groupSize = NSCollectionLayoutSize(widthDimension: .estimated(1), heightDimension: .estimated(1))
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+        let section = NSCollectionLayoutSection(group: group)
+        return UICollectionViewCompositionalLayout(section: section)
+    }
+    
+    private func addItems(_ item: [Feed]) {
+        var snapshot = dataSource.snapshot()
+        snapshot.appendItems(item, toSection: .main)
+        self.dataSource.apply(snapshot)
+    }
+    
+    private func bind() {
+        //input (데이터 불러오기)
+        viewModel.$items
+            .receive(on: RunLoop.main)
+            .sink { item in
+                self.addItems(item)
+            }.store(in: &subscription)
+        
+        //output (사용자 인터렉션)
+    }
+}
+
+extension AppViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let item = viewModel.items[indexPath.item]
+        print("---> \(item)이 선택되었습니다")
     }
 }
