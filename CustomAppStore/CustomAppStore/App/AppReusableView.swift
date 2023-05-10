@@ -7,10 +7,10 @@
 
 import UIKit
 
-class AppReusableView: UICollectionReusableView {
-    @IBOutlet weak var categoryTitleLabel: UILabel!
-    
-    func configure(feed: Feed) {
-        categoryTitleLabel.text = feed.entry.category.attributes.label
-    }
-}
+//class AppReusableView: UICollectionReusableView {
+//    @IBOutlet weak var categoryTitleLabel: UILabel!
+//    
+//    func configure(category: String) {
+//        categoryTitleLabel.text = category
+//    }
+//}

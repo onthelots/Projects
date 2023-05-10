@@ -17,7 +17,7 @@ final class AppViewModel {
     let network: NetworkService
     
     // ❷ Model 퍼블리셔
-    @Published var items: [Feed] = []
+    @Published var items: [App] = []
     
     // MARK: - User Interaction OupPut
     
@@ -32,18 +32,15 @@ final class AppViewModel {
     
     // fetch (Input 퍼블리셔에 각각의 데이터 할당하기)
     func fetch() {
-        
-        /// https://itunes.apple.com/kr/rss/topfreeapplications/limit=2/json
         // 👆🏻 먼저, NetworkService(URLSession을 활용한 API 작업)을 진행하기 위해, Resource(JSON 형식으로 데이터가 담겨 있는 URL의 정보 혹은 리소스)를 선언해야 함
-        let resource: Resource<[Feed]> = Resource(
+        let resource: Resource<[App]> = Resource(
             base: "https://itunes.apple.com/",
-            path: "kr/rss/topfreeapplications/limit=5/json",
-            params: [:],
-            header: ["Content-Type": "application/json"]
+            path: "kr/rss/topfreeapplications/limit=5/json"
         )
         
         // networkService를 활용, resource(데이터)를 Combine 형식을 통해 불러옴(load)
         network.load(resource)
+            // TODO: - RunLoop.main과 DispatchQueue.main.async와의 차이는 무엇일까?
             .receive(on: RunLoop.main) // Main Thread
             .sink { completion in
                 switch completion {

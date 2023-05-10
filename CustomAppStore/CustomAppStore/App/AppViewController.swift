@@ -20,7 +20,7 @@ class AppViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     
     // Item
-    typealias Item = Feed
+    typealias Item = App
     
     // Section -> 구조체의
     enum Section {
@@ -34,17 +34,17 @@ class AppViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.fetch() // 첫 번째, Fetch! (Network 데이터를 가져오기)
-        configuration()
         bind()
+        configuration()
     }
     
     private func configuration() {
         // dataSource -> Presentation
         dataSource = UICollectionViewDiffableDataSource<Section, Item>(collectionView: collectionView, cellProvider: { collectionView, indexPath, item in
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AppViewCell", for: indexPath) as? AppViewCell else {
-                return nil
+                return UICollectionViewCell()
             }
-            cell.configure(feed: item)
+            cell.configure(app: item)
             return cell
         })
         
@@ -73,7 +73,7 @@ class AppViewController: UIViewController {
         return UICollectionViewCompositionalLayout(section: section)
     }
     
-    private func addItems(_ item: [Feed]) {
+    private func addItems(_ item: [App]) {
         var snapshot = dataSource.snapshot()
         snapshot.appendItems(item, toSection: .main)
         self.dataSource.apply(snapshot)
