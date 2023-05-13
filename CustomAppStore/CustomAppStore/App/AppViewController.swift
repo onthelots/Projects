@@ -20,7 +20,7 @@ class AppViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     
     // Item
-    typealias Item = App
+    typealias Item = AppStore
     
     // Section -> 구조체의
     enum Section {
@@ -44,7 +44,10 @@ class AppViewController: UIViewController {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AppViewCell", for: indexPath) as? AppViewCell else {
                 return UICollectionViewCell()
             }
-            cell.configure(app: item)
+//            let appName = item.feed.entry[index]
+            
+//            
+//            cell.configure(name: appName, summary: <#T##String#>)
             return cell
         })
         
