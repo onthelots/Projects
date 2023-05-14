@@ -44,10 +44,6 @@ class AppViewController: UIViewController {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AppViewCell", for: indexPath) as? AppViewCell else {
                 return UICollectionViewCell()
             }
-//            let appName = item.feed.entry[index]
-            
-//            
-//            cell.configure(name: appName, summary: <#T##String#>)
             return cell
         })
         
