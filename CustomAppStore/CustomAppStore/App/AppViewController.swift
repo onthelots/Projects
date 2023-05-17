@@ -20,7 +20,7 @@ class AppViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     
     // Item
-    typealias Item = AppStore
+    typealias Item = Apps
     
     // Section -> 구조체의
     enum Section {
@@ -39,13 +39,7 @@ class AppViewController: UIViewController {
     }
     
     private func configuration() {
-        // dataSource -> Presentation
-        dataSource = UICollectionViewDiffableDataSource<Section, Item>(collectionView: collectionView, cellProvider: { collectionView, indexPath, item in
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AppViewCell", for: indexPath) as? AppViewCell else {
-                return UICollectionViewCell()
-            }
-            return cell
-        })
+        // Presentation (UICollectionCell) -> DataSource
         
         // Snapshot -> Data
         var snapshot = NSDiffableDataSourceSnapshot<Section,Item>()
