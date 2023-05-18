@@ -16,8 +16,8 @@ final class AppViewModel {
     // ❶ 네트워크(Network) 담당객체
     let network: NetworkService
     
-    // ❷ Model 퍼블리셔
-    @Published var apps: [Apps] = []
+    // ❷ Model 퍼블리셔 -> Apps 구조체 내부의 apps -> 즉 AppInfo 타입의 구조체
+    @Published var apps: [AppInfo] = [] 
     
     // MARK: - User Interaction OupPut
     
@@ -32,10 +32,13 @@ final class AppViewModel {
     
     // fetch (Input 퍼블리셔에 각각의 데이터 할당하기)
     func fetch() {
+        
         // 👆🏻 먼저, NetworkService(URLSession을 활용한 API 작업)을 진행하기 위해, Resource(JSON 형식으로 데이터가 담겨 있는 URL의 정보 혹은 리소스)를 선언해야 함
-        let resource: Resource<[Apps]> = Resource(
+        let resource: Resource<[AppInfo]> = Resource(
             base: "https://itunes.apple.com/",
-            path: "kr/rss/topfreeapplications/limit=5/json"
+            path: "search?media=software&entity=software&term=Books&country=kr&lang=ko_kr&limit=3",
+            params: [:],
+            header: ["Content-Type" : "application/json"]
         )
         
         // networkService를 활용, resource(데이터)를 Combine 형식을 통해 불러옴(load)
@@ -50,7 +53,7 @@ final class AppViewModel {
                     print("Finished")
                 }
             } receiveValue: { apps in
-                self.apps = apps // ❷ Model 퍼블리셔(apps)에 할당
+                self.apps = apps
             }.store(in: &subscriptions) // Subscripiton
     }
 }

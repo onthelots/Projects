@@ -20,7 +20,7 @@ class AppViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     
     // Item
-    typealias Item = Apps
+    typealias Item = AppInfo
     
     // Section -> 구조체의
     enum Section {
@@ -40,14 +40,21 @@ class AppViewController: UIViewController {
     
     private func configuration() {
         // Presentation (UICollectionCell) -> DataSource
+        dataSource = UICollectionViewDiffableDataSource<Section, Item>(collectionView: collectionView, cellProvider: { collectionView, indexPath, item in
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AppViewCell", for: indexPath) as? AppViewCell else {
+                return nil
+            }
+            cell.configure(name: item.trackName, summary: item.description, imageUrl: item.artworkUrl100)
+            return cell
+        })
         
         // Snapshot -> Data
         var snapshot = NSDiffableDataSourceSnapshot<Section,Item>()
         snapshot.appendSections([.main])
+        
         // 빈 배열로 snapshot을 찍어놓음
         snapshot.appendItems([], toSection: .main)
         dataSource.apply(snapshot)
-        
         
         // layout
         self.collectionView.collectionViewLayout = layout()
@@ -66,7 +73,7 @@ class AppViewController: UIViewController {
         return UICollectionViewCompositionalLayout(section: section)
     }
     
-    private func addItems(_ item: [App]) {
+    private func addItems(_ item: [AppInfo]) {
         var snapshot = dataSource.snapshot()
         snapshot.appendItems(item, toSection: .main)
         self.dataSource.apply(snapshot)
@@ -74,9 +81,9 @@ class AppViewController: UIViewController {
     
     private func bind() {
         //input (데이터 불러오기)
-        viewModel.$items
+        viewModel.$apps
             .receive(on: RunLoop.main)
-            .sink { items in
+            .sink { [unowned self] items in
                 self.addItems(items)
             }.store(in: &subscription)
         
@@ -86,7 +93,7 @@ class AppViewController: UIViewController {
 
 extension AppViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let item = viewModel.items[indexPath.item]
-        print("---> \(item)이 선택되었습니다")
+        let selectedItem = viewModel.apps[indexPath.item]
+        print("---> \(selectedItem)이 선택되었습니다")
     }
 }

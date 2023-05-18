@@ -7,7 +7,7 @@
 import Foundation
 
 // MARK: - Apps
-struct Apps: Codable {
+struct Apps: Codable, Hashable {
     let apps: [AppInfo] // results
 
     enum CodingKeys: String, CodingKey {
@@ -16,7 +16,7 @@ struct Apps: Codable {
 }
 
 // MARK: - AppInfo
-struct AppInfo: Codable {
+struct AppInfo: Codable, Hashable {
     let trackName: String // 앱 이름
     let primaryGenreName: String // 앱 카테고리
     let description: String // 앱 소개

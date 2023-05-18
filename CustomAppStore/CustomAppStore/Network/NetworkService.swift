@@ -38,7 +38,7 @@ final class NetworkService {
     }
     
     // ❸ load -> Data (Resource 타입에 맞는 Request 객체 설정)
-    func load<T>(_ resource: Resource<T>) -> AnyPublisher<T, Error> {
+    func load<T: Decodable>(_ resource: Resource<T>) -> AnyPublisher<T, Error> {
         
         // URLRequest -> Resource 타입의 urlRequest(내부 연산 프로퍼티)인지 아닌지 확인
         guard let request = resource.urlRequest else {

@@ -14,9 +14,9 @@ class AppViewCell: UICollectionViewCell {
     @IBOutlet weak var appName: UILabel!
     @IBOutlet weak var appSummary: UILabel!
     
-    func configure(name: String, summary: String) {
-//        self.iconImage.kf.setImage(with: app.feed.entry.,
-//                                   placeholder: UIImage(systemName: "hands.sparkles.fill"))
+    func configure(name: String, summary: String, imageUrl: String) {
+        self.iconImage.kf.setImage(with: URL(string: imageUrl),
+                                   placeholder: UIImage(systemName: "hands.sparkles.fill"))
         self.appName.text = name
         self.appSummary.text = summary
     }
