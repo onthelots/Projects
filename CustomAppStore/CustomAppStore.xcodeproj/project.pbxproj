@@ -18,7 +18,7 @@
 		3F9C269829FE5D1800C7393B /* AppViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9C269729FE5D1800C7393B /* AppViewController.swift */; };
 		3F9C269A29FE5D2000C7393B /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9C269929FE5D2000C7393B /* SearchViewController.swift */; };
 		3F9C26A129FE5E7500C7393B /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9C26A029FE5E7500C7393B /* MainTabBarController.swift */; };
-		3F9C26A529FE6C0500C7393B /* iTunesAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9C26A429FE6C0500C7393B /* iTunesAPI.swift */; };
+		3F9E4AFF2A18BEBA00D44D5A /* ItemInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9E4AFE2A18BEBA00D44D5A /* ItemInfo.swift */; };
 		3FB9992F29FE759A00B386AE /* AppStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB9992E29FE759A00B386AE /* AppStore.swift */; };
 		3FF5F7CE29FD314500CA67EB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF5F7CD29FD314500CA67EB /* AppDelegate.swift */; };
 		3FF5F7D029FD314500CA67EB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF5F7CF29FD314500CA67EB /* SceneDelegate.swift */; };
@@ -29,7 +29,6 @@
 		3FF5F7EF29FD314600CA67EB /* CustomAppStoreUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF5F7EE29FD314600CA67EB /* CustomAppStoreUITests.swift */; };
 		3FF5F7F129FD314600CA67EB /* CustomAppStoreUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF5F7F029FD314600CA67EB /* CustomAppStoreUITestsLaunchTests.swift */; };
 		3FF5F80129FD36A800CA67EB /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 3FF5F80029FD36A800CA67EB /* Alamofire */; };
-		3FF5F80329FD36EB00CA67EB /* Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF5F80229FD36EB00CA67EB /* Alamofire.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,7 +59,7 @@
 		3F9C269729FE5D1800C7393B /* AppViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewController.swift; sourceTree = "<group>"; };
 		3F9C269929FE5D2000C7393B /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		3F9C26A029FE5E7500C7393B /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
-		3F9C26A429FE6C0500C7393B /* iTunesAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iTunesAPI.swift; sourceTree = "<group>"; };
+		3F9E4AFE2A18BEBA00D44D5A /* ItemInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemInfo.swift; sourceTree = "<group>"; };
 		3FB9992E29FE759A00B386AE /* AppStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStore.swift; sourceTree = "<group>"; };
 		3FF5F7CA29FD314500CA67EB /* CustomAppStore.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CustomAppStore.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FF5F7CD29FD314500CA67EB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -74,7 +73,6 @@
 		3FF5F7EA29FD314600CA67EB /* CustomAppStoreUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CustomAppStoreUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FF5F7EE29FD314600CA67EB /* CustomAppStoreUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAppStoreUITests.swift; sourceTree = "<group>"; };
 		3FF5F7F029FD314600CA67EB /* CustomAppStoreUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAppStoreUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		3FF5F80229FD36EB00CA67EB /* Alamofire.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alamofire.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,6 +148,14 @@
 			path = Main;
 			sourceTree = "<group>";
 		};
+		3F9E4B002A18BED200D44D5A /* Test */ = {
+			isa = PBXGroup;
+			children = (
+				3F9E4AFE2A18BEBA00D44D5A /* ItemInfo.swift */,
+			);
+			path = Test;
+			sourceTree = "<group>";
+		};
 		3FB9993029FE75A900B386AE /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -190,9 +196,9 @@
 				3FF5F7D629FD314600CA67EB /* Assets.xcassets */,
 				3FF5F7D829FD314600CA67EB /* LaunchScreen.storyboard */,
 				3FF5F7DB29FD314600CA67EB /* Info.plist */,
-				3FF5F80429FD3AED00CA67EB /* Test */,
 				3F06FB8A29FE576000CA96FD /* Network */,
 				3F06FB8929FE575A00CA96FD /* Utils */,
+				3F9E4B002A18BED200D44D5A /* Test */,
 			);
 			path = CustomAppStore;
 			sourceTree = "<group>";
@@ -212,15 +218,6 @@
 				3FF5F7F029FD314600CA67EB /* CustomAppStoreUITestsLaunchTests.swift */,
 			);
 			path = CustomAppStoreUITests;
-			sourceTree = "<group>";
-		};
-		3FF5F80429FD3AED00CA67EB /* Test */ = {
-			isa = PBXGroup;
-			children = (
-				3F9C26A429FE6C0500C7393B /* iTunesAPI.swift */,
-				3FF5F80229FD36EB00CA67EB /* Alamofire.swift */,
-			);
-			path = Test;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -368,14 +365,13 @@
 				3F9C269829FE5D1800C7393B /* AppViewController.swift in Sources */,
 				3F08F6902A02401300F0CE74 /* AppViewModel.swift in Sources */,
 				3F9C26A129FE5E7500C7393B /* MainTabBarController.swift in Sources */,
+				3F9E4AFF2A18BEBA00D44D5A /* ItemInfo.swift in Sources */,
 				3FB9992F29FE759A00B386AE /* AppStore.swift in Sources */,
-				3F9C26A529FE6C0500C7393B /* iTunesAPI.swift in Sources */,
 				3F08F6922A02581000F0CE74 /* AppViewCell.swift in Sources */,
 				3F9C269A29FE5D2000C7393B /* SearchViewController.swift in Sources */,
 				3FF5F7CE29FD314500CA67EB /* AppDelegate.swift in Sources */,
 				3F06FB8629FE56A500CA96FD /* Resource.swift in Sources */,
 				3F06FB8829FE571700CA96FD /* Publisher+Utils.swift in Sources */,
-				3FF5F80329FD36EB00CA67EB /* Alamofire.swift in Sources */,
 				3FF5F7D029FD314500CA67EB /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

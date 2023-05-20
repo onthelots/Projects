@@ -44,7 +44,7 @@ class AppViewController: UIViewController {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AppViewCell", for: indexPath) as? AppViewCell else {
                 return nil
             }
-            cell.configure(name: item.trackName, summary: item.description, imageUrl: item.artworkUrl100)
+            cell.configure(item)
             return cell
         })
         
