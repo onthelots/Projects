@@ -22,13 +22,13 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="J4U-uF-bQD">
                                     <size key="itemSize" width="393" height="79"/>
-                                    <size key="headerReferenceSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="AppViewCell" id="p2Z-cn-oEv" customClass="AppViewCell" customModule="CustomAppStore" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="50" width="393" height="79"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="393" height="79"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="7sS-vI-HoF">
                                             <rect key="frame" x="0.0" y="0.0" width="393" height="79"/>
@@ -135,38 +135,6 @@
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
-                                <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="AppReusableView" id="Jmd-1X-WPp" customClass="AppReusableView" customModule="CustomAppStore" customModuleProvider="target">
-                                    <rect key="frame" x="0.0" y="0.0" width="393" height="50"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <subviews>
-                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wp6-iU-ONd">
-                                            <rect key="frame" x="0.0" y="0.0" width="393" height="50"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="스포츠" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="89g-Xw-S4a">
-                                                    <rect key="frame" x="10" y="14.333333333333334" width="47" height="21.666666666666664"/>
-                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                            <constraints>
-                                                <constraint firstItem="89g-Xw-S4a" firstAttribute="leading" secondItem="Wp6-iU-ONd" secondAttribute="leading" constant="10" id="3cF-Si-7ux"/>
-                                                <constraint firstItem="89g-Xw-S4a" firstAttribute="centerY" secondItem="Wp6-iU-ONd" secondAttribute="centerY" id="GaL-MM-OJI"/>
-                                            </constraints>
-                                        </view>
-                                    </subviews>
-                                    <constraints>
-                                        <constraint firstAttribute="trailing" secondItem="Wp6-iU-ONd" secondAttribute="trailing" id="2yC-NP-V7c"/>
-                                        <constraint firstAttribute="bottom" secondItem="Wp6-iU-ONd" secondAttribute="bottom" id="SsM-7u-3Zo"/>
-                                        <constraint firstItem="Wp6-iU-ONd" firstAttribute="top" secondItem="Jmd-1X-WPp" secondAttribute="top" id="byt-UR-O1r"/>
-                                        <constraint firstItem="Wp6-iU-ONd" firstAttribute="leading" secondItem="Jmd-1X-WPp" secondAttribute="leading" id="vvc-87-SrQ"/>
-                                    </constraints>
-                                    <connections>
-                                        <outlet property="categoryTitleLabel" destination="89g-Xw-S4a" id="9Ln-09-Wb1"/>
-                                        <outlet property="categoryTitleLable" destination="Wp6-iU-ONd" id="Omd-JR-FL6"/>
-                                    </connections>
-                                </collectionReusableView>
                             </collectionView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
