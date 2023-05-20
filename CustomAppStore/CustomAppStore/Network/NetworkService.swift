@@ -68,6 +68,9 @@ final class NetworkService {
             }
             // decode를 통해 Json 데이터를 제너릭<T> 타입으로 변환할 수 있음
             .decode(type: T.self, decoder: JSONDecoder())
+            .mapError { error -> Error in
+                NetworkError.jsonDecodingError(error: error)
+            }
         
             // Subscriber가 Publisher의 너무 길어진 타입형태 및 데이터 파이프라인을 모두 알 필요가 없음
             // 따라서, Operation(tryMap)에서는 해당 데이터 파이프 라인을 확인해야 하나, subscriber에 전달할 땐 필요가 없음
