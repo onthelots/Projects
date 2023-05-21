@@ -61,15 +61,26 @@ class AppViewController: UIViewController {
         
         // 탭 할때마다 피드백을 보여야 하므로 delegate 선언하기
         self.collectionView.delegate = self
+        
+        // CollectionView 제약조건 설정
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: view.topAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
     }
     
     private func layout() -> UICollectionViewCompositionalLayout {
         
-        let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(1), heightDimension: .estimated(1))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(1))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        let groupSize = NSCollectionLayoutSize(widthDimension: .estimated(1), heightDimension: .estimated(1))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(1))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
+        
         return UICollectionViewCompositionalLayout(section: section)
     }
     
@@ -86,14 +97,12 @@ class AppViewController: UIViewController {
             .sink { [unowned self] items in
                 self.addItems(items)
             }.store(in: &subscription)
-        
-        //output (사용자 인터렉션)
     }
 }
 
 extension AppViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let selectedItem = viewModel.apps[indexPath.item]
-        print("---> \(selectedItem)이 선택되었습니다")
+        print("---> \(selectedItem.trackName)이 선택되었습니다")
     }
 }

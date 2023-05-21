@@ -35,15 +35,22 @@ final class AppViewModel {
         
         // 👆🏻 먼저, NetworkService(URLSession을 활용한 API 작업)을 진행하기 위해, Resource(JSON 형식으로 데이터가 담겨 있는 URL의 정보 혹은 리소스)를 선언해야 함
         let resource: Resource<Apps> = Resource(
-            base: "https://itunes.apple.com/",
-            path: "search?media=software&entity=software&term=Books&country=kr&lang=ko_kr&limit=3",
-            params: [:],
-            header: ["Content-Type" : "application/json"]
+            base: "https://itunes.apple.com",
+            path: "/search",
+            params: [
+                "media": "software",
+                "entity": "software",
+                "term": "Books",
+                "country": "kr",
+                "lang": "ko_kr",
+                "limit": "3"
+            ],
+            header: [:] 
         )
         
         // networkService를 활용, resource(데이터)를 Combine 형식을 통해 불러옴(load)
         network.load(resource)
-            // TODO: - RunLoop.main과 DispatchQueue.main.async와의 차이는 무엇일까?
+        // TODO: - RunLoop.main과 DispatchQueue.main.async와의 차이는 무엇일까?
             .receive(on: RunLoop.main) // Main Thread
             .sink { completion in
                 switch completion {
@@ -54,6 +61,7 @@ final class AppViewModel {
                 }
             } receiveValue: { apps in
                 self.apps = apps.apps
+                print("ReceiveValue : \(apps)")
             }.store(in: &subscriptions) // Subscripiton
     }
 }
