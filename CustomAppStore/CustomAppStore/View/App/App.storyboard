@@ -155,6 +155,9 @@
                                         <constraint firstItem="VZH-1N-YvI" firstAttribute="leading" secondItem="ja9-Cr-8x2" secondAttribute="leading" constant="10" id="cMp-uB-Dgu"/>
                                         <constraint firstItem="VZH-1N-YvI" firstAttribute="centerY" secondItem="ja9-Cr-8x2" secondAttribute="centerY" id="yYs-Dm-sP5"/>
                                     </constraints>
+                                    <connections>
+                                        <outlet property="categoryLabel" destination="VZH-1N-YvI" id="dYN-vt-ORf"/>
+                                    </connections>
                                 </collectionReusableView>
                             </collectionView>
                         </subviews>

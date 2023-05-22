@@ -8,6 +8,13 @@
 import UIKit
 import Combine
 
+// TODO: - 카테고리별로 어플을 구분해서 사용할 수 있을까?
+/*
+ 
+ 
+ */
+
+
 class AppViewController: UIViewController {
     
     // ViewModel 선언하기
