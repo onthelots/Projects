@@ -16,12 +16,46 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kM9-g1-P9G">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kM9-g1-P9G">
                                 <rect key="frame" x="0.0" y="59" width="393" height="710"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5pp-ld-iMq" userLabel="ContentView">
-                                        <rect key="frame" x="0.0" y="291" width="393" height="128"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5pp-ld-iMq" userLabel="ContentView">
+                                        <rect key="frame" x="0.0" y="0.0" width="393" height="750"/>
+                                        <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="w0y-rz-gtD">
+                                                <rect key="frame" x="0.0" y="0.0" width="393" height="750"/>
+                                                <subviews>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u9M-Ne-6kE">
+                                                        <rect key="frame" x="0.0" y="0.0" width="393" height="250"/>
+                                                        <color key="backgroundColor" systemColor="systemPinkColor"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="250" id="NQ0-Dy-3tp"/>
+                                                        </constraints>
+                                                    </view>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s2d-us-J9a">
+                                                        <rect key="frame" x="0.0" y="250" width="393" height="250"/>
+                                                        <color key="backgroundColor" systemColor="systemOrangeColor"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="250" id="pNT-D2-fY8"/>
+                                                        </constraints>
+                                                    </view>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rxf-QI-gRV">
+                                                        <rect key="frame" x="0.0" y="500" width="393" height="250"/>
+                                                        <color key="backgroundColor" systemColor="systemYellowColor"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="250" id="NeO-fi-MOI"/>
+                                                        </constraints>
+                                                    </view>
+                                                </subviews>
+                                            </stackView>
+                                        </subviews>
                                         <color key="backgroundColor" systemColor="systemBlueColor"/>
+                                        <constraints>
+                                            <constraint firstItem="w0y-rz-gtD" firstAttribute="leading" secondItem="5pp-ld-iMq" secondAttribute="leading" id="4In-8X-fmb"/>
+                                            <constraint firstAttribute="trailing" secondItem="w0y-rz-gtD" secondAttribute="trailing" id="6S3-f5-i7l"/>
+                                            <constraint firstAttribute="bottom" secondItem="w0y-rz-gtD" secondAttribute="bottom" id="vuO-Gd-f8j"/>
+                                            <constraint firstItem="w0y-rz-gtD" firstAttribute="top" secondItem="5pp-ld-iMq" secondAttribute="top" id="zaC-Uf-Tec"/>
+                                        </constraints>
                                     </view>
                                 </subviews>
                                 <constraints>
@@ -59,6 +93,15 @@
         </systemColor>
         <systemColor name="systemBlueColor">
             <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemOrangeColor">
+            <color red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemPinkColor">
+            <color red="1" green="0.17647058823529413" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemYellowColor">
+            <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
