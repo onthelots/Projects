@@ -10,14 +10,14 @@ import Kingfisher
 
 class AppViewCell: UICollectionViewCell {
     
-    @IBOutlet weak var iconImage: UIImageView!
-    @IBOutlet weak var appName: UILabel!
-    @IBOutlet weak var appSummary: UILabel!
+    @IBOutlet weak var nameLabel: UILabel!
     
     func configure(_ appInfo: AppInfo) {
-        self.iconImage.kf.setImage(with: URL(string: appInfo.artworkUrl100),
-                                   placeholder: UIImage(systemName: "hands.sparkles.fill"))
-        self.appName.text = appInfo.trackName
-        self.appSummary.text = appInfo.description
+//        self.iconImage.kf.setImage(with: URL(string: appInfo.artworkUrl100),
+//                                   placeholder: UIImage(systemName: "hands.sparkles.fill"))
+//        self.appName.text = appInfo.trackName
+//        self.appSummary.text = appInfo.description
+        
+        nameLabel.text = appInfo.trackName
     }
 }
