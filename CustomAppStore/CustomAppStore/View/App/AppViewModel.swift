@@ -43,7 +43,7 @@ final class AppViewModel {
                 "term": term,
                 "country": "kr",
                 "lang": "ko_kr",
-                "limit": "3"
+                "limit": "10"
             ],
             header: [:] 
         )
@@ -61,7 +61,7 @@ final class AppViewModel {
                 }
             } receiveValue: { apps in
                 self.apps = apps.apps
-                print("ReceiveValue : \(apps)")
+                print("Data Count : \(apps.apps.count)")
             }.store(in: &subscriptions) // Subscripiton
     }
 }
