@@ -14,6 +14,12 @@ class AppViewCell: UICollectionViewCell {
     @IBOutlet weak var appName: UILabel!
     @IBOutlet weak var appSummary: UILabel!
     
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        self.iconImage.layer.cornerRadius = 10
+    }
+    
+    
     func configure(_ appInfo: AppInfo) {
         self.iconImage.kf.setImage(with: URL(string: appInfo.artworkUrl100),
                                    placeholder: UIImage(systemName: "hands.sparkles.fill"))
