@@ -53,16 +53,6 @@ class AppViewController: UIViewController {
             return cell
         })
         
-//        dataSource.supplementaryViewProvider = { (collectionView, kind, indexPath) in
-//            guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader,
-//                                                                               withReuseIdentifier: "AppCategoryHeaderView",
-//                                                                               for: indexPath) as? AppCategoryHeaderView else {
-//                return nil
-//            }
-//            header.configure(Item)
-//            return header
-//        }
-        
         // Snapshot -> Data
         var snapshot = NSDiffableDataSourceSnapshot<Section,Item>()
         snapshot.appendSections([.main])

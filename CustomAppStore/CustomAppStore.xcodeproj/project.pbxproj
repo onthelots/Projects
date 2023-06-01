@@ -15,7 +15,6 @@
 		3F08F6972A04DA8600F0CE74 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 3F08F6962A04DA8600F0CE74 /* Kingfisher */; };
 		3F9C269429FE5CFF00C7393B /* App.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3F9C269329FE5CFF00C7393B /* App.storyboard */; };
 		3F9C269829FE5D1800C7393B /* AppViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9C269729FE5D1800C7393B /* AppViewController.swift */; };
-		3F9C26A129FE5E7500C7393B /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9C26A029FE5E7500C7393B /* MainTabBarController.swift */; };
 		3F9E4B042A1A0DFF00D44D5A /* Search.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3F9E4B032A1A0DFF00D44D5A /* Search.storyboard */; };
 		3F9E4B062A1A0E2700D44D5A /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9E4B052A1A0E2700D44D5A /* SearchViewController.swift */; };
 		3F9E4B122A1B978E00D44D5A /* AppCategoryHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9E4B112A1B978E00D44D5A /* AppCategoryHeaderView.swift */; };
@@ -29,6 +28,7 @@
 		3FF5F7EF29FD314600CA67EB /* CustomAppStoreUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF5F7EE29FD314600CA67EB /* CustomAppStoreUITests.swift */; };
 		3FF5F7F129FD314600CA67EB /* CustomAppStoreUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF5F7F029FD314600CA67EB /* CustomAppStoreUITestsLaunchTests.swift */; };
 		3FF5F80129FD36A800CA67EB /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 3FF5F80029FD36A800CA67EB /* Alamofire */; };
+		3FF91CE72A1F4C9D0019D284 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF91CE62A1F4C9D0019D284 /* MainViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,7 +56,6 @@
 		3F08F6912A02581000F0CE74 /* AppViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewCell.swift; sourceTree = "<group>"; };
 		3F9C269329FE5CFF00C7393B /* App.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = App.storyboard; sourceTree = "<group>"; };
 		3F9C269729FE5D1800C7393B /* AppViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewController.swift; sourceTree = "<group>"; };
-		3F9C26A029FE5E7500C7393B /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		3F9E4B032A1A0DFF00D44D5A /* Search.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Search.storyboard; sourceTree = "<group>"; };
 		3F9E4B052A1A0E2700D44D5A /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		3F9E4B112A1B978E00D44D5A /* AppCategoryHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCategoryHeaderView.swift; sourceTree = "<group>"; };
@@ -73,6 +72,7 @@
 		3FF5F7EA29FD314600CA67EB /* CustomAppStoreUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CustomAppStoreUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FF5F7EE29FD314600CA67EB /* CustomAppStoreUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAppStoreUITests.swift; sourceTree = "<group>"; };
 		3FF5F7F029FD314600CA67EB /* CustomAppStoreUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAppStoreUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		3FF91CE62A1F4C9D0019D284 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,7 +136,7 @@
 			children = (
 				3FF5F7D329FD314500CA67EB /* Main.storyboard */,
 				3FF5F7D829FD314600CA67EB /* LaunchScreen.storyboard */,
-				3F9C26A029FE5E7500C7393B /* MainTabBarController.swift */,
+				3FF91CE62A1F4C9D0019D284 /* MainViewController.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -370,10 +370,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				3F06FB8429FE55BB00CA96FD /* NetworkService.swift in Sources */,
+				3FF91CE72A1F4C9D0019D284 /* MainViewController.swift in Sources */,
 				3F9E4B122A1B978E00D44D5A /* AppCategoryHeaderView.swift in Sources */,
 				3F9C269829FE5D1800C7393B /* AppViewController.swift in Sources */,
 				3F08F6902A02401300F0CE74 /* AppViewModel.swift in Sources */,
-				3F9C26A129FE5E7500C7393B /* MainTabBarController.swift in Sources */,
 				3FB9992F29FE759A00B386AE /* AppStore.swift in Sources */,
 				3F9E4B062A1A0E2700D44D5A /* SearchViewController.swift in Sources */,
 				3F08F6922A02581000F0CE74 /* AppViewCell.swift in Sources */,
