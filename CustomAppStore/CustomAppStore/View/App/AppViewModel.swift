@@ -31,7 +31,7 @@ final class AppViewModel {
     }
     
     // fetch (Input 퍼블리셔에 각각의 데이터 할당하기)
-    func fetch(term: String) {
+    func fetch(term: Terms) {
         
         // 👆🏻 먼저, NetworkService(URLSession을 활용한 API 작업)을 진행하기 위해, Resource(JSON 형식으로 데이터가 담겨 있는 URL의 정보 혹은 리소스)를 선언해야 함
         let resource: Resource<Apps> = Resource(
@@ -40,7 +40,7 @@ final class AppViewModel {
             params: [
                 "media": "software",
                 "entity": "software",
-                "term": term,
+                "term": term.rawValue,
                 "country": "kr",
                 "lang": "ko_kr",
                 "limit": "10"

@@ -38,7 +38,7 @@ class AppViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel.fetch(term: "Books") // 첫 번째, Fetch! (Network 데이터를 가져오기)
+        viewModel.fetch(term: .Books)
         bind()
         configuration()
     }
@@ -76,7 +76,7 @@ class AppViewController: UIViewController {
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
-        section.interGroupSpacing = 10
+        section.interGroupSpacing = 2
 
         return UICollectionViewCompositionalLayout(section: section)
     }
