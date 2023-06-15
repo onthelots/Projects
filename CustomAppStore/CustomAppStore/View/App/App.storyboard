@@ -25,6 +25,7 @@
                                         <subviews>
                                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="lww-XH-dBf" userLabel="Vertical Collection View">
                                                 <rect key="frame" x="0.0" y="0.0" width="393" height="710"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="n9u-tJ-FfW">
                                                     <size key="itemSize" width="393" height="91"/>
@@ -137,9 +138,6 @@
                                             </collectionView>
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                        <constraints>
-                                            <constraint firstItem="lww-XH-dBf" firstAttribute="leading" secondItem="Hq9-tw-tyc" secondAttribute="leading" id="F4X-a6-5Af"/>
-                                        </constraints>
                                     </view>
                                 </subviews>
                                 <constraints>

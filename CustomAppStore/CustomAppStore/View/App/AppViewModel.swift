@@ -21,7 +21,6 @@ final class AppViewModel {
     
     // MARK: - User Interaction OupPut
     
-    
     // MARK: - Subscripiton
     var subscriptions = Set<AnyCancellable>()
     
