@@ -122,23 +122,47 @@
 			path = Network;
 			sourceTree = "<group>";
 		};
-		3F9C269C29FE5D2600C7393B /* App */ = {
+		3F2027852A43217E00835FD8 /* View */ = {
 			isa = PBXGroup;
 			children = (
 				3F9C269329FE5CFF00C7393B /* App.storyboard */,
 				3F9C269729FE5D1800C7393B /* AppViewController.swift */,
-				3F08F68F2A02401300F0CE74 /* AppViewModel.swift */,
 				3F08F6912A02581000F0CE74 /* AppViewCell.swift */,
 				3F9E4B112A1B978E00D44D5A /* AppCategoryHeaderView.swift */,
 			);
-			path = App;
+			path = View;
+			sourceTree = "<group>";
+		};
+		3F2027862A4321BE00835FD8 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				3F08F68F2A02401300F0CE74 /* AppViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		3F2027872A4321DE00835FD8 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				3FF5F7D829FD314600CA67EB /* LaunchScreen.storyboard */,
+				3FF5F7D629FD314600CA67EB /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		3F9C269C29FE5D2600C7393B /* AppScene */ = {
+			isa = PBXGroup;
+			children = (
+				3F2027852A43217E00835FD8 /* View */,
+				3F2027862A4321BE00835FD8 /* ViewModel */,
+			);
+			path = AppScene;
 			sourceTree = "<group>";
 		};
 		3F9C269D29FE5D3200C7393B /* Main */ = {
 			isa = PBXGroup;
 			children = (
 				3FF5F7D329FD314500CA67EB /* Main.storyboard */,
-				3FF5F7D829FD314600CA67EB /* LaunchScreen.storyboard */,
 				3FF91CE62A1F4C9D0019D284 /* MainViewController.swift */,
 			);
 			path = Main;
@@ -157,19 +181,19 @@
 			isa = PBXGroup;
 			children = (
 				3F9C269D29FE5D3200C7393B /* Main */,
-				3F9C269C29FE5D2600C7393B /* App */,
-				3F9E4B072A1A0E2B00D44D5A /* Search */,
+				3F9C269C29FE5D2600C7393B /* AppScene */,
+				3F9E4B072A1A0E2B00D44D5A /* SearchScene */,
 			);
 			path = View;
 			sourceTree = "<group>";
 		};
-		3F9E4B072A1A0E2B00D44D5A /* Search */ = {
+		3F9E4B072A1A0E2B00D44D5A /* SearchScene */ = {
 			isa = PBXGroup;
 			children = (
 				3F9E4B032A1A0DFF00D44D5A /* Search.storyboard */,
 				3F9E4B052A1A0E2700D44D5A /* SearchViewController.swift */,
 			);
-			path = Search;
+			path = SearchScene;
 			sourceTree = "<group>";
 		};
 		3FB9993029FE75A900B386AE /* Model */ = {
@@ -208,7 +232,7 @@
 				3F9E4B012A1A0D9100D44D5A /* Constant */,
 				3FB9993029FE75A900B386AE /* Model */,
 				3F9E4B022A1A0DEB00D44D5A /* View */,
-				3FF5F7D629FD314600CA67EB /* Assets.xcassets */,
+				3F2027872A4321DE00835FD8 /* Resources */,
 				3FF5F7DB29FD314600CA67EB /* Info.plist */,
 			);
 			path = CustomAppStore;
