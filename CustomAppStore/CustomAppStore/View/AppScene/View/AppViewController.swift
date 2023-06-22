@@ -7,11 +7,7 @@
 
 import UIKit
 import Combine
-
-// TODO: - 카테고리별로 어플을 구분해서 사용할 수 있을까?
-/*
- [ ] ViewModel -> URL Resource내 terms를 매개변수로 활용 -> Section의 값으로 할당 (현재는 단일한 main section -> 5개
- */
+import SwiftUI
 
 class AppViewController: UIViewController {
     
@@ -67,17 +63,24 @@ class AppViewController: UIViewController {
         // 탭 할때마다 피드백을 보여야 하므로 delegate 선언하기
         self.collectionView.delegate = self
     }
-    
+//
     private func layout() -> UICollectionViewCompositionalLayout {
-
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(1))
+        
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(100))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(1))
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(1))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+        
+        group.interItemSpacing = .fixed(10)
         
         let section = NSCollectionLayoutSection(group: group)
         section.interGroupSpacing = 2
-
+        
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(20))
+        
+        let headerElements = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: "Books", alignment: .top)
+        
         return UICollectionViewCompositionalLayout(section: section)
     }
     
