@@ -77,10 +77,6 @@ class AppViewController: UIViewController {
         let section = NSCollectionLayoutSection(group: group)
         section.interGroupSpacing = 2
         
-        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(20))
-        
-        let headerElements = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: "Books", alignment: .top)
-        
         return UICollectionViewCompositionalLayout(section: section)
     }
     
