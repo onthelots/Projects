@@ -27,11 +27,14 @@
 // 앱 Identity (페르소나, 주요기능 외)
 // 앱 프로토타입 (이미지)
 
-
 ### [Feature 2] 앱의 기능을 어떻게 구현할 것인가?
 // 아키텍쳐 설정, 네트워크(API)
 // 비동기 처리 (Combine)
 // 화면 구성 (TabBar -> AppList, Search 2개의 탭)
+
+> AppList Scene
+
+![App List Scene](https://github.com/onthelots/iOS-Learning/assets/107039500/a2fa3fc9-85cd-42f6-a60d-1dbb80592587)
 
 ### [Feature 3] 앱 리스트(첫 번째 탭)는 어떤 방식으로 보여줄 것인가?
 // API Parsing
@@ -71,3 +74,4 @@
 ## 개발환경
 
 // ...
+
