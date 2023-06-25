@@ -21,4 +21,5 @@ struct AppInfo: Codable, Hashable {
     let primaryGenreName: String // 앱 카테고리
     let description: String // 앱 소개
     let artworkUrl60, artworkUrl512, artworkUrl100: String // ImageURL
+    let screenshotUrls: [String] // ScreenShotURL
 }
