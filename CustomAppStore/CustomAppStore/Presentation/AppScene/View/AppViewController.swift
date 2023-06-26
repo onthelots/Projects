@@ -33,7 +33,7 @@ class AppViewController: UIViewController {
         var category: String {
             switch self {
             case .Books :
-                return "Books"
+                return "Book"
             case .Education :
                 return "Education"
             }
@@ -46,6 +46,8 @@ class AppViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        viewModel.fetch(term: .Books)
+        viewModel.fetch(term: .Education)
         configurationCollectionView()
         bind()
     }
@@ -84,7 +86,7 @@ class AppViewController: UIViewController {
         // layout
         self.collectionView.collectionViewLayout = layout()
 
-        // 탭 할때마다 피드백을 보여야 하므로 delegate 선언하기
+//         탭 할때마다 피드백을 보여야 하므로 delegate 선언하기
 //        self.collectionView.delegate = self
     }
     
@@ -144,7 +146,9 @@ class AppViewController: UIViewController {
 
 //extension AppViewController: UICollectionViewDelegate {
 //    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        let selectedItem = viewModel.apps[indexPath.item]
+//        let selectedItem = viewModel.appsBySection.filter { <#Dictionary<Terms, [AppInfo]>.Element#> in
+//            <#code#>
+//        }
 //        print("---> \(selectedItem.trackName)이 선택되었습니다")
 //    }
 //}
