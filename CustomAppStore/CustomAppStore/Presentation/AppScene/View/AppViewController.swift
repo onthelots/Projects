@@ -26,19 +26,25 @@ class AppViewController: UIViewController {
     typealias Item = AppInfo
 
     // Section -> fetch를 통해 전체를 가져오고, Section을 나누어서 Item을 뿌리기
-    enum Section: CaseIterable {
-        case Books
-        case Education
-        
-        var category: String {
-            switch self {
-            case .Books :
-                return "Book"
-            case .Education :
-                return "Education"
+        enum Section: CaseIterable {
+            case Books
+            case Education
+            case Games
+            case Travel
+            
+            var category: String {
+                switch self {
+                case .Books :
+                    return "Book"
+                case .Education :
+                    return "Education"
+                case .Games :
+                    return "Game"
+                case .Travel :
+                    return "Travel"
+                }
             }
         }
-    }
 
     // dataSource (fetch -> addItems 메서드 -> dataSource 내 저장
     var dataSource: UICollectionViewDiffableDataSource<Section, Item>!
@@ -46,8 +52,7 @@ class AppViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel.fetch(term: .Books)
-        viewModel.fetch(term: .Education)
+        viewModel.fetchAllSections()
         configurationCollectionView()
         bind()
     }
@@ -78,9 +83,11 @@ class AppViewController: UIViewController {
         
         // Snapshot -> Data
         var snapshot = NSDiffableDataSourceSnapshot<Section,Item>()
-        snapshot.appendSections([.Books, .Education])
+        snapshot.appendSections([.Books, .Education, .Games, .Travel])
         snapshot.appendItems([], toSection: .Books)
         snapshot.appendItems([], toSection: .Education)
+        snapshot.appendItems([], toSection: .Games)
+        snapshot.appendItems([], toSection: .Travel)
         dataSource.apply(snapshot)
 
         // layout

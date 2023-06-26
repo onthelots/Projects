@@ -16,11 +16,9 @@ final class AppViewModel {
     // ❶ 네트워크(Network) 담당객체
     let network: NetworkService
     
-    // ❷ Model 퍼블리셔 -> Apps 구조체 내부의 apps -> 즉 AppInfo 타입의 구조체
-//    @Published var apps: [AppInfo] = []
-    
     //❷ Model 퍼블리셔 -> Section별로 AppInfo 타입의 구조체를 받아오기 위해, 딕셔너리 형태로 선언함 (여기서 Terms 타입의 키에 따라 AppInfo 데이터가 달라지겠지)
     @Published var appsBySection: [Terms: [AppInfo]] = [:]
+    
     // MARK: - User Interaction OupPut
     
     // MARK: - Subscripiton
@@ -65,6 +63,48 @@ final class AppViewModel {
                 // updateAppsBySection의 매개변수로 할당될 [AppInfo]값과 term 매개변수 값을 할당함
                 self.updateAppsBySection(apps.apps, for: term)
             }.store(in: &subscriptions) // Subscripiton
+    }
+    
+    
+    func fetchAllSections() {
+        let allSections: [Terms] = [.Games, .Entertainment, .Music, .Education, .Lifestyle, .PhotoVideo, .Productivity, .Utilities, .News, .Sports, .Travel, .Finance, .Weather, .Books, .Business, .Shopping, .Medical]
+        
+        let publishers = allSections.map { term -> AnyPublisher<[AppInfo], Error> in
+            let resource: Resource<Apps> = Resource(base: "https://itunes.apple.com",
+                                                    path: "/search",
+                                                    params: [
+                                                        "media": "software",
+                                                        "entity": "software",
+                                                        "term": term.rawValue,
+                                                        "country": "kr",
+                                                        "lang": "ko_kr",
+                                                        "limit": "3"
+                                                    ], header: [:]
+            )
+            return network.load(resource)
+                .receive(on: RunLoop.main)
+                .map(\.apps)
+                .eraseToAnyPublisher()
+        }
+        
+        Publishers.MergeMany(publishers)
+              .collect()
+              .sink { [weak self] completion in
+                  switch completion {
+                  case .failure(let error):
+                      print("Error: \(error)")
+                  case .finished:
+                      print("Finished")
+                  }
+              } receiveValue: { [weak self] appsBySection in
+                  guard let self = self else { return }
+                  
+                  for (index, term) in allSections.enumerated() {
+                      self.updateAppsBySection(appsBySection[index], for: term)
+                  }
+              }
+              .store(in: &subscriptions)
+
     }
     
     // Section에 따라 receiveValue를 할당해주는 메서드
