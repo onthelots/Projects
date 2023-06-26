@@ -11,7 +11,7 @@ import SwiftUI
 
 class AppViewController: UIViewController {
     
-//     ViewModel 선언하기
+    // ViewModel 선언하기
     let viewModel: AppViewModel = AppViewModel(network: NetworkService(configuration: .default))
 
     // 구독자 선언하기
@@ -26,6 +26,10 @@ class AppViewController: UIViewController {
     // Section -> 구조체의
     enum Section {
         case main
+        
+        var category: String {
+            return "Test"
+        }
     }
 
     // dataSource
@@ -40,6 +44,7 @@ class AppViewController: UIViewController {
     }
     
     private func configuration() {
+        
         // Presentation (UICollectionCell) -> DataSource
         dataSource = UICollectionViewDiffableDataSource<Section, Item>(collectionView: collectionView, cellProvider: { collectionView, indexPath, item in
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AppViewCell", for: indexPath) as? AppViewCell else {
@@ -48,6 +53,18 @@ class AppViewController: UIViewController {
             cell.configure(item)
             return cell
         })
+        
+        // Presentation (UICollectionReusableCell) -> DataSource
+        dataSource.supplementaryViewProvider = { (collectionView, kind, indexPath) in
+            guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader,
+                                                                               withReuseIdentifier: "RecommendHeaderReusableCell",
+                                                                               for: indexPath) as? RecommendHeaderReusableCell else {
+                return UICollectionReusableView()
+            }
+            let headerString = Section.main.category
+            header.configure(headerString)
+            return header
+        }
         
         // Snapshot -> Data
         var snapshot = NSDiffableDataSourceSnapshot<Section,Item>()
@@ -76,6 +93,17 @@ class AppViewController: UIViewController {
         
         let section = NSCollectionLayoutSection(group: group)
         section.interGroupSpacing = 2
+        
+        
+        // headerView Layout
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(50))
+        
+        let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize,
+                                                                 elementKind: UICollectionView.elementKindSectionHeader,
+                                                                 alignment: .top)
+        section.boundarySupplementaryItems = [header]
+        
+        
         
         return UICollectionViewCompositionalLayout(section: section)
     }

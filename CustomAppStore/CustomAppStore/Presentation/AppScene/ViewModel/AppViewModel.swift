@@ -42,7 +42,7 @@ final class AppViewModel {
                 "term": term.rawValue,
                 "country": "kr",
                 "lang": "ko_kr",
-                "limit": "10"
+                "limit": "3"
             ],
             header: [:] 
         )
