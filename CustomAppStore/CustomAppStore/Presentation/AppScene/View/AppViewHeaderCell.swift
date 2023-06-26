@@ -7,11 +7,11 @@
 
 import UIKit
 
-class RecommendHeaderReusableCell: UICollectionReusableView {
+class AppViewHeaderCell: UICollectionReusableView {
     
     @IBOutlet weak var testLabel: UILabel!
 
-    func configure(_ appInfo: String) {
-        testLabel.text = appInfo
+    func configure(_ term: String) {
+        testLabel.text = term
     }
 }

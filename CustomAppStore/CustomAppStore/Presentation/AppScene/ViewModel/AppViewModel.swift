@@ -17,8 +17,10 @@ final class AppViewModel {
     let network: NetworkService
     
     // ❷ Model 퍼블리셔 -> Apps 구조체 내부의 apps -> 즉 AppInfo 타입의 구조체
-    @Published var apps: [AppInfo] = [] 
+//    @Published var apps: [AppInfo] = []
     
+    //❷ Model 퍼블리셔 -> Section별로 AppInfo 타입의 구조체를 받아오기 위해, 딕셔너리 형태로 선언함 (여기서 Terms 타입의 키에 따라 AppInfo 데이터가 달라지겠지)
+    @Published var appsBySection: [Terms: [AppInfo]] = [:]
     // MARK: - User Interaction OupPut
     
     // MARK: - Subscripiton
@@ -59,8 +61,15 @@ final class AppViewModel {
                     print("Finished")
                 }
             } receiveValue: { apps in
-                self.apps = apps.apps
-                print("Data Count : \(apps.apps.count)")
+                
+                // updateAppsBySection의 매개변수로 할당될 [AppInfo]값과 term 매개변수 값을 할당함
+                self.updateAppsBySection(apps.apps, for: term)
             }.store(in: &subscriptions) // Subscripiton
+    }
+    
+    // Section에 따라 receiveValue를 할당해주는 메서드
+    private func updateAppsBySection(_ apps: [AppInfo], for section: Terms) {
+        // appsBySection은 딕셔너리 타입이므로, key인 section에 서로 다른 apps(AppInfo)를 할당함
+        appsBySection[section] = apps
     }
 }
