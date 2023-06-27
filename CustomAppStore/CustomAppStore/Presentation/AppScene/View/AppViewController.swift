@@ -29,7 +29,7 @@ class AppViewController: UIViewController {
         enum Section: CaseIterable {
             case Books
             case Education
-            case Games
+            case Entertainment
             case Travel
             
             var category: String {
@@ -38,8 +38,8 @@ class AppViewController: UIViewController {
                     return "Book"
                 case .Education :
                     return "Education"
-                case .Games :
-                    return "Game"
+                case .Entertainment :
+                    return "Entertainment"
                 case .Travel :
                     return "Travel"
                 }
@@ -83,10 +83,10 @@ class AppViewController: UIViewController {
         
         // Snapshot -> Data
         var snapshot = NSDiffableDataSourceSnapshot<Section,Item>()
-        snapshot.appendSections([.Books, .Education, .Games, .Travel])
+        snapshot.appendSections([.Books, .Education, .Entertainment, .Travel])
         snapshot.appendItems([], toSection: .Books)
         snapshot.appendItems([], toSection: .Education)
-        snapshot.appendItems([], toSection: .Games)
+        snapshot.appendItems([], toSection: .Entertainment)
         snapshot.appendItems([], toSection: .Travel)
         dataSource.apply(snapshot)
 
@@ -100,27 +100,26 @@ class AppViewController: UIViewController {
     // MARK: - Layout()
     private func layout() -> UICollectionViewCompositionalLayout {
         
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(100))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(80))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(1))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(300))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
-        group.interItemSpacing = .fixed(10)
+        group.interItemSpacing = .fixed(5) // 아이템 간 간격
         
         let section = NSCollectionLayoutSection(group: group)
-        section.interGroupSpacing = 2
+        section.interGroupSpacing = 5
+        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 10)
         
         
         // headerView Layout
-        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(50))
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(30))
         
         let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize,
                                                                  elementKind: UICollectionView.elementKindSectionHeader,
                                                                  alignment: .top)
         section.boundarySupplementaryItems = [header]
-        
-        
         
         return UICollectionViewCompositionalLayout(section: section)
     }
