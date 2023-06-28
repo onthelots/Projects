@@ -26,17 +26,13 @@
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
+                                <stackView key="backgroundView" opaque="NO" contentMode="scaleToFill" axis="vertical" id="P4G-Vu-px9">
+                                    <rect key="frame" x="0.0" y="0.0" width="393" height="710"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                </stackView>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="PHB-U1-kNs">
-                                        <rect key="frame" x="0.0" y="50" width="393" height="68"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="LcL-hW-LTA">
-                                            <rect key="frame" x="0.0" y="0.0" width="393" height="68"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </collectionViewCellContentView>
-                                    </collectionViewCell>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="AppViewCell" reuseIdentifier="AppViewCell" id="tbI-YM-JLW" customClass="AppViewCell" customModule="CustomAppStore" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="128" width="393" height="68"/>
+                                        <rect key="frame" x="0.0" y="50" width="393" height="68"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="jpg-Le-Syl">
                                             <rect key="frame" x="0.0" y="0.0" width="393" height="68"/>
