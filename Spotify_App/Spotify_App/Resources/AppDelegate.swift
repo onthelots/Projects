@@ -22,14 +22,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // AuthManager (SingIn의 여부 확인)
         
         // SignedIn이 true일 경우 -> AppDelegate 상에서 TabBarVC 창 (전체 Scene을 확인)으로
-        if AuthManage.shared.isSignedIn {
+        if AuthManager.shared.isSignedIn {
             window.rootViewController = TabBarViewController()
         } else {
             // 그렇지 않다면, NavigationController에서의 WelcomeVC을 나타냄
             let navVC = UINavigationController(rootViewController: WelcomeViewController())
             navVC.navigationBar.prefersLargeTitles = true
             
-            // TODO: - navigationController의 viewcController.first (ㅇ
+            // ⁉️ Navigation controller 는 여러개의 vc를 관리하는 컨테이너 형태의 배열임(pop, push가 가능함)
+            // 따라서, NavigationController의 첫번째 vc인 WelcomeVC를 나타내기 위해 .first를 사용함
             navVC.viewControllers.first?.navigationItem.largeTitleDisplayMode = .always
             window.rootViewController = UINavigationController(rootViewController: WelcomeViewController())
         }
@@ -40,6 +41,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // AppDelegate의 변수 window의 값으로, 앞서 선언한 window를 할당함
         self.window = window
+        
+        // Auth URL이 작동이 잘 되는지 여부 확인
+//        print(AuthManager.shared.signInURL?.absoluteString ?? "URL이 잘못되었습니다.")
         
         return true
     }

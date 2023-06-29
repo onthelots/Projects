@@ -22,7 +22,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         // 📲 AuthManager (SingIn의 여부 확인)
         // SignedIn이 true일 경우 -> AppDelegate 상에서 TabBarVC 창 (전체 Scene을 확인)으로
-        if AuthManage.shared.isSignedIn {
+        if AuthManager.shared.isSignedIn {
             window.rootViewController = TabBarViewController()
         } else {
             // 그렇지 않다면, NavigationController에서의 WelcomeVC을 나타냄
