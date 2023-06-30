@@ -45,6 +45,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Auth URL이 작동이 잘 되는지 여부 확인
 //        print(AuthManager.shared.signInURL?.absoluteString ?? "URL이 잘못되었습니다.")
         
+        //
+        AuthManager.shared.refreshTokenIfNeeded { success in
+            print(success)
+        }
+        
         return true
     }
 

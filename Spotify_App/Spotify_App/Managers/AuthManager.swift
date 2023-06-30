@@ -16,16 +16,18 @@ final class AuthManager {
         static let clientSecret = "e662de2c2eb5467096929037f76a7148"
         // Request Access Token을 위한 URL
         static let tokenAPIURL = "https://accounts.spotify.com/api/token"
+        static let redirectURI = "https://iosdevlime.tistory.com/"
+        // scope (사용자 인증 범위)
+        static let scopes = "user-read-private%20playlist-modify-public%20playlist-read-private%20playlist-modify-private%20user-follow-read%20user-library-modify%20user-library-read%20user-read-email"
+ 
     }
     
     private init() {}
     
     // signIn을 위한 URL
     public var signInURL: URL? {
-        let scopes = "user-read-private"
-        let redirectURI = "https://iosdevlime.tistory.com/"
         let base = "https://accounts.spotify.com/authorize"
-        let string = "\(base)?response_type=code&client_id=\(Constants.clientID)&scope=\(scopes)&redirect_uri=\(redirectURI)&show_dialog=TRUE"
+        let string = "\(base)?response_type=code&client_id=\(Constants.clientID)&scope=\(Constants.scopes)&redirect_uri=\(Constants.redirectURI)&show_dialog=TRUE"
         
         return URL(string: string)
     }
@@ -68,7 +70,7 @@ final class AuthManager {
         return currentDate.addingTimeInterval(fiveMinutes) >= expirationDate
     }
     
-    // MARK: - 받은 Access Token을 활용, 원하는 작업을 요청함
+    // 1️⃣ MARK: - 받은 Access Token을 활용, 원하는 작업을 요청함
     public func exchangeCodeForToken(code: String, completion: @escaping ((Bool) -> Void)) {
         // Get Token
         guard let url = URL(string: Constants.tokenAPIURL) else {
@@ -84,7 +86,7 @@ final class AuthManager {
         URLQueryItem(name: "code",
                      value: code),
         URLQueryItem(name: "redirect_uri",
-                     value: "https://iosdevlime.tistory.com/"),
+                     value: Constants.redirectURI),
         ]
         
         // URLRequest(원하는 API 기능을 요청)
@@ -136,14 +138,14 @@ final class AuthManager {
         task.resume()
     }
     
-    // 토큰을 새로고침 해야 할 경우 (즉, expired
+    // 2️⃣ MARK: - 토큰을 새로고침 해야 할 경우 (즉, shouldRefreshToken이 True일 경우) -> Code를 다시 Access Token으로 
     public func refreshTokenIfNeeded(completion: @escaping (Bool) -> Void) {
         
         // 만료 시간 이후 5분이 더 경과되었을 때 (shouldRefreshToken)
-        guard shouldRefreshToken else {
-            completion(true)
-            return
-        }
+//        guard shouldRefreshToken else {
+//            completion(true)
+//            return
+//        }
         
         guard let refreshToken = self.refreshToken else {
             return
