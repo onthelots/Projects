@@ -43,8 +43,8 @@
 
 > Profile
 ```
-// Spotify web API를 활용, 첫 Scene에서 SignIn 및 사용자 인증(Scope)을 통한 접근 구현 (인 앱 웹페이지를 보여주고자 WKWebView 활용)
-// UserDefaults를 활용하여 Token 저장 -> 처음 로그인 이후, 앱을 재 실행했을 때 재 로그인하지 않도록 함 
+// ...
+// ...
 ```
 
 <br> 
