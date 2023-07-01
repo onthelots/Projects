@@ -33,7 +33,7 @@ final class AuthManager {
     }
     
     
-    
+    // App, SceneDelegate에서 보여줄 첫 화면(로그인 여부)
     var isSignedIn: Bool {
         // accessToken이 nil이 아닐때 isSignedIn
         return accessToken != nil
@@ -70,7 +70,7 @@ final class AuthManager {
         return currentDate.addingTimeInterval(fiveMinutes) >= expirationDate
     }
     
-    // 1️⃣ MARK: - 받은 Access Token을 활용, 원하는 작업을 요청함
+    // 1️⃣ MARK: - 받은 Code를 -> Access Token로 변환 + 원하는 작업을 요청함
     public func exchangeCodeForToken(code: String, completion: @escaping ((Bool) -> Void)) {
         // Get Token
         guard let url = URL(string: Constants.tokenAPIURL) else {
@@ -92,7 +92,7 @@ final class AuthManager {
         // URLRequest(원하는 API 기능을 요청)
         var request = URLRequest(url: url)
         
-        // 무슨 요청을 할 것인가? -> POST(게시)
+        // [1] 무슨 요청을 할 것인가? -> POST(게시)
         request.httpMethod = "POST"
         
         // HTTP 헤더에 어떤것들이 추가되어야 하나? 1
@@ -116,14 +116,14 @@ final class AuthManager {
         request.setValue("Basic \(base64String)",
                          forHTTPHeaderField: "Authorization")
         
-        // URLSession(퍼블리셔) 객체 생성
+        // [2] URLSession(퍼블리셔) 객체 생성
         let task = URLSession.shared.dataTask(with: request) { [weak self] data, _, error in
             // data가 존재하고, error가 nil이 아닐 경우엔 completion을 false로 할당
             guard let data = data, error == nil else {
                 completion(false)
                 return
             }
-            
+            // 데이터 파싱
             do {
                 let result = try JSONDecoder().decode(AuthResponse.self, from: data)
                 
@@ -155,7 +155,6 @@ final class AuthManager {
         guard let url = URL(string: Constants.tokenAPIURL) else {
             return
         }
-        
         
         // URLComponent(URL구조) -> queryItem을 추가
         var components = URLComponents()

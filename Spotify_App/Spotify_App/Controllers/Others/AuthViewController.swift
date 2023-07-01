@@ -84,7 +84,7 @@ class AuthViewController: UIViewController, WKNavigationDelegate {
         // 4. Code 로그를 확인하고
         print("Code : \(code)")
         
-        // 5. Code를 Token으로 교환함
+        // 5. Code를 Token으로 교환하는 메서드(exchangeCodeForToken)를 실행
         AuthManager.shared.exchangeCodeForToken(code: code) { [weak self] success in
             DispatchQueue.main.async {
                 // SignIn이 true로 변환되면, rootview인 WelcomeViewController로
