@@ -20,13 +20,3 @@
 - UIKit, AutLayout(Storyboard)
 - MVVM 패턴
 ```
-
-<br>
-
-`🔖 Ditor`
-> 오늘(Daily), 나의 일상 기록의 편집자(Editor)가 되어, 하루를 되돌아보고 기록하는 앱 📝 (진행중)
-
-```
-- SwiftUI, Firebase
-- MVVM 패턴
-```
