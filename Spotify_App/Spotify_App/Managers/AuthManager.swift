@@ -10,15 +10,18 @@ import Foundation
 final class AuthManager {
     static let shared = AuthManager()
     
+    // 새로고침 여부를 확인하기 위한 Flag 변수
+    private var refreshingToken: Bool = false
+    
     struct Constants {
         // 클라이언트 ID, SecretID
-        static let clientID = "b37c4b628cb64b0db6c2579d03ec60fb"
-        static let clientSecret = "e662de2c2eb5467096929037f76a7148"
+        static let clientID: String = "b37c4b628cb64b0db6c2579d03ec60fb"
+        static let clientSecret: String = "e662de2c2eb5467096929037f76a7148"
         // Request Access Token을 위한 URL
-        static let tokenAPIURL = "https://accounts.spotify.com/api/token"
-        static let redirectURI = "https://iosdevlime.tistory.com/"
+        static let tokenAPIURL: String = "https://accounts.spotify.com/api/token"
+        static let redirectURI: String = "https://iosdevlime.tistory.com/"
         // scope (사용자 인증 범위)
-        static let scopes = "user-read-private%20playlist-modify-public%20playlist-read-private%20playlist-modify-private%20user-follow-read%20user-library-modify%20user-library-read%20user-read-email"
+        static let scopes: String = "user-read-private%20playlist-modify-public%20playlist-read-private%20playlist-modify-private%20user-follow-read%20user-library-modify%20user-library-read%20user-read-email"
  
     }
     
@@ -26,8 +29,8 @@ final class AuthManager {
     
     // signIn을 위한 URL
     public var signInURL: URL? {
-        let base = "https://accounts.spotify.com/authorize"
-        let string = "\(base)?response_type=code&client_id=\(Constants.clientID)&scope=\(Constants.scopes)&redirect_uri=\(Constants.redirectURI)&show_dialog=TRUE"
+        let base: String = "https://accounts.spotify.com/authorize"
+        let string: String = "\(base)?response_type=code&client_id=\(Constants.clientID)&scope=\(Constants.scopes)&redirect_uri=\(Constants.redirectURI)&show_dialog=TRUE"
         
         return URL(string: string)
     }
@@ -54,14 +57,14 @@ final class AuthManager {
         return UserDefaults.standard.object(forKey: "expirationDate") as? Date
     }
     
-    // 토큰을 새로고침 -> SignIn 시점으로 부터 3600초가 지나면 자동으로 만료가 되니, 새로고침이 필요함
+    // 🖐🏻 토큰을 새로고침 -> SignIn 시점으로 부터 3600초가 지나면 자동으로 만료가 되니, 새로고침이 필요함 -> withValidToken에서 활용
     private var shouldRefreshToken: Bool {
         guard let expirationDate = tokenExpirationDate else {
             return false
         }
         
         // 따라서, 현재 날짜(시간)을 나타내는 CurrentData에
-        let currentDate = Date()
+        let currentDate: Date = Date()
         
         // 5분(fiveMinutes)을 나타내는 TimeInterval을 할당하고 (300초, 5분)
         let fiveMinutes: TimeInterval = 300
@@ -138,14 +141,55 @@ final class AuthManager {
         task.resume()
     }
     
-    // 2️⃣ MARK: - 토큰을 새로고침 해야 할 경우 (즉, shouldRefreshToken이 True일 경우) -> Code를 다시 Access Token으로 
-    public func refreshTokenIfNeeded(completion: @escaping (Bool) -> Void) {
+    // 🖐🏻 refresh 관련 클로저 - ((String) -> Void)- 가 저장되는 배열타입
+    // 이걸 왜하는데? -> 새로고침이 중복되는것을 방지하기 위해, 관련 배열을 저장해둠
+    private var onRefreshBlocks = [((String) -> Void)]()
+    
+    /// Supplies valid token to be used API Callers -> SignIn 이후, API 데이터를 가져오기에 앞서 유효한 Token인지 여부를 확인하는 메서드로 활용됨
+    // 🖐🏻 유효한 토큰인지, 아닌지 확인하는 메서드
+    public func withValidToken(completion: @escaping (String) -> Void) {
         
-        // 만료 시간 이후 5분이 더 경과되었을 때 (shouldRefreshToken)
-//        guard shouldRefreshToken else {
-//            completion(true)
-//            return
-//        }
+        // RefreshingToken이 false 일때
+        guard !refreshingToken else {
+            // 그렇지 않다면, Completion을 배열에 포함시킴
+            onRefreshBlocks.append(completion)
+            return
+        }
+        
+        // 토큰 시간이 만료되었을 경우(true)
+        if shouldRefreshToken {
+            
+            // 토큰을 재 설정하는 refreshTokenIfNeeded 메서드를 실행하는데..
+            refreshTokenIfNeeded { [weak self] success in
+                
+                // accessToken과 refreshToken 모두 true일 경우 completion 인자의 값에 token을 할당함 (유효성을 확인하기 때문에 2가지 경우를 모두)
+                if let token = self?.accessToken, success {
+                    completion(token)
+                }
+            }
+        }
+        
+        // 토큰 시간이 만료되지 않았을 경우
+        else if let token = accessToken {
+            completion(token)
+        }
+    }
+    
+    // 2️⃣ MARK: - 토큰을 새로고침 해야 할 경우 (즉, shouldRefreshToken이 True일 경우) -> 새로운 Token값을 할당받는 메서드
+    // 🖐🏻 토큰을 새로고침을 하는 방식 -> User가 SignIn을 한 이후, 시간이 경과되어 새로고침이 필요할 경우
+    // 🚫 그런데, 만료가 되었단 것을 어떻게 알려야 하나? -> 사전에 미리 withValidToken 메서드를 통해 유효한 토큰(만료되지 않은 토큰)인지 확인할 필요가 있음
+    public func refreshTokenIfNeeded(completion: @escaping (Bool) -> Void) {
+        // 🖐🏻 기존에 설정한 RefreshingToken의 값이 false인지 확인하고
+        guard !refreshingToken else {
+            return
+        }
+        
+        
+        // 만료 시간 이후 5분이 더 경과되었을 때 (true / shouldRefreshToken) -> 아래 새로고침 메서드를 실시함
+        guard shouldRefreshToken else {
+            completion(true)
+            return
+        }
         
         guard let refreshToken = self.refreshToken else {
             return
@@ -156,12 +200,16 @@ final class AuthManager {
             return
         }
         
+        // 🖐🏻 토큰의 유효성+ 새로고침 여부를 확인하기 위하여 flag 변수를 true로 변환
+        refreshingToken = true
+        
         // URLComponent(URL구조) -> queryItem을 추가
         var components = URLComponents()
         components.queryItems = [
         URLQueryItem(name: "grant_type",
                      value: "refresh_token"),
-
+        
+        // refresh Token값을 할당함
         URLQueryItem(name: "refresh_token",
                      value: refreshToken),
         ]
@@ -195,6 +243,10 @@ final class AuthManager {
         
         // URLSession(퍼블리셔) 객체 생성
         let task = URLSession.shared.dataTask(with: request) { [weak self] data, _, error in
+            
+            // refreshingToken flag 변수를 다시 돌려놓음
+            self?.refreshingToken = false
+            
             // data가 존재하고, error가 nil이 아닐 경우엔 completion을 false로 할당
             guard let data = data, error == nil else {
                 completion(false)
@@ -203,7 +255,15 @@ final class AuthManager {
             
             do {
                 let result = try JSONDecoder().decode(AuthResponse.self, from: data)
+
+                // 🖐🏻AccessToken의 배열에 인자값($0)으로 result.access_token을 할당함
+                self?.onRefreshBlocks.forEach { $0(result.access_token) }
                 print("Successfully Refreshed")
+
+                // 🖐🏻 토큰이 할당된 이후, onRefreshBlocks에 있는 배열값을 모두 삭제함 (왜? 중복될 수 있으니까)
+                // 결과적으로, onRefreshBlocks 배열에는 최신 토큰만 할당되었다가, 사라짐
+                self?.onRefreshBlocks.removeAll()
+
                 // ✅ Cache? : 파싱된 Data(AuthResponse)중, Token을 지속적으로 서버에 요청하지 않아도 로그인을 지속하기 위해 Cache Token 메서드를 활용함
                 self?.cacheToken(result: result)
                 completion(true)
