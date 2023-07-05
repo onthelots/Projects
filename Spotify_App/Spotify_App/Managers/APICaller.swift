@@ -37,16 +37,19 @@ final class APICaller {
                 }
                 
                 do {
-                    // 왜 JSONSerialization을 사용하는 것인가? -> 아직 UserProfile 모델이 결정되지 않아서일듯
-                    let result = try JSONSerialization.jsonObject(with: data,
-                                                                  options: .fragmentsAllowed)
+                    let decorder = JSONDecoder()
+//                    decorder.keyDecodingStrategy = .convertFromSnakeCase
+                    //                    let result = try JSONSerialization.jsonObject(with: data, options: .fragmentsAllowed)
+                    let result = try decorder.decode(UserProfile.self, from: data)
+                    //                    let result = try JSONDecoder().decode(UserProfile.self, from: data)
                     print(result)
+                    completion(.success(result))
                 } catch {
+                    print("Error: \(error.localizedDescription)")
                     completion(.failure(error))
-                    print(error)
                 }
-                
             }
+            task.resume()
         }
     }
     

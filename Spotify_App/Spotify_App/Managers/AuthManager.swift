@@ -167,11 +167,13 @@ final class AuthManager {
                     completion(token)
                 }
             }
+            print("토큰이 만료되었습니다.")
         }
         
         // 토큰 시간이 만료되지 않았을 경우
         else if let token = accessToken {
             completion(token)
+            print("토큰이 만료되지 않았습니다.")
         }
     }
     
@@ -183,7 +185,6 @@ final class AuthManager {
         guard !refreshingToken else {
             return
         }
-        
         
         // 만료 시간 이후 5분이 더 경과되었을 때 (true / shouldRefreshToken) -> 아래 새로고침 메서드를 실시함
         guard shouldRefreshToken else {
