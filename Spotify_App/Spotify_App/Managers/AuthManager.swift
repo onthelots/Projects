@@ -47,7 +47,7 @@ final class AuthManager {
         return UserDefaults.standard.string(forKey: "access_token")
     }
     
-    // refreshToken (UserDefaults 데이터이며, refresh_token 명칭의 key를 가지고 있
+    // refreshToken (UserDefaults 데이터이며, refresh_token 명칭의 key를 가지고 있음)
     private var refreshToken: String? {
         return UserDefaults.standard.string(forKey: "refresh_token")
     }
@@ -143,37 +143,30 @@ final class AuthManager {
     
     // 🖐🏻 refresh 관련 클로저 - ((String) -> Void)- 가 저장되는 배열타입
     // 이걸 왜하는데? -> 새로고침이 중복되는것을 방지하기 위해, 관련 배열을 저장해둠
-    private var onRefreshBlocks = [((String) -> Void)]()
+    var onRefreshBlocks = [((String) -> Void)]()
     
     /// Supplies valid token to be used API Callers -> SignIn 이후, API 데이터를 가져오기에 앞서 유효한 Token인지 여부를 확인하는 메서드로 활용됨
     // 🖐🏻 유효한 토큰인지, 아닌지 확인하는 메서드
     public func withValidToken(completion: @escaping (String) -> Void) {
-        
+            
         // RefreshingToken이 false 일때
         guard !refreshingToken else {
             // 그렇지 않다면, Completion을 배열에 포함시킴
             onRefreshBlocks.append(completion)
+            print(onRefreshBlocks)
             return
         }
         
-        // 토큰 시간이 만료되었을 경우(true)
         if shouldRefreshToken {
-            
-            // 토큰을 재 설정하는 refreshTokenIfNeeded 메서드를 실행하는데..
+            // refresh
             refreshTokenIfNeeded { [weak self] success in
-                
-                // accessToken과 refreshToken 모두 true일 경우 completion 인자의 값에 token을 할당함 (유효성을 확인하기 때문에 2가지 경우를 모두)
                 if let token = self?.accessToken, success {
                     completion(token)
                 }
             }
-            print("토큰이 만료되었습니다.")
         }
-        
-        // 토큰 시간이 만료되지 않았을 경우
         else if let token = accessToken {
             completion(token)
-            print("토큰이 만료되지 않았습니다.")
         }
     }
     
@@ -212,7 +205,7 @@ final class AuthManager {
         
         // refresh Token값을 할당함
         URLQueryItem(name: "refresh_token",
-                     value: refreshToken),
+                     value: refreshToken)
         ]
         
         // URLRequest(원하는 API 기능을 요청)
@@ -222,7 +215,8 @@ final class AuthManager {
         request.httpMethod = "POST"
         
         // HTTP 헤더에 어떤것들이 추가되어야 하나? 1
-        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        request.setValue("application/x-www-form-urlencoded",
+                         forHTTPHeaderField: "Content-Type")
         request.httpBody = components.query?.data(using: .utf8)
         
         // HTTP 헤더에 어떤것들이 추가되어야 하나? 2
@@ -256,7 +250,7 @@ final class AuthManager {
             
             do {
                 let result = try JSONDecoder().decode(AuthResponse.self, from: data)
-
+                print("파싱 결과는? :\(result)")
                 // 🖐🏻AccessToken의 배열에 인자값($0)으로 result.access_token을 할당함
                 self?.onRefreshBlocks.forEach { $0(result.access_token) }
                 print("Successfully Refreshed")
@@ -290,7 +284,9 @@ final class AuthManager {
         }
 
         // expire(Token이 만료되는)의 경우, 기본값이 3600초이므로 -> 로그인한 시간으로 부터 계산하기 위해 TimeInterval을 활용함
+//        UserDefaults.standard.setValue(Date().addingTimeInterval(TimeInterval(result.expires_in)),
+//                                       forKey: "expires_in")
         UserDefaults.standard.setValue(Date().addingTimeInterval(TimeInterval(result.expires_in)),
-                                       forKey: "expires_in")
+                                       forKey: "expirationDate")
     }
 }

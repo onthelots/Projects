@@ -50,9 +50,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // 🖐🏻 토큰 새로고침(refreshTokenIfNeeded) -> True가 되었을 경우, success 로그를
         AuthManager.shared.refreshTokenIfNeeded { success in
-            print(success)
+            print("토큰이 새로고침 되었습니다 : \(success)")
         }
-        
         return true
     }
 

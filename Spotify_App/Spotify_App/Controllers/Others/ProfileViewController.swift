@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import SDWebImage
+import Kingfisher
 
 class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -52,6 +54,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             DispatchQueue.main.async {
                 switch result {
                 case .success(let model) :
+                    print(model)
                     self?.updateUI(with: model)
                 case .failure(let error) :
                     print(error.localizedDescription)
@@ -70,8 +73,43 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         models.append("E-mail: \(model.email)")
         models.append("User ID: \(model.id)")
         models.append("Plan: \(model.product)")
-        
+        createTableHeader(with: model.images.first?.url)
         tableView.reloadData()
+    }
+    
+    // 🖼️ Create Image Header View
+    private func createTableHeader(with string: String?) {
+        guard let urlString = string, let url = URL(string: urlString) else {
+            return
+        }
+        
+        // TODO: - AutoLayout(Anchor)로 변경하기
+        // headerView Size Configure
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: view.width, height: view.width/1.5))
+        
+        // headerview in ImageSize
+        let imageSize: CGFloat = headerView.height/2
+        
+        // create Image View
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: imageSize, height: imageSize))
+        
+        // headerview in imageView
+        headerView.addSubview(imageView)
+        imageView.center = headerView.center
+        
+        // layout imageView
+        imageView.contentMode = .scaleAspectFill
+        imageView.layer.masksToBounds = true
+        imageView.layer.cornerRadius = imageSize/2
+        
+        // import Image (indicatorType -> 빙글빙글 돌아가는 로딩효과 / option -> 이미지가 나타나는 효과)
+        imageView.kf.indicatorType = .activity
+        imageView.kf.setImage(with: url,
+                              placeholder: nil,
+                              options: [.transition(.fade(0.5))],
+                              progressBlock: nil)
+        
+        tableView.tableHeaderView = headerView
     }
     
     private func failedToGetProfile() {
