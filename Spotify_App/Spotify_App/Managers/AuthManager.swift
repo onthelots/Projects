@@ -54,7 +54,7 @@ final class AuthManager {
     
     // expirationDate (UserDefaults 데이터이며, string값이 아닌 다른 타입이므로 object로 넘겨줌
     private var tokenExpirationDate: Date? {
-        return UserDefaults.standard.object(forKey: "expirationDate") as? Date
+        return UserDefaults.standard.object(forKey: "expires_in") as? Date
     }
     
     // 🖐🏻 토큰을 새로고침 -> SignIn 시점으로 부터 3600초가 지나면 자동으로 만료가 되니, 새로고침이 필요함 -> withValidToken에서 활용
@@ -284,9 +284,8 @@ final class AuthManager {
         }
 
         // expire(Token이 만료되는)의 경우, 기본값이 3600초이므로 -> 로그인한 시간으로 부터 계산하기 위해 TimeInterval을 활용함
-//        UserDefaults.standard.setValue(Date().addingTimeInterval(TimeInterval(result.expires_in)),
-//                                       forKey: "expires_in")
         UserDefaults.standard.setValue(Date().addingTimeInterval(TimeInterval(result.expires_in)),
-                                       forKey: "expirationDate")
+                                       forKey: "expires_in")
+
     }
 }

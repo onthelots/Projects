@@ -40,6 +40,8 @@ final class APICaller {
                     let decorder = JSONDecoder()
                     let result = try decorder.decode(UserProfile.self, from: data)
                     completion(.success(result))
+//                    let result = try JSONSerialization.jsonObject(with: data, options: .fragmentsAllowed)
+//                    print(result)
                 } catch {
                     print("Error: \(error.localizedDescription)")
                     completion(.failure(error))
