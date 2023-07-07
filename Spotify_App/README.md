@@ -35,16 +35,21 @@
 <br> 
 
 `[Feature 2] 사용자 인증 및 로그인, 프로필 기능 구현`
-> User Authmetication
+> 2-1. User Authmetication
 ```
-// Spotify web API를 활용, 첫 Scene에서 SignIn 및 사용자 인증(Scope)을 통한 접근 구현 (인 앱 웹페이지를 보여주고자 WKWebView 활용)
-// UserDefaults를 활용하여 Token 저장 -> 처음 로그인 이후, 앱을 재 실행했을 때 재 로그인하지 않도록 함 
+1. Spotify web API를 활용, 첫 Scene에서 SignIn 및 사용자 인증(Scope)을 통한 접근 구현 (인 앱 웹페이지를 보여주고자 WKWebView 활용)
+2. UserDefaults를 활용하여 Token 저장 -> 처음 로그인 이후, 앱을 재 실행했을 때 재 로그인하지 않도록 함
 ```
 
-> Profile
+> 2-2. Profile
 ```
-// ...
-// ...
+1. API Parsing (APICaller 객체 생성)을 통한 SignIn을 완료한 User의 프로필 정보를 받아옴
+    ➟ AuthManager(사용자 인증관리)를 통해 생성한 Token(Access_Token, Refresh_Token)의 유효성 검사를 통해 올바른 토큰을 가지고 있을 경우 Request을 실시
+    ➟ 인증 만료 후, 새로운 Token이 생성될 시 기존의 Token과의 중복문제를 해소하기 위해 'onRefreshBlocks'이란 빈 completion 클로저 배열을 생성하여 관리
+
+🗂️ 사용된 라이브러리
+ -  SDWebImage (User의 프로필 이미지 처리)
+
 ```
 
 <br> 
