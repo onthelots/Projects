@@ -45,7 +45,7 @@
 ```
 1. API Parsing (APICaller 객체 생성)을 통한 SignIn을 완료한 User의 프로필 정보를 받아옴
 2. AuthManager(사용자 인증관리)를 통해 생성한 Token(Access_Token, Refresh_Token)의 유효성 검사를 통해 올바른 토큰을 가지고 있을 경우 Request을 실시
-3. 인증 만료 후, 새로운 Token이 생성될 시 기존의 Token과의 중복문제를 해소하기 위해 'onRefreshBlocks'이란 빈 completion 클로저 배열을 생성하여 관리
+3. 인증 만료 후, 새로운 Token이 생성될 시 기존의 Token과의 중복문제를 해소하기 위해 'onRefreshBlocks' 비어있는 클로저 배열을 생성하여 관리
 ```
 
 > 2-3. AppIcon + Launch Screen
