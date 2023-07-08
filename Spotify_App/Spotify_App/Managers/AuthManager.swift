@@ -155,8 +155,9 @@ final class AuthManager {
             return
         }
         
+        // 토큰이 만료가 된 경우
         if shouldRefreshToken {
-            // refresh
+            // 토큰을 새로 고침함
             refreshTokenIfNeeded { [weak self] success in
                 if let token = self?.accessToken, success {
                     completion(token)
@@ -171,7 +172,7 @@ final class AuthManager {
     // 2️⃣ MARK: - 토큰을 새로고침 해야 할 경우 (즉, shouldRefreshToken이 True일 경우) -> 새로운 Token값을 할당받는 메서드
     // 🖐🏻 토큰을 새로고침을 하는 방식 -> User가 SignIn을 한 이후, 시간이 경과되어 새로고침이 필요할 경우
     // 🚫 그런데, 만료가 되었단 것을 어떻게 알려야 하나? -> 사전에 미리 withValidToken 메서드를 통해 유효한 토큰(만료되지 않은 토큰)인지 확인할 필요가 있음
-    public func refreshTokenIfNeeded(completion: @escaping (Bool) -> Void) {
+    public func refreshTokenIfNeeded(completion: ((Bool) -> Void)?) {
         // 🖐🏻 기존에 설정한 RefreshingToken의 값이 false인지 확인하고
         guard !refreshingToken else {
             return
@@ -179,7 +180,7 @@ final class AuthManager {
         
         // 만료 시간 이후 5분이 더 경과되었을 때 (true / shouldRefreshToken) -> 아래 새로고침 메서드를 실시함
         guard shouldRefreshToken else {
-            completion(true)
+            completion?(true)
             return
         }
         
@@ -226,7 +227,7 @@ final class AuthManager {
         // 아래와 같이 Binding을 실시한 후,
         guard let base64String = data?.base64EncodedString() else {
             print("Failure to get base64")
-            completion(false)
+            completion?(false)
             return
         }
         
@@ -242,7 +243,7 @@ final class AuthManager {
             
             // data가 존재하고, error가 nil이 아닐 경우엔 completion을 false로 할당
             guard let data = data, error == nil else {
-                completion(false)
+                completion?(false)
                 return
             }
             
@@ -259,10 +260,10 @@ final class AuthManager {
 
                 // ✅ Cache? : 파싱된 Data(AuthResponse)중, Token을 지속적으로 서버에 요청하지 않아도 로그인을 지속하기 위해 Cache Token 메서드를 활용함
                 self?.cacheToken(result: result)
-                completion(true)
+                completion?(true)
             } catch {
                 print("Error : \(error)")
-                completion(false)
+                completion?(false)
             }
         }
         task.resume()

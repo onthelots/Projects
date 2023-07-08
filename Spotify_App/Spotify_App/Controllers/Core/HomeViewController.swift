@@ -17,6 +17,34 @@ class HomeViewController: UIViewController {
                                                             style: .done,
                                                             target: self,
                                                             action: #selector(didTapSetting))
+        
+        fetchData()
+    }
+    
+    // New Release Album Data Fetch
+    private func fetchData() {
+        APICaller.shared.getNewRelease { [weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let model) :
+                    print(model)
+                case .failure(let error) :
+                    print(error.localizedDescription)
+                    self?.failedToGetProfile()
+                }
+            }
+        }
+    }
+    
+    // fetchData failure
+    private func failedToGetProfile() {
+        let label = UILabel(frame: .zero)
+        label.text = "Failed to load New Release Album."
+        label.sizeToFit()
+        label.textColor = .secondaryLabel
+        view.addSubview(label)
+        // 중앙정렬
+        label.center = view.center
     }
     
     @objc func didTapSetting() {

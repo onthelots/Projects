@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import SDWebImage
 import Kingfisher
 
 class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {

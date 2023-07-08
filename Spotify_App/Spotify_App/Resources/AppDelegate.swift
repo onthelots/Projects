@@ -23,6 +23,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // SignedIn이 true일 경우 -> AppDelegate 상에서 TabBarVC 창 (전체 Scene을 확인)으로
         if AuthManager.shared.isSignedIn {
+            
+            // 토큰 유효성(withValidToken) 검사 후, 새로고침을 실시하는 메서드
+            // 앱이 시작될 때는 completion handler의 값을 nil로 설정함으로서 앱이 재 시작될 때 마다 유효한 Token을 가질 수 있도록 함
+            AuthManager.shared.refreshTokenIfNeeded(completion: nil)
+            print("사용자의 토큰을 검사중입니다..")
+            
             window.rootViewController = TabBarViewController()
         } else {
             // 그렇지 않다면, NavigationController에서의 WelcomeVC을 나타냄

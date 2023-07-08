@@ -42,6 +42,11 @@ class TabBarViewController: UITabBarController {
         nav2.navigationBar.prefersLargeTitles = true
         nav3.navigationBar.prefersLargeTitles = true
         
+        // 각각의 NavigationBar의 색상을 변경하기 (Dark / Light => SystemColor에 맞도록(label))
+        nav1.navigationBar.tintColor = .label
+        nav2.navigationBar.tintColor = .label
+        nav3.navigationBar.tintColor = .label
+        
         // 순서대로, 각각의 NavigationController를 배열에 담아냄 -> 즉, TabBar 왼쪽부터 순서대로 나열
         setViewControllers([nav1, nav2, nav3], animated: false)
     }
