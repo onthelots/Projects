@@ -25,7 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if AuthManager.shared.isSignedIn {
             
             // 토큰 유효성(withValidToken) 검사 후, 새로고침을 실시하는 메서드
-            // 앱이 시작될 때는 completion handler의 값을 nil로 설정함으로서 앱이 재 시작될 때 마다 유효한 Token을 가질 수 있도록 함
+            // 앱이 시작될 때 refreshTokenIfNeeded 메서드를 실행함으로서, 토큰이 없는 경우를 방지함
             AuthManager.shared.refreshTokenIfNeeded(completion: nil)
             print("사용자의 토큰을 검사중입니다..")
             
