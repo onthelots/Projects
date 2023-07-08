@@ -24,7 +24,6 @@ final class APICaller {
         case failedToGetData
     }
     
-    
     // MARK: - UserProfile을 API 호출을 통해 가져오기
     public func getCurrentUserProfile(completion: @escaping (Result<UserProfile, Error>) -> Void) {
         createRequest(with: URL(string: Constants.baseAPIURL + "/me"),
@@ -57,7 +56,7 @@ final class APICaller {
         case POST
     }
     
-    
+    // MARK: - API 요청을 위하여 해당 User의 Token 유효성 여부 파악(withValidToken)
     private func createRequest(with url: URL?,
                                type: HTTPMethod,
                                completion: @escaping (URLRequest) -> Void) {

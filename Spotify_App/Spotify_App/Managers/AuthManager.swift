@@ -35,7 +35,6 @@ final class AuthManager {
         return URL(string: string)
     }
     
-    
     // App, SceneDelegate에서 보여줄 첫 화면(로그인 여부)
     var isSignedIn: Bool {
         // accessToken이 nil이 아닐때 isSignedIn
@@ -79,7 +78,6 @@ final class AuthManager {
         guard let url = URL(string: Constants.tokenAPIURL) else {
             return
         }
-        
         
         // URLComponent(URL구조) -> queryItem을 추가
         var components = URLComponents()
