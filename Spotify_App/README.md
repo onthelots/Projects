@@ -48,7 +48,7 @@
     ➟ 인증 만료 후, 새로운 Token이 생성될 시 기존의 Token과의 중복문제를 해소하기 위해 'onRefreshBlocks'이란 빈 completion 클로저 배열을 생성하여 관리
 
 🗂️ 사용된 라이브러리
- -  SDWebImage (User의 프로필 이미지 처리)
+Kingfisher(ver.7.0.0)
 
 ```
 
