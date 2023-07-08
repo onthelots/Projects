@@ -44,8 +44,16 @@
 > 2-2. Profile
 ```
 1. API Parsing (APICaller 객체 생성)을 통한 SignIn을 완료한 User의 프로필 정보를 받아옴
-    ➟ AuthManager(사용자 인증관리)를 통해 생성한 Token(Access_Token, Refresh_Token)의 유효성 검사를 통해 올바른 토큰을 가지고 있을 경우 Request을 실시
-    ➟ 인증 만료 후, 새로운 Token이 생성될 시 기존의 Token과의 중복문제를 해소하기 위해 'onRefreshBlocks'이란 빈 completion 클로저 배열을 생성하여 관리
+2. AuthManager(사용자 인증관리)를 통해 생성한 Token(Access_Token, Refresh_Token)의 유효성 검사를 통해 올바른 토큰을 가지고 있을 경우 Request을 실시
+3. 인증 만료 후, 새로운 Token이 생성될 시 기존의 Token과의 중복문제를 해소하기 위해 'onRefreshBlocks'이란 빈 completion 클로저 배열을 생성하여 관리
+```
+
+> 2-3. AppIcon + Launch Screen
+```
+1. Spotify AppIcon Assets 추가
+2. 해당 AppIcon 이미지를 활용, Launch Screen 추가.
+3. 앱 실행 시, 유효한 토큰이 없는 오류 상황을 방지하고자 토큰 새로고침(refreshTokenIfNeeded)을 App Delegate에 추가
+```
 
 🗂️ 사용된 라이브러리
 Kingfisher(ver.7.0.0)
