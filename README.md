@@ -8,7 +8,7 @@
 > Spotify Web API를 활용한 음악검색, 플레이리스트 저장 외 앱 기능 전반 구현 (진행중)
 ```
 - UIKit, Code-base+Storyboard
-- User Authmetication(+WebKit)
+- Spotify API
 - MVVM 패턴
 ```
 
