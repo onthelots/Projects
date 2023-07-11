@@ -17,6 +17,7 @@ struct Albums: Codable {
 
 struct Album: Codable {
     let album_type: String
+    let available_markets: [String] // 추가
     let artists: [Artist]
     let external_urls: ExternalUrls
     let id: String
@@ -31,3 +32,4 @@ struct Album: Codable {
 struct ExternalUrls: Codable {
     let spotify: String
 }
+

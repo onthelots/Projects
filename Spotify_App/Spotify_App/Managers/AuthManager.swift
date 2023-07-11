@@ -15,8 +15,8 @@ final class AuthManager {
     
     struct Constants {
         // 클라이언트 ID, SecretID
-        static let clientID: String = "b37c4b628cb64b0db6c2579d03ec60fb"
-        static let clientSecret: String = "e662de2c2eb5467096929037f76a7148"
+        static let clientID: String = "062b9465d36c449bbd9a59f3fba015a6"
+        static let clientSecret: String = "84e5e799f3554c22a821840bf5aa29cc"
         // Request Access Token을 위한 URL
         static let tokenAPIURL: String = "https://accounts.spotify.com/api/token"
         static let redirectURI: String = "https://iosdevlime.tistory.com/"
