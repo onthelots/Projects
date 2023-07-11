@@ -49,11 +49,10 @@ final class APICaller {
     }
     
     // MARK: - Browse Tab - New Release
-    // 주의할 점 -> completion 매개변수 타입을 잘 살펴보면, 괄호( )로 하나가 더 쌓여 있음. 이는 해당 데이터가 배열 형태이기 때문
-    public func getNewRelease(completion: @escaping ((Result<String, Error>)) -> Void) {
-        createRequest(with: URL(string: Constants.baseAPIURL + "/browse/new-releases?country=KR&limit=50"),
+    public func getNewRelease(completion: @escaping (Result<NewReleaseResponse, Error>) -> Void) {
+        createRequest(with: URL(string: Constants.baseAPIURL + "/browse/new-releases?limit=50"),
                       type: .GET) { request in
-        
+
             let task = URLSession.shared.dataTask(with: request) { data, _, error in
                 guard let data = data, error == nil else {
                     completion(.failure(APIError.failedToGetData))
@@ -61,12 +60,13 @@ final class APICaller {
                 }
                 
                 do {
-                    // 데이터 확인 (원시 json 객체로)
-                    let result = try JSONSerialization.jsonObject(with: data, options: .fragmentsAllowed)
+                    let decoder = JSONDecoder()
+                    let result = try decoder.decode(NewReleaseResponse.self, from: data)
                     print(result)
+                    completion(.success(result))
                 } catch {
+                    print("Error: \(error.localizedDescription)")
                     completion(.failure(error))
-                    print(error)
                 }
             }
             task.resume()

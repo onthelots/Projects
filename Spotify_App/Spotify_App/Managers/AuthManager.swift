@@ -249,7 +249,6 @@ final class AuthManager {
             
             do {
                 let result = try JSONDecoder().decode(AuthResponse.self, from: data)
-                print("파싱 결과는? :\(result)")
                 // 🖐🏻AccessToken의 배열에 인자값($0)으로 result.access_token을 할당함
                 self?.onRefreshBlocks.forEach { $0(result.access_token) }
                 print("Successfully Refreshed")
