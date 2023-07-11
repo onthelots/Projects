@@ -55,16 +55,12 @@
 3. 앱 실행 시, 유효한 토큰이 없는 오류 상황을 방지하고자 토큰 새로고침(refreshTokenIfNeeded)을 App Delegate에 추가
 ```
 
-🗂️ 사용된 라이브러리
-Kingfisher(ver.7.0.0)
-```
-
 <br> 
 
-` [Feature 3] `
-> ...
+` [Feature 3] 탭(Tab)별 API 데이터 구축 및 UI 구성`
+> 3-1. Browse Tab
 ```
-...
+1. 새로나온 앨범(NewRelese), 추천 재생목록(FeaturedPlaylist), 유사한 아티스트&트랙(Recommendations) API Parsing 수행
 ```
 
 <br> 
