@@ -50,7 +50,7 @@ final class APICaller {
     
     // MARK: - Browse Tab - New Release
     public func getNewRelease(completion: @escaping (Result<NewReleaseResponse, Error>) -> Void) {
-        createRequest(with: URL(string: Constants.baseAPIURL + "/browse/new-releases?limit=2"),
+        createRequest(with: URL(string: Constants.baseAPIURL + "/browse/new-releases?limit=50"),
                       type: .GET) { request in
             
 
@@ -60,15 +60,14 @@ final class APICaller {
                     return
                 }
                 
-                if let jsonString = String(data: data, encoding: .utf8) {
-                    print(jsonString)
-                }
-                
                 do {
+//                    let decoderTest = try JSONSerialization.jsonObject(with: data, options: .fragmentsAllowed)
+//                    print(decoderTest)
                     let decoder = JSONDecoder()
                     let result = try decoder.decode(NewReleaseResponse.self, from: data)
                     completion(.success(result))
                 } catch {
+                    print("Error: \(error.localizedDescription)")
                     completion(.failure(error))
                 }
             }
@@ -88,8 +87,6 @@ final class APICaller {
                 }
                 
                 do {
-//                    let json = try JSONSerialization.jsonObject(with: data, options: .fragmentsAllowed)
-//                    print(json)
                     let decoder = JSONDecoder()
                     let result = try decoder.decode(FeaturedPlaylistsResponse.self, from: data)
                     print(result)
@@ -116,8 +113,6 @@ final class APICaller {
                 }
                 
                 do {
-//                    let json = try JSONSerialization.jsonObject(with: data, options: .fragmentsAllowed)
-//                    print(json)
                     let decoder = JSONDecoder()
                     let result = try decoder.decode(RecommendationsResponse.self, from: data)
                     completion(.success(result))
@@ -143,7 +138,6 @@ final class APICaller {
                 do {
                     let decoder = JSONDecoder()
                     let result = try decoder.decode(RecommendedGenresResponse.self, from: data)
-                    print(result)
                     completion(.success(result))
                 } catch {
                     print(error)
