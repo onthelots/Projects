@@ -90,7 +90,7 @@ class NewReleaseCollectionViewCell: UICollectionViewCell {
             albumLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10)
         ])
         
-//        // artistNameLabel
+        // artistNameLabel
         artistNameLabel.sizeToFit()
         albumLabel.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
         NSLayoutConstraint.activate([
@@ -98,8 +98,8 @@ class NewReleaseCollectionViewCell: UICollectionViewCell {
             artistNameLabel.leadingAnchor.constraint(equalTo: albumLabel.leadingAnchor),
             artistNameLabel.trailingAnchor.constraint(equalTo: albumLabel.trailingAnchor)
         ])
-//
-//        // numberOfTracksLabel
+        
+        // numberOfTracksLabel
         numberOfTracksLabel.sizeToFit()
         numberOfTracksLabel.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
         NSLayoutConstraint.activate([
