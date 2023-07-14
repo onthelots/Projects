@@ -24,7 +24,7 @@ class NewReleaseCollectionViewCell: UICollectionViewCell {
     // Component 2. albumLabel + TextStyle (for dynamic type)
     private let albumLabel: UILabel = {
        let label = UILabel()
-        label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.font = UIFont.preferredFont(forTextStyle: .headline)
         label.textAlignment = .left
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false

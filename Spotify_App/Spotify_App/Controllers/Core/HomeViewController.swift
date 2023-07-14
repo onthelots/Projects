@@ -11,8 +11,8 @@ import SwiftUI
 // Section Type
 enum BrowseSectionType {
     case newRelease(viewModels: [NewReleasesCellViewModel]) // 1
-    case featuredPlaylists(viewModels: [NewReleasesCellViewModel]) // 2
-    case recommendedTracks(viewModels: [NewReleasesCellViewModel]) // 3
+    case featuredPlaylists(viewModels: [FeaturedPlaylistsCellViewModel]) // 2
+    case recommendedTracks(viewModels: [RecommendedTrackCellViewModel]) // 3
 }
 
 class HomeViewController: UIViewController {
@@ -177,14 +177,28 @@ class HomeViewController: UIViewController {
                                  playlists: [Playlist],
                                  tracks: [AudioTrack]) {
         
+        // Section 0 -> NewReleases
         sections.append(.newRelease(viewModels: newAlbum.compactMap({ item in
             return NewReleasesCellViewModel(name: item.name,
                                             artworkURL: URL(string: item.images.first?.url ?? ""),
                                             numberOfTracks: item.total_tracks,
                                             artistName: item.artists.first?.name ?? "unknown")
         })))
-        sections.append(.featuredPlaylists(viewModels: []))
-        sections.append(.recommendedTracks(viewModels: []))
+        
+        // Section 1 -> featuredPlaylists
+        sections.append(.featuredPlaylists(viewModels: playlists.compactMap({ item in
+            return FeaturedPlaylistsCellViewModel(name: item.name,
+                                                  artworkURL: URL(string: item.images.first?.url ?? ""),
+                                                  creatorName: item.owner.display_name)
+        })))
+        
+        // Section 2 -> recommendedTracks
+        sections.append(.recommendedTracks(viewModels: tracks.compactMap({ item in
+            return RecommendedTrackCellViewModel(name: item.name,
+                                                 artistName: item.artists.first?.name ?? "-",
+                                                 artworkURL: URL(string: item.artists.first?.uri ?? ""))
+        })))
+        
         collectionView.reloadData()
     }
     
