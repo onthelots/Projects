@@ -182,7 +182,7 @@ class HomeViewController: UIViewController {
             return NewReleasesCellViewModel(name: item.name,
                                             artworkURL: URL(string: item.images.first?.url ?? ""),
                                             numberOfTracks: item.total_tracks,
-                                            artistName: item.artists.first?.name ?? "unknown")
+                                            artistName: item.artists.first?.name ?? "-")
         })))
         
         // Section 1 -> featuredPlaylists
@@ -196,9 +196,10 @@ class HomeViewController: UIViewController {
         sections.append(.recommendedTracks(viewModels: tracks.compactMap({ item in
             return RecommendedTrackCellViewModel(name: item.name,
                                                  artistName: item.artists.first?.name ?? "-",
-                                                 artworkURL: URL(string: item.artists.first?.uri ?? ""))
+                                                 artworkURL: URL(string: item.album.images.first?.url ?? ""))
         })))
         
+        // Refresh Scene (collectionView)
         collectionView.reloadData()
     }
     
@@ -259,7 +260,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 return UICollectionViewCell()
             }
             let viewModel = viewModels[indexPath.item]
-            cell.backgroundColor = .blue
+            cell.configure(with: viewModel)
             return cell
             
         case .recommendedTracks(viewModels: let viewModels):
@@ -308,25 +309,26 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             section.orthogonalScrollingBehavior = .groupPaging
             
             return section
-            
+        
         case 1 :
             
             // Item
-            let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(200),
-                                                  heightDimension: .absolute(200))
+            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                  heightDimension: .absolute(150))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             
             item.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2)
             
             // Group
-            let verticalGroupSize = NSCollectionLayoutSize(widthDimension: .absolute(200),
-                                                             heightDimension: .absolute(400))
+            let verticalGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.4),
+                                                             heightDimension: .absolute(300))
             let verticalGroup = NSCollectionLayoutGroup.vertical(layoutSize: verticalGroupSize,
                                                                      subitem: item,
                                                                      count: 2)
             
-            let horizontalGroupSize = NSCollectionLayoutSize(widthDimension: .absolute(200),
-                                                             heightDimension: .absolute(400))
+            // Group (vericalGroup -> count 1)
+            let horizontalGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.4),
+                                                             heightDimension: .absolute(300))
             let horizontalGroup = NSCollectionLayoutGroup.horizontal(layoutSize: horizontalGroupSize,
                                                                      subitem: verticalGroup,
                                                                      count: 1)
@@ -375,28 +377,5 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             let section = NSCollectionLayoutSection(group: group)
             return section
         }
-    }
-}
-
-
-
-
-
-// Preview
-struct ContentView_Previews: PreviewProvider {
-    
-    static var previews: some View {
-        Container().edgesIgnoringSafeArea(.all)
-    }
-    
-    struct Container: UIViewControllerRepresentable {
-        func makeUIViewController(context: Context) -> UIViewController {
-            return UINavigationController(rootViewController: HomeViewController())
-        }
-        
-        func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
-        }
-        
-        typealias  UIViewControllerType = UIViewController
     }
 }

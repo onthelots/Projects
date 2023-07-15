@@ -77,7 +77,9 @@ final class APICaller {
     
     // MARK: - Browse Tab - Featured Playlists
     public func getFeaturedPlaylists(completion: @escaping (Result<FeaturedPlaylistsResponse, Error>) -> Void) {
-        createRequest(with: URL(string: Constants.baseAPIURL + "/browse/featured-playlists?limit=5"),
+//        var offset: Int = 0 // off set
+        
+        createRequest(with: URL(string: Constants.baseAPIURL + "/browse/featured-playlists?limit=20"),
                       type: .GET) { request in
 
             let task = URLSession.shared.dataTask(with: request) { data, _, error in
@@ -89,7 +91,7 @@ final class APICaller {
                 do {
                     let decoder = JSONDecoder()
                     let result = try decoder.decode(FeaturedPlaylistsResponse.self, from: data)
-                    print(result)
+                    print(result.playlists.items.count)
                     completion(.success(result))
                 } catch {
                     completion(.failure(error))
@@ -104,7 +106,7 @@ final class APICaller {
         
         // seeds란 Genres 파라미터의 값을 쉼표(,)를 통해 분리하고 함께 추가하여 Set 형식으로 나타냄
         let seeds = genres.joined(separator: ",")
-        createRequest(with: URL(string: Constants.baseAPIURL + "/recommendations?limit=40&seed_genres=\(seeds)"),
+        createRequest(with: URL(string: Constants.baseAPIURL + "/recommendations?limit=10&seed_genres=\(seeds)"),
                       type: .GET) { request in
             let task = URLSession.shared.dataTask(with: request) { data, _, error in
                 guard let data = data, error == nil else {
