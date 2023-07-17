@@ -24,22 +24,11 @@ class FeaturedPlaylistsCollectionViewCell: UICollectionViewCell {
        let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .headline)
         label.textAlignment = .left
-        label.numberOfLines = 0
+        label.numberOfLines = 2
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
-    
-    // Component 3. artistNameLabel + TextStyle (for dynamic type)
-    private let creatorNameLabel: UILabel = {
-       let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .caption1)
-        label.textAlignment = .left
-        label.numberOfLines = 1
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
     // ContentView 기본 Layout 설정
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -47,7 +36,6 @@ class FeaturedPlaylistsCollectionViewCell: UICollectionViewCell {
         // addSubview(components)
         contentView.addSubview(playlistCoverImageView)
         contentView.addSubview(playlistNameLabel)
-        contentView.addSubview(creatorNameLabel)
         
         // SuperView 밖으로 넘어가는 subview는 잘릴 수 있음
         contentView.clipsToBounds = true
@@ -60,7 +48,24 @@ class FeaturedPlaylistsCollectionViewCell: UICollectionViewCell {
     // SubView Layout 설정
     override func layoutSubviews() {
         super.layoutSubviews()
-    
+        
+        // playlistCoverImageView
+        playlistCoverImageView.contentMode = .scaleAspectFit
+        NSLayoutConstraint.activate([
+            playlistCoverImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            playlistCoverImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            playlistCoverImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            playlistCoverImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            playlistCoverImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            playlistCoverImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+        ])
+        
+        // playlistNameLabel
+        NSLayoutConstraint.activate([
+            playlistNameLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
+            playlistNameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -30),
+            playlistNameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10)
+        ])
         
     }
     
@@ -70,13 +75,11 @@ class FeaturedPlaylistsCollectionViewCell: UICollectionViewCell {
         // 재사용 되기전에 초기화
         playlistCoverImageView.image = nil
         playlistNameLabel.text = nil
-        creatorNameLabel.text = nil
     }
     
     // 각각의 컴포넌트에 FeaturedPlaylistsCellViewModel 타입의 데이터를 매개변수값으로 할당함
     func configure(with viewModel: FeaturedPlaylistsCellViewModel) {
         playlistCoverImageView.kf.setImage(with: viewModel.artworkURL)
         playlistNameLabel.text = viewModel.name
-        creatorNameLabel.text = viewModel.creatorName
     }
 }

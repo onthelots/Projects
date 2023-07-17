@@ -90,6 +90,8 @@ class HomeViewController: UIViewController {
         // leave : 해당 task가 완료되었음을 알리는 메서드
         // notify : 전체 Task가 완료되었음을 알림(이후, 필요한 작업을 실시)
         let group = DispatchGroup() // 여러개의 디스패치 작업을 담당
+        
+        // enter()를 통해 Task Count를 3 증가시킴
         group.enter()
         group.enter()
         group.enter()
@@ -188,8 +190,7 @@ class HomeViewController: UIViewController {
         // Section 1 -> featuredPlaylists
         sections.append(.featuredPlaylists(viewModels: playlists.compactMap({ item in
             return FeaturedPlaylistsCellViewModel(name: item.name,
-                                                  artworkURL: URL(string: item.images.first?.url ?? ""),
-                                                  creatorName: item.owner.display_name)
+                                                  artworkURL: URL(string: item.images.first?.url ?? ""))
         })))
         
         // Section 2 -> recommendedTracks
@@ -269,7 +270,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 return UICollectionViewCell()
             }
             let viewModel = viewModels[indexPath.item]
-            cell.backgroundColor = .orange
+            cell.configure(with: viewModel)
             return cell
         }
     }
@@ -281,6 +282,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     // 이는 결국, NSCollectionLayoutSize에서 설정한 widthDiemnsion을 개발자가 조정해야 함
     static func createSectionLayout(section: Int) -> NSCollectionLayoutSection {
         switch section {
+        // New Release Album
         case 0 :
             
             // Item
@@ -293,15 +295,18 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             
             // Vertical group in horizontal group
             let verticalGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                           heightDimension: .absolute(390))
+                                                           heightDimension: .estimated(130))
+
             let verticalGroup = NSCollectionLayoutGroup.vertical(layoutSize: verticalGroupSize,
-                                                                 subitem: item,
-                                                                 count: 3)
-        
+                                                                 repeatingSubitem: item,
+                                                                 count: 2)
+            
             let horizontalGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.9),
-                                                             heightDimension: .absolute(390))
+                                                             heightDimension: .estimated(260))
+
+            
             let horizontalGroup = NSCollectionLayoutGroup.horizontal(layoutSize: horizontalGroupSize,
-                                                                     subitem: verticalGroup,
+                                                                     repeatingSubitem: verticalGroup,
                                                                      count: 1)
             
             // Section
@@ -309,40 +314,43 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             section.orthogonalScrollingBehavior = .groupPaging
             
             return section
-        
+            
+        // Feature playlists
         case 1 :
             
             // Item
             let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                  heightDimension: .absolute(150))
+                                                  heightDimension: .fractionalHeight(1.0))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             
             item.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2)
             
             // Group
-            let verticalGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.4),
-                                                             heightDimension: .absolute(300))
+            let verticalGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                             heightDimension: .absolute(150))
+            
             let verticalGroup = NSCollectionLayoutGroup.vertical(layoutSize: verticalGroupSize,
-                                                                     subitem: item,
+                                                                     repeatingSubitem: item,
                                                                      count: 2)
             
             // Group (vericalGroup -> count 1)
             let horizontalGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.4),
                                                              heightDimension: .absolute(300))
             let horizontalGroup = NSCollectionLayoutGroup.horizontal(layoutSize: horizontalGroupSize,
-                                                                     subitem: verticalGroup,
+                                                                     repeatingSubitem: verticalGroup,
                                                                      count: 1)
             // Section
-            let section = NSCollectionLayoutSection(group: verticalGroup)
+            let section = NSCollectionLayoutSection(group: horizontalGroup)
             section.orthogonalScrollingBehavior = .continuous
             
             return section
             
+        // Recommended Tracks
         case 2 :
             
             // Item
             let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                  heightDimension: .absolute(1.0))
+                                                  heightDimension: .fractionalHeight(1.0))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             
             item.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2)
@@ -352,13 +360,14 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                            heightDimension: .absolute(80))
             let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize,
-                                                                 subitem: item,
+                                                                 repeatingSubitem: item,
                                                                  count: 1)
             // Section
             let section = NSCollectionLayoutSection(group: group)
             
             return section
-            
+        
+        // Mock-up
         default :
             // Item
             let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
@@ -371,7 +380,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                    heightDimension: .absolute(390))
             let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize,
-                                                         subitem: item,
+                                                         repeatingSubitem: item,
                                                          count: 1)
             // Section
             let section = NSCollectionLayoutSection(group: group)
