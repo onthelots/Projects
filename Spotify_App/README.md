@@ -35,7 +35,7 @@
 <br> 
 
 `[Feature 2] 사용자 인증 및 로그인, 프로필 기능 구현`
-> 2-1. User Authmetication
+> 2-1. User Authmetication (OAuth 2.0)
 ```
 1. Spotify web API를 활용, 첫 Scene에서 SignIn 및 사용자 인증(Scope)을 통한 접근 구현 (인 앱 웹페이지를 보여주고자 WKWebView 활용)
 2. UserDefaults를 활용하여 Token 저장 -> 처음 로그인 이후, 앱을 재 실행했을 때 재 로그인하지 않도록 함
@@ -48,19 +48,13 @@
 3. 인증 만료 후, 새로운 Token이 생성될 시 기존의 Token과의 중복문제를 해소하기 위해 'onRefreshBlocks' 비어있는 클로저 배열을 생성하여 관리
 ```
 
-> 2-3. AppIcon + Launch Screen
-```
-1. Spotify AppIcon Assets 추가
-2. 해당 AppIcon 이미지를 활용, Launch Screen 추가.
-3. 앱 실행 시, 유효한 토큰이 없는 오류 상황을 방지하고자 토큰 새로고침(refreshTokenIfNeeded)을 App Delegate에 추가
-```
-
 <br> 
 
-` [Feature 3] 탭(Tab)별 API 데이터 구축 및 UI 구성`
+`[Feature 3] 탭(Tab)별 API 데이터 구축 및 UI 구성`
 > 3-1. Browse Tab
 ```
-1. 새로나온 앨범(NewRelese), 추천 재생목록(FeaturedPlaylist), 유사한 아티스트&트랙(Recommendations) API Parsing 수행
+1. 새로나온 앨범(NewRelese), 추천 재생목록(FeaturedPlaylist), 유사한 아티스트&트랙(Recommendations) API Parsing 수행
+2. 각각의 Section별 디테일 뷰 구현 (ViewModel을 생성, ResuableCell를 활용한 UI 구현)
 ```
 
 <br> 
