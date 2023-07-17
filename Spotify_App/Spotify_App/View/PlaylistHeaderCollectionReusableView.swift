@@ -134,7 +134,6 @@ final class PlaylistHeaderCollectionReusableView: UICollectionReusableView {
             playAllButton.topAnchor.constraint(equalTo: ownerLabel.bottomAnchor),
             playAllButton.leadingAnchor.constraint(equalTo: imageView.trailingAnchor),
             playAllButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
-//            playAllButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10)
         
         ])
     }

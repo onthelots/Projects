@@ -7,7 +7,6 @@
 
 import UIKit
 import Kingfisher
-import SwiftUI
 
 class NewReleaseCollectionViewCell: UICollectionViewCell {
     static let identifier = "NewReleaseCollectionViewCell"

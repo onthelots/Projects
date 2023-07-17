@@ -13,6 +13,17 @@ enum BrowseSectionType {
     case newRelease(viewModels: [NewReleasesCellViewModel]) // 1
     case featuredPlaylists(viewModels: [FeaturedPlaylistsCellViewModel]) // 2
     case recommendedTracks(viewModels: [RecommendedTrackCellViewModel]) // 3
+    
+    var title: String {
+        switch self {
+        case .newRelease :
+            return "New Released Albums"
+        case .featuredPlaylists :
+            return "Featured Playlists"
+        case .recommendedTracks :
+            return "Recommended Tracks"
+        }
+    }
 }
 
 class HomeViewController: UIViewController {
@@ -82,6 +93,12 @@ class HomeViewController: UIViewController {
                                 forCellWithReuseIdentifier: "FeaturedPlaylistsCollectionViewCell")
         collectionView.register(RecommendedTrackCollectionViewCell.self,
                                 forCellWithReuseIdentifier: "RecommendedTrackCollectionViewCell")
+        
+        // headerview(ReusableView) 등록
+        collectionView.register(TitleHeaderCollectionReusableView.self,
+                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                                withReuseIdentifier: TitleHeaderCollectionReusableView.identifier)
+        
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.backgroundColor = .systemBackground
@@ -311,12 +328,35 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         }
     }
     
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
+                                                                     withReuseIdentifier: TitleHeaderCollectionReusableView.identifier,
+                                                                           for: indexPath) as? TitleHeaderCollectionReusableView, kind == UICollectionView.elementKindSectionHeader else {
+            return UICollectionReusableView()
+        }
+        let section = indexPath.section
+        let model = sections[section].title
+        header.configure(with: model)
+        return header
+    }
+    
     // MARK: - NSCollectionLayoutSection (Section의 레이아웃을 구성하는 메서드)
     // NSCollectionLayoutSize 요소들 (absoluteSize -> 항상 고정된 크기 / estimated -> 런타임 시, 크기가 변할 가능성이 있을 경우 / fractional -> 자신이 속한 컨테이너의 크기를 기반으로 비율을 설정. 0.0~1.0)
-    // TODO: - horizontal(layoutSize:subitem:count:) deperecated ! (나중에 Layout 코드 리팩토링 예정)
-    // horizontal(layoutSize:subitem:count:)로 변경되었는데, 이는 기존과 달리 자동으로 Width가 조정되어 Count에 따라 item을 정렬시키지 않고, LayoutSize에 맞게끔 정렬시킴
-    // 이는 결국, NSCollectionLayoutSize에서 설정한 widthDiemnsion을 개발자가 조정해야 함
     static func createSectionLayout(section: Int) -> NSCollectionLayoutSection {
+        
+        // section별로 Header의 레이아웃을 설정
+        let supplementaryViews =  [
+            NSCollectionLayoutBoundarySupplementaryItem(
+                layoutSize: NSCollectionLayoutSize(
+                    widthDimension: .fractionalWidth(1),
+                    heightDimension: .absolute(50)
+                ),
+                elementKind: UICollectionView.elementKindSectionHeader,
+                alignment: .top
+            )
+        ]
+        
+        
         switch section {
         // New Release Album
         case 0 :
@@ -349,6 +389,9 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             let section = NSCollectionLayoutSection(group: horizontalGroup)
             section.orthogonalScrollingBehavior = .groupPaging
             
+            // header 추가
+            section.boundarySupplementaryItems = supplementaryViews
+            
             return section
             
         // Feature playlists
@@ -378,6 +421,8 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             // Section
             let section = NSCollectionLayoutSection(group: horizontalGroup)
             section.orthogonalScrollingBehavior = .continuous
+            // header 추가
+            section.boundarySupplementaryItems = supplementaryViews
             
             return section
             
@@ -400,7 +445,11 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                                                                  count: 1)
             // Section
             let section = NSCollectionLayoutSection(group: group)
+         
+            // header 추가
+          
             
+            section.boundarySupplementaryItems = supplementaryViews
             return section
         
         // Mock-up

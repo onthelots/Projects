@@ -11,9 +11,11 @@ struct AudioTrack: Codable {
     let artists: [Artist]
     let disc_number: Int
     let explicit: Bool
-//    let available_markets: [String]
     let external_urls: [String: String]
     let id: String
     let name: String
     let album: Album?
+    
+    // TODO: Track 시간 추가하기
+//    var duration_ms: String?
 }

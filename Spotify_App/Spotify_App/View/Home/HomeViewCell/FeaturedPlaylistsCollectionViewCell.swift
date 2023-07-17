@@ -52,8 +52,6 @@ class FeaturedPlaylistsCollectionViewCell: UICollectionViewCell {
         // playlistCoverImageView
         playlistCoverImageView.contentMode = .scaleAspectFit
         NSLayoutConstraint.activate([
-            playlistCoverImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            playlistCoverImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             playlistCoverImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             playlistCoverImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             playlistCoverImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
