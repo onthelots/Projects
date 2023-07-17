@@ -17,6 +17,12 @@ enum BrowseSectionType {
 
 class HomeViewController: UIViewController {
     
+    // data empty array
+    private var newAlbum: [Album] = []
+    private var playlists: [Playlist] = []
+    private var track: [AudioTrack] = []
+    
+    
     // 전체 컬렉션뷰 초기 설정 (Layout은 [CompositionalLayout] 으로 진행할 예정이며, 레이아웃의 경우 createSectionLayout(NSCollectionLayoutSection)을 반환함
     private var collectionView: UICollectionView = UICollectionView(
         frame: .zero,
@@ -166,10 +172,12 @@ class HomeViewController: UIViewController {
                   let tracks = recommendedTracks?.tracks else {
                 return
             }
+            
             // API가 정상적으로 할당되었을 때 -> configureModel 메서드(section에 model 데이터를 함께 심는 과정)를 실행함
             self.configureModels(newAlbum: newAlbum, playlists: playlists, tracks: tracks)
         }
     }
+    
     
     // Models configure
     // 1. 임의로 만들어 둔 ViewModel (Model에서 필요한 객체만 별도로 정리)을 활용하기 위해, 각각의 Model에서의 배열 데이터들을 매개변수로 선언하고,
@@ -178,6 +186,10 @@ class HomeViewController: UIViewController {
     private func configureModels(newAlbum: [Album],
                                  playlists: [Playlist],
                                  tracks: [AudioTrack]) {
+        
+        self.newAlbum = newAlbum
+        self.playlists = playlists
+        self.track = tracks
         
         // Section 0 -> NewReleases
         sections.append(.newRelease(viewModels: newAlbum.compactMap({ item in
@@ -197,7 +209,7 @@ class HomeViewController: UIViewController {
         sections.append(.recommendedTracks(viewModels: tracks.compactMap({ item in
             return RecommendedTrackCellViewModel(name: item.name,
                                                  artistName: item.artists.first?.name ?? "-",
-                                                 artworkURL: URL(string: item.album.images.first?.url ?? ""))
+                                                 artworkURL: URL(string: item.album?.images.first?.url ?? ""))
         })))
         
         // Refresh Scene (collectionView)
@@ -213,7 +225,7 @@ class HomeViewController: UIViewController {
     }
 }
 
-// extension to configure Layout
+// MARK: - Extension to configure Layout
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     // 컬렉션 뷰 내 섹션의 갯수
@@ -272,6 +284,30 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             let viewModel = viewModels[indexPath.item]
             cell.configure(with: viewModel)
             return cell
+        }
+    }
+    
+    // selected Items
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        let section = sections[indexPath.section]
+        
+        // 각각의 Section 내부의 item으로 접근(didSelectedItem)하기 위한 과정
+        switch section {
+        case .featuredPlaylists :
+            let playlist = playlists[indexPath.item]
+            let vc = PlaylistViewController(playlist: playlist)
+            vc.title = playlist.name
+            vc.navigationItem.largeTitleDisplayMode = .never
+            navigationController?.pushViewController(vc, animated: true)
+        case .newRelease :
+            let album = newAlbum[indexPath.item]
+            let vc = AlbumViewController(album: album)
+            vc.title = album.name
+            vc.navigationItem.largeTitleDisplayMode = .never
+            navigationController?.pushViewController(vc, animated: true)
+        case .recommendedTracks :
+            break
         }
     }
     

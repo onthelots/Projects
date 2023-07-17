@@ -24,6 +24,53 @@ final class APICaller {
         case failedToGetData
     }
     
+    // MARK: - Albums
+    public func getAlbumDetails(for album: Album, completion: @escaping (Result<AlbumDetailsResponse, Error>) -> Void) {
+        createRequest(with: URL(string: Constants.baseAPIURL + "/albums/" + album.id),
+                      type: .GET) { request in
+            
+            let task = URLSession.shared.dataTask(with: request) { data, _, error in
+                guard let data = data, error == nil else {
+                    completion(.failure(APIError.failedToGetData))
+                    return
+                }
+                
+                do {
+                    let decorder = JSONDecoder()
+                    let result = try decorder.decode(AlbumDetailsResponse.self, from: data)
+                    completion(.success(result))
+                } catch {
+                    print("Error : \(error.localizedDescription)")
+                }
+            }
+            task.resume()
+        }
+    }
+    
+    // MARK: - Playlists
+    public func getPlaylistsDetails(for playlist: Playlist, completion: @escaping (Result<PlaylistDetailsResponse, Error>) -> Void) {
+        createRequest(with: URL(string: Constants.baseAPIURL + "/playlists/" + playlist.id),
+                      type: .GET) { request in
+            
+            let task = URLSession.shared.dataTask(with: request) { data, _, error in
+                guard let data = data, error == nil else {
+                    completion(.failure(APIError.failedToGetData))
+                    return
+                }
+                
+                do {
+                    let decorder = JSONDecoder()
+                    let result = try decorder.decode(PlaylistDetailsResponse.self, from: data)
+                    completion(.success(result))
+                } catch {
+                    print("Error : \(error.localizedDescription)")
+                }
+            }
+            task.resume()
+        }
+    }
+    
+    
     // MARK: - UserProfile을 API 호출을 통해 가져오기
     public func getCurrentUserProfile(completion: @escaping (Result<UserProfile, Error>) -> Void) {
         createRequest(with: URL(string: Constants.baseAPIURL + "/me"),
@@ -61,8 +108,6 @@ final class APICaller {
                 }
                 
                 do {
-//                    let decoderTest = try JSONSerialization.jsonObject(with: data, options: .fragmentsAllowed)
-//                    print(decoderTest)
                     let decoder = JSONDecoder()
                     let result = try decoder.decode(NewReleaseResponse.self, from: data)
                     completion(.success(result))
@@ -91,8 +136,6 @@ final class APICaller {
                 do {
                     let decoder = JSONDecoder()
                     let result = try decoder.decode(FeaturedPlaylistsResponse.self, from: data)
-                    print(result.playlists.items.count)
-                    print(result)
                     completion(.success(result))
                 } catch {
                     completion(.failure(error))

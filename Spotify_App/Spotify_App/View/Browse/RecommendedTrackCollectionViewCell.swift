@@ -24,7 +24,7 @@ class RecommendedTrackCollectionViewCell: UICollectionViewCell {
        let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .headline)
         label.textAlignment = .left
-        label.numberOfLines = 2
+        label.numberOfLines = 1
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -34,7 +34,7 @@ class RecommendedTrackCollectionViewCell: UICollectionViewCell {
        let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .caption1)
         label.textAlignment = .left
-        label.numberOfLines = 2
+        label.numberOfLines = 1
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -65,17 +65,16 @@ class RecommendedTrackCollectionViewCell: UICollectionViewCell {
         NSLayoutConstraint.activate([
             albumCoverImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             albumCoverImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            albumCoverImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.2),
-            albumCoverImageView.heightAnchor.constraint(equalTo: albumCoverImageView.widthAnchor, multiplier: 1.0),
+            albumCoverImageView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 1.0),
+            albumCoverImageView.widthAnchor.constraint(equalTo: albumCoverImageView.heightAnchor, multiplier: 1.0),
         ])
         
         // trackNameLabel
         NSLayoutConstraint.activate([
-            trackNameLabel.topAnchor.constraint(equalTo: albumCoverImageView.topAnchor, constant: 10),
+            trackNameLabel.topAnchor.constraint(equalTo: albumCoverImageView.topAnchor, constant: 5),
             trackNameLabel.leadingAnchor.constraint(equalTo: albumCoverImageView.trailingAnchor, constant: 10),
             trackNameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10)
         ])
-        
         
         // artistNameLabel
         NSLayoutConstraint.activate([
@@ -84,7 +83,6 @@ class RecommendedTrackCollectionViewCell: UICollectionViewCell {
             artistNameLabel.leadingAnchor.constraint(equalTo: trackNameLabel.leadingAnchor),
             artistNameLabel.trailingAnchor.constraint(equalTo: trackNameLabel.trailingAnchor)
         ])
-   
     }
     
     override func prepareForReuse() {

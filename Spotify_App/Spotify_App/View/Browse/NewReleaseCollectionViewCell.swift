@@ -16,7 +16,7 @@ class NewReleaseCollectionViewCell: UICollectionViewCell {
     private let albumCoverImageView: UIImageView = {
        let imageView = UIImageView()
         imageView.image = UIImage(systemName: "photo")
-        imageView.contentMode = .scaleAspectFill
+        imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -71,7 +71,6 @@ class NewReleaseCollectionViewCell: UICollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         // AlbumCoverImageView
-        albumCoverImageView.contentMode = .scaleAspectFit
         NSLayoutConstraint.activate([
             albumCoverImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             albumCoverImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
@@ -82,7 +81,7 @@ class NewReleaseCollectionViewCell: UICollectionViewCell {
         // albumLabel
         albumLabel.sizeToFit()
         albumLabel.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
-        albumLabel.setContentHuggingPriority(.required, for: .vertical) // 길어지게 되면, 늘어날 수 있도록
+        albumLabel.setContentHuggingPriority(.defaultLow, for: .vertical) // 길어지게 되면, 늘어날 수 있도록
 
         NSLayoutConstraint.activate([
             albumLabel.topAnchor.constraint(equalTo: albumCoverImageView.topAnchor),
