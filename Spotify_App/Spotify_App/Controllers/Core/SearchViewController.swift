@@ -43,7 +43,7 @@ class SearchViewController: UIViewController, UISearchResultsUpdating {
             // group
             let groupSize = NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(1),
-                heightDimension: .absolute(150)
+                heightDimension: .absolute(110)
             )
             
             let group = NSCollectionLayoutGroup.horizontal(
@@ -53,9 +53,9 @@ class SearchViewController: UIViewController, UISearchResultsUpdating {
             )
             
             group.contentInsets = NSDirectionalEdgeInsets(
-                top: 10,
+                top: 5,
                 leading: 0,
-                bottom: 10,
+                bottom: 5,
                 trailing: 0
             )
             
@@ -66,6 +66,7 @@ class SearchViewController: UIViewController, UISearchResultsUpdating {
         })
     )
     
+    private var categories = [Category]()
     
     // MARK: - Lifecycle
 
@@ -81,13 +82,29 @@ class SearchViewController: UIViewController, UISearchResultsUpdating {
         //configure navigationItem SearchController
         navigationItem.searchController = searchController
         
-        collectionView.register(GenreCollectionViewCell.self,
-                                forCellWithReuseIdentifier: "GenreCollectionViewCell")
+        collectionView.register(CategoryCollectionViewCell.self,
+                                forCellWithReuseIdentifier: CategoryCollectionViewCell.identifier)
         
         // collectionView delegate, dataSource
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.backgroundColor = .systemBackground
+        
+        // Category API Parsing
+        APICaller.shared.getCategories { [weak self] result in
+            
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let categories):
+                    
+                    // 빈 배열에 받아오는 Category 배열을 부여함
+                    self?.categories = categories
+                    self?.collectionView.reloadData()
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -106,11 +123,7 @@ class SearchViewController: UIViewController, UISearchResultsUpdating {
             return
         }
 //        resultsController.update(with: results)
-        
         print(query)
-        
-        // Perform search
-//        APICaller.shared.search
     }
 }
 
@@ -120,16 +133,30 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 40
+        return categories.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GenreCollectionViewCell",
-                                                            for: indexPath) as? GenreCollectionViewCell else {
-            return GenreCollectionViewCell()
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoryCollectionViewCell.identifier,
+                                                            for: indexPath) as? CategoryCollectionViewCell else {
+            return CategoryCollectionViewCell()
         }
-        cell.configure(with: "Title")
-        cell.backgroundColor = .systemGreen
+        
+        // 임의상수 category에 API Parsing을 통해 채워진 categories 배열의 index싱을 통한 item 값을 할당하고
+        let category = categories[indexPath.item]
+        cell.configure(with: CategoryCollectionViewCellViewModel(
+            title: category.name,
+            artworkURL: URL(string: category.icons.first?.url ?? ""))
+        )
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // 셀 선택효과 해제
+        collectionView.deselectItem(at: indexPath, animated: true)
+        let category = categories[indexPath.item]
+        let vc = CategoryViewController(category: category)
+        vc.navigationItem.largeTitleDisplayMode = .never
+        navigationController?.pushViewController(vc, animated: true)
     }
 }

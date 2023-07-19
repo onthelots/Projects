@@ -24,7 +24,7 @@ final class APICaller {
         case failedToGetData
     }
     
-    // MARK: - Albums
+    // MARK: - Common - Albums
     public func getAlbumDetails(for album: Album, completion: @escaping (Result<AlbumDetailsResponse, Error>) -> Void) {
         createRequest(with: URL(string: Constants.baseAPIURL + "/albums/" + album.id),
                       type: .GET) { request in
@@ -47,7 +47,7 @@ final class APICaller {
         }
     }
     
-    // MARK: - Playlists
+    // MARK: - Common -  Playlists
     public func getPlaylistsDetails(for playlist: Playlist, completion: @escaping (Result<PlaylistDetailsResponse, Error>) -> Void) {
         createRequest(with: URL(string: Constants.baseAPIURL + "/playlists/" + playlist.id),
                       type: .GET) { request in
@@ -187,6 +187,51 @@ final class APICaller {
                     completion(.success(result))
                 } catch {
                     print(error)
+                    completion(.failure(error))
+                }
+            }
+            task.resume()
+        }
+    }
+    
+    // MARK: - Search Tab - Category(All or Several)
+    public func getCategories(completion: @escaping (Result<[Category], Error>) -> Void) {
+        createRequest(with: URL(string: Constants.baseAPIURL + "/browse/categories?limit=50"),
+                      type: .GET) { request in
+            let task = URLSession.shared.dataTask(with: request) { data, _, error in
+                guard let data = data, error == nil else {
+                    completion(.failure(APIError.failedToGetData))
+                    return
+                }
+                
+                do {
+                    let decoder = JSONDecoder()
+                    let result = try decoder.decode(AllCategoriesResponse.self, from: data)
+                    completion(.success(result.categories.items))
+                } catch {
+                    completion(.failure(error))
+                }
+            }
+            task.resume()
+        }
+    }
+    
+    // MARK: - Search Tab - Category (Single)
+    public func getCategoryPlaylists(category: Category, completion: @escaping (Result<[Playlist], Error>) -> Void) {
+        createRequest(with: URL(string: Constants.baseAPIURL + "/browse/categories/\(category.id)/playlists?limit=50"),
+                      type: .GET) { request in
+            let task = URLSession.shared.dataTask(with: request) { data, _, error in
+                guard let data = data, error == nil else {
+                    completion(.failure(APIError.failedToGetData))
+                    return
+                }
+                
+                do {
+                    let decoder = JSONDecoder()
+                    let result = try decoder.decode(FeaturedPlaylistsResponse.self, from: data)
+                    let playlists = result.playlists.items
+                    completion(.success(playlists))
+                } catch {
                     completion(.failure(error))
                 }
             }
