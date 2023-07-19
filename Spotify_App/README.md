@@ -38,7 +38,7 @@
 > 2-1. User Authmetication (OAuth 2.0)
 ```
 1. Spotify web API를 활용, 첫 Scene에서 SignIn 및 사용자 인증(Scope)을 통한 접근 구현 (인 앱 웹페이지를 보여주고자 WKWebView 활용)
-2. UserDefaults를 활용하여 Token 저장 -> 처음 로그인 이후, 앱을 재 실행했을 때 재 로그인하지 않도록 함
+2. UserDefaults를 활용하여 Token 저장 ➟ 처음 로그인 이후, 앱을 재 실행했을 때 재 로그인하지 않도록 함
 ```
 
 > 2-2. Profile
@@ -55,6 +55,12 @@
 ```
 1. 새로나온 앨범(NewRelese), 추천 재생목록(FeaturedPlaylist), 유사한 아티스트&트랙(Recommendations) API Parsing 수행
 2. 각각의 Section별 디테일 뷰 구현 (ViewModel을 생성, ResuableCell를 활용한 UI 구현)
+```
+
+> 3-2. Search Tab
+```
+1. 검색바 추가 및 검색 기능 - 검색결과에 따른 UI 변화 - 구현(UIsearchViewController, UIsearchResultsController)
+2. 
 ```
 
 <br> 
