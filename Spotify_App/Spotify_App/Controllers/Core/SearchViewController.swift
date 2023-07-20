@@ -185,19 +185,16 @@ extension SearchViewController: SearchResultsViewControllerDelegate {
             let vc = AlbumViewController(album: model)
             vc.navigationItem.largeTitleDisplayMode = .never
             navigationController?.pushViewController(vc, animated: true)
+            
         case .playlist(let model):
             let vc = PlaylistViewController(playlist: model)
             vc.navigationItem.largeTitleDisplayMode = .never
             navigationController?.pushViewController(vc, animated: true)
+            
         case .track(let model):
-            break
+            PlayBackPresenter.startPlayback(from: self, track: model)
         }
-        
     }
-//    func showResult(_ controller: UIViewController) {
-//        controller.navigationItem.largeTitleDisplayMode = .never
-//        navigationController?.pushViewController(controller, animated: true)
-//    }
 }
 
 
