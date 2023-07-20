@@ -61,7 +61,10 @@ class PlaylistViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
     }
     
+    
+    // MARK: - ViewModels
     private var viewModels = [RecommendedTrackCellViewModel]()
+    private var tracks = [AudioTrack]()
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -97,6 +100,9 @@ class PlaylistViewController: UIViewController {
             DispatchQueue.main.async {
                 switch result {
                 case .success(let model):
+                    self?.tracks = model.tracks.items.compactMap({ item in
+                        item.track
+                    })
                     self?.viewModels = model.tracks.items.compactMap({ item in
                         RecommendedTrackCellViewModel(
                             name: item.track.name,
@@ -198,13 +204,18 @@ extension PlaylistViewController: UICollectionViewDelegate, UICollectionViewData
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        //play song
+        let index = indexPath.item
+        let track = tracks[index]
+        PlayBackPresenter.startPlayback(from: self, track: track)
     }
 }
 
-extension PlaylistViewController: PlaylistHeaderCollectionReusableViewDeleagate {
+extension PlaylistViewController: PlaylistHeaderCollectionReusableViewDelegate {
     func PlaylistHeaderCollectionReusableViewDidTapPlayAll(_ header: PlaylistHeaderCollectionReusableView) {
         // Start play list play in queue
         print("Playing all")
+        
+        // playlists에 담겨있는 모든 track의 데이터를 보냄
+        PlayBackPresenter.startPlayback(from: self, track: tracks)
     }
 }

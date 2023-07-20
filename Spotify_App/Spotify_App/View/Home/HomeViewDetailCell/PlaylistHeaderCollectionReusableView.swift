@@ -10,15 +10,14 @@ import Kingfisher
 
 // TODO: - PlaylistHeader의 배경색 넣기 (Album cover Image에서 자주 사용되는 색상을 ColorPicker를 통해 RGB 값을 받아와, 배경에 뿌려주면 되지 않을까?)
 
-protocol PlaylistHeaderCollectionReusableViewDeleagate: AnyObject {
+protocol PlaylistHeaderCollectionReusableViewDelegate: AnyObject {
     func PlaylistHeaderCollectionReusableViewDidTapPlayAll(_ header: PlaylistHeaderCollectionReusableView)
 }
 
-
 final class PlaylistHeaderCollectionReusableView: UICollectionReusableView {
-    static let identifier = "PlaylistHeaderCollectionReusableView"
+    static let identifier = "PlxaylistHeaderCollectionReusableView"
     
-    weak var delegate: PlaylistHeaderCollectionReusableViewDeleagate?
+    weak var delegate: PlaylistHeaderCollectionReusableViewDelegate?
     
     // imageView
     private let imageView: UIImageView = {

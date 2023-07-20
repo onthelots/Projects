@@ -20,7 +20,6 @@ class AlbumTrackCollectionViewCell: UICollectionViewCell {
         return stackView
     }()
     
-    
     // Component 2. trackNameLabel + TextStyle (for dynamic type)
     private let trackNameLabel: UILabel = {
        let label = UILabel()
@@ -74,7 +73,7 @@ class AlbumTrackCollectionViewCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        
+
         // 재사용 되기전에 초기화
         trackNameLabel.text = nil
         artistNameLabel.text = nil

@@ -6,8 +6,9 @@
 //
 
 import UIKit
+import SafariServices
 
-class SearchViewController: UIViewController, UISearchResultsUpdating {
+class SearchViewController: UIViewController, UISearchResultsUpdating, UISearchBarDelegate {
     
     // SearchController
     let searchController: UISearchController = {
@@ -79,6 +80,9 @@ class SearchViewController: UIViewController, UISearchResultsUpdating {
         // 검색 결과를 업데이트&담당
         searchController.searchResultsUpdater = self
         
+        // 검색창(Bar)에 대한 기능을 담당
+        searchController.searchBar.delegate = self
+        
         //configure navigationItem SearchController
         navigationItem.searchController = searchController
         
@@ -112,7 +116,32 @@ class SearchViewController: UIViewController, UISearchResultsUpdating {
         self.collectionView.frame = view.bounds
     }
     
-    // Search Results
+    // MARK: - Delegate -> Search Button Clicked
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        // query -> searchBar에 작성되는 text
+        guard let resultsController = searchController.searchResultsController as? SearchResultViewController,
+              let query = searchBar.text,
+              // query text의 공백을 모두 제거한 이후, 비어있지 않다면(Not Empty)
+              !query.trimmingCharacters(in: .whitespaces).isEmpty else {
+            return
+        }
+        
+        // MARK: - ✅ SearchViewController에서 나타나는 searchResultsController의 위임을 받고
+        resultsController.delegate = self
+        
+        APICaller.shared.search(with: query) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let result):
+                    resultsController.update(with: result)
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+        }
+    }
+    
+    // MARK: - Delegate -> Search Results method
     func updateSearchResults(for searchController: UISearchController) {
         
         // query -> searchBar에 작성되는 text
@@ -122,11 +151,57 @@ class SearchViewController: UIViewController, UISearchResultsUpdating {
               !query.trimmingCharacters(in: .whitespaces).isEmpty else {
             return
         }
-//        resultsController.update(with: results)
-        print(query)
+        
+        // MARK: - ✅ SearchViewController에서 나타나는 searchResultsController의 위임을 받고
+        resultsController.delegate = self
+        
+        APICaller.shared.search(with: query) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let result):
+                    resultsController.update(with: result)
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+        }
     }
 }
 
+// MARK: - ✅ SearchResultsViewControllerDelegate의 showResult 메서드 구현함
+// navigationController, pushVC를 인자로 진행할 수 있도록 위임을 받음
+extension SearchViewController: SearchResultsViewControllerDelegate {
+    func didTapResult(_ result: SearchResult) {
+        switch result {
+        case .artist(let model):
+            guard let url = URL(string: model.external_urls.spotify) else {
+                return
+            }
+            
+            let vc = SFSafariViewController(url: url)
+            present(vc, animated: true)
+            
+        case .album(let model):
+            let vc = AlbumViewController(album: model)
+            vc.navigationItem.largeTitleDisplayMode = .never
+            navigationController?.pushViewController(vc, animated: true)
+        case .playlist(let model):
+            let vc = PlaylistViewController(playlist: model)
+            vc.navigationItem.largeTitleDisplayMode = .never
+            navigationController?.pushViewController(vc, animated: true)
+        case .track(let model):
+            break
+        }
+        
+    }
+//    func showResult(_ controller: UIViewController) {
+//        controller.navigationItem.largeTitleDisplayMode = .never
+//        navigationController?.pushViewController(controller, animated: true)
+//    }
+}
+
+
+// Extension (Delegate, DataSource)
 extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1

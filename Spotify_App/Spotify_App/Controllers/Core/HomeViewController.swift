@@ -53,7 +53,6 @@ class HomeViewController: UIViewController {
     // Section -> 위에서 선언한 SectionType의 값을 선언
     private var sections = [BrowseSectionType]()
     
-    
     // viewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -324,8 +323,10 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             vc.navigationItem.largeTitleDisplayMode = .never
             navigationController?.pushViewController(vc, animated: true)
         case .recommendedTracks :
-            break
-        }
+            let track = track[indexPath.item]
+            // Modality -> PlayBackPresent 내 presnt 메서드 (PlayerViewController로 이동)
+            PlayBackPresenter.startPlayback(from: self, track: track)
+         }
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {

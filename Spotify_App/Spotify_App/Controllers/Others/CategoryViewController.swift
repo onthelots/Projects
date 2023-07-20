@@ -32,7 +32,7 @@ class CategoryViewController: UIViewController {
             count: 2
         )
         
-        group.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
+//        group.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
 
         let section = NSCollectionLayoutSection(group: group)
         return section

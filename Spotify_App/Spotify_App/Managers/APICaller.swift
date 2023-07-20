@@ -24,7 +24,9 @@ final class APICaller {
         case failedToGetData
     }
     
-    // MARK: - Common - Albums
+    // MARK: - Commom API Call
+    
+    // Albums
     public func getAlbumDetails(for album: Album, completion: @escaping (Result<AlbumDetailsResponse, Error>) -> Void) {
         createRequest(with: URL(string: Constants.baseAPIURL + "/albums/" + album.id),
                       type: .GET) { request in
@@ -47,7 +49,7 @@ final class APICaller {
         }
     }
     
-    // MARK: - Common -  Playlists
+    // Playlists
     public func getPlaylistsDetails(for playlist: Playlist, completion: @escaping (Result<PlaylistDetailsResponse, Error>) -> Void) {
         createRequest(with: URL(string: Constants.baseAPIURL + "/playlists/" + playlist.id),
                       type: .GET) { request in
@@ -70,8 +72,9 @@ final class APICaller {
         }
     }
     
+    // MARK: - Home API Call
     
-    // MARK: - UserProfile을 API 호출을 통해 가져오기
+    // UserProfile
     public func getCurrentUserProfile(completion: @escaping (Result<UserProfile, Error>) -> Void) {
         createRequest(with: URL(string: Constants.baseAPIURL + "/me"),
                       type: .GET) { baseRequest in
@@ -95,7 +98,7 @@ final class APICaller {
         }
     }
     
-    // MARK: - Browse Tab - New Release
+    // MARK: - New Release
     public func getNewRelease(completion: @escaping (Result<NewReleaseResponse, Error>) -> Void) {
         createRequest(with: URL(string: Constants.baseAPIURL + "/browse/new-releases?limit=50"),
                       type: .GET) { request in
@@ -120,9 +123,8 @@ final class APICaller {
         }
     }
     
-    // MARK: - Browse Tab - Featured Playlists
+    // Featured Playlists
     public func getFeaturedPlaylists(completion: @escaping (Result<FeaturedPlaylistsResponse, Error>) -> Void) {
-//        var offset: Int = 0 // off set
         
         createRequest(with: URL(string: Constants.baseAPIURL + "/browse/featured-playlists?limit=8"),
                       type: .GET) { request in
@@ -145,7 +147,7 @@ final class APICaller {
         }
     }
     
-    // MARK: - Browse Tab - Recommandation Artists&Tracks
+    // Recommandation Artists&Tracks
     public func getRecommendations(genres: Set<String>, completion: @escaping (Result<RecommendationsResponse, Error>) -> Void) {
         
         // seeds란 Genres 파라미터의 값을 쉼표(,)를 통해 분리하고 함께 추가하여 Set 형식으로 나타냄
@@ -171,7 +173,7 @@ final class APICaller {
         }
     }
     
-    // MARK: - Browse Tab - Genre Seeds
+    // Genre Seeds
     public func getRecommendedGenres(completion: @escaping (Result<RecommendedGenresResponse, Error>) -> Void) {
         createRequest(with: URL(string: Constants.baseAPIURL + "/recommendations/available-genre-seeds"),
                       type: .GET) { request in
@@ -194,7 +196,9 @@ final class APICaller {
         }
     }
     
-    // MARK: - Search Tab - Category(All or Several)
+    // MARK: - Search API Call
+    
+    // Category(All or Several)
     public func getCategories(completion: @escaping (Result<[Category], Error>) -> Void) {
         createRequest(with: URL(string: Constants.baseAPIURL + "/browse/categories?limit=50"),
                       type: .GET) { request in
@@ -216,9 +220,9 @@ final class APICaller {
         }
     }
     
-    // MARK: - Search Tab - Category (Single)
+    // Category (Single)
     public func getCategoryPlaylists(category: Category, completion: @escaping (Result<[Playlist], Error>) -> Void) {
-        createRequest(with: URL(string: Constants.baseAPIURL + "/browse/categories/\(category.id)/playlists?limit=50"),
+        createRequest(with: URL(string: Constants.baseAPIURL + "/browse/categories/\(category.id)/playlists?limit=20"),
                       type: .GET) { request in
             let task = URLSession.shared.dataTask(with: request) { data, _, error in
                 guard let data = data, error == nil else {
@@ -232,6 +236,39 @@ final class APICaller {
                     let playlists = result.playlists.items
                     completion(.success(playlists))
                 } catch {
+                    completion(.failure(error))
+                }
+            }
+            task.resume()
+        }
+    }
+    
+    // searchFunction
+    
+    public func search(with query: String, completion: @escaping (Result<[SearchResult],Error>) -> Void) {
+        // addingPercentEncoding (인코딩을 실시할 때, Set에 없는 문자(한글, 띄어쓰기)를 %로 변환, 인코딩을 실시)
+        createRequest(with: URL(string: Constants.baseAPIURL + "/search?limit=10&type=album,artist,playlist,track&q=\(query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")"),
+                      type: .GET) { request in
+            print(request.url?.absoluteString ?? "none")
+            let task = URLSession.shared.dataTask(with: request) { data, _, error in
+                guard let data = data, error == nil else {
+                    completion(.failure(APIError.failedToGetData))
+                    return
+                }
+                
+                do {
+                    let decoder = JSONDecoder()
+                    let result = try decoder.decode(SearchResultResponse.self, from: data)
+                    
+                    // MARK: - Enum 타입의 빈 배열로 저장해 놓고, Parsing을 통해 받아오는 데이터를 searchResult Case 별로 저장
+                    var searchResults: [SearchResult] = []
+                    searchResults.append(contentsOf: result.albums.items.compactMap({ .album(model: $0)}))
+                    searchResults.append(contentsOf: result.artists.items.compactMap({ .artist(model: $0)}))
+                    searchResults.append(contentsOf: result.playlists.items.compactMap({ .playlist(model: $0)}))
+                    searchResults.append(contentsOf: result.tracks.items.compactMap({ .track(model: $0)}))
+                    completion(.success(searchResults))
+                } catch {
+                    print(error.localizedDescription)
                     completion(.failure(error))
                 }
             }

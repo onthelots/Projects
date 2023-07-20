@@ -61,7 +61,10 @@ class AlbumViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
     }
     
+    // MARK: - ViewModels
     private var viewModels = [AlbumCollectionViewCellViewModel]()
+    private var tracks = [AudioTrack]()
+    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -96,6 +99,7 @@ class AlbumViewController: UIViewController {
             DispatchQueue.main.async {
                 switch result {
                 case .success(let model) :
+                    self?.tracks = model.tracks.items
                     self?.viewModels = model.tracks.items.compactMap({ item in
                         AlbumCollectionViewCellViewModel(name: item.name,
                                                          artistName: item.artists.first?.name ?? "-")
@@ -194,13 +198,16 @@ extension AlbumViewController: UICollectionViewDelegate, UICollectionViewDataSou
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        //play song
+        let track = tracks[indexPath.item]
+        PlayBackPresenter.startPlayback(from: self, track: track)
     }
 }
 
-extension AlbumViewController: PlaylistHeaderCollectionReusableViewDeleagate {
+extension AlbumViewController: PlaylistHeaderCollectionReusableViewDelegate {
     func PlaylistHeaderCollectionReusableViewDidTapPlayAll(_ header: PlaylistHeaderCollectionReusableView) {
         // Start play list play in queue
         print("Playing all")
+        
+        PlayBackPresenter.startPlayback(from: self, track: tracks)
     }
 }
