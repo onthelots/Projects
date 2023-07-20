@@ -59,8 +59,13 @@
 
 > 3-2. Search Tab
 ```
-1. 검색바 추가 및 검색 기능 - 검색결과에 따른 UI 변화 - 구현(UIsearchViewController, UIsearchResultsController)
-2. 
+1. 검색바 추가 및 검색 기능 구현(UIsearchViewController)
+2. 검색 결과(Query 입력 및 Search 완료 버튼)에 따른 UI 변화 (UIsearchResultsController)
+```
+
+> 3-3. Player Music
+```
+1. 개별 트랙(Track, single track) 혹은 재생목록(Playlists, tracks) Player UI 구현(Modality)
 ```
 
 <br> 
