@@ -51,7 +51,8 @@ class PlayerViewController: UIViewController {
             controlsView.widthAnchor.constraint(equalTo: self.imageView.widthAnchor, multiplier: 1.0),
 //            controlsView.heightAnchor.cons
             controlsView.topAnchor.constraint(equalTo: self.imageView.bottomAnchor, constant: 20),
-            controlsView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -20),
+            // MARK: - PlayerControlsView 임의 크기 (아래 추가적인 정보를 담는 View만큼의 크기를 남김)
+            controlsView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -100),
             controlsView.centerXAnchor.constraint(equalTo: self.imageView.centerXAnchor)
         ])
         

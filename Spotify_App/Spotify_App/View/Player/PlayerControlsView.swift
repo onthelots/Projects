@@ -34,8 +34,7 @@ class PlayerControlsView: UIView {
     private let labelStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.distribution = .equalSpacing
-        stackView.spacing = 5
+        stackView.distribution = .fill
         stackView.alignment = .leading
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
@@ -81,6 +80,12 @@ class PlayerControlsView: UIView {
     private let volumeSlider: UISlider = {
         let slider = UISlider()
         slider.value = 0.5
+        
+        // slider Common Layout
+        slider.minimumTrackTintColor = .label
+        slider.maximumTrackTintColor = .secondaryLabel
+        
+        slider.thumbTintColor = .label
         return slider
     }()
     
@@ -96,6 +101,7 @@ class PlayerControlsView: UIView {
     }()
     
     // Play & Pause
+    // TODO: - 동일한 속성을 하나의 메서드로 정의해서 뿌리기
     // pause.fill (pause image)
     private let playAndPauseButton: UIButton = {
         let button = UIButton()
@@ -215,3 +221,6 @@ class PlayerControlsView: UIView {
         delegate?.playControlsViewDidTapPlayPause(self)
     }
 }
+
+
+// Button extension
