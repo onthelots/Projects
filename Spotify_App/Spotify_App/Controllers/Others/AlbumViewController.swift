@@ -189,25 +189,26 @@ extension AlbumViewController: UICollectionViewDelegate, UICollectionViewDataSou
         )
         header.configure(with: headerViewModel)
 
-        // delegate -> playlistHeaderCollectionReusableView에서의 메서드를 실행하기에 앞서, 위임자를 해당 컨트롤러(PlaylistViewController)에 넘김
+        // delegate -> playlistHeaderCollectionReusableView에서의 메서드를 실행하기에 앞서, 위임자를 해당 컨트롤러(AlbumViewController)에 넘김
         header.delegate = self
         return header
 
     }
     
-    
+    // 하나의 track, 즉 cell을 눌렀을 때 (startPlayback, single tracks)
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
         let track = tracks[indexPath.item]
-        PlayBackPresenter.startPlayback(from: self, track: track)
+        PlayBackPresenter.shared.startPlayback(from: self, track: track)
     }
 }
 
+// 전체 Tracklist, 즉 All play 버튼을 눌렀을 때 (startPlayback, all tracks)
 extension AlbumViewController: PlaylistHeaderCollectionReusableViewDelegate {
     func PlaylistHeaderCollectionReusableViewDidTapPlayAll(_ header: PlaylistHeaderCollectionReusableView) {
         // Start play list play in queue
         print("Playing all")
         
-        PlayBackPresenter.startPlayback(from: self, track: tracks)
+        PlayBackPresenter.shared.startPlayback(from: self, tracks: tracks)
     }
 }

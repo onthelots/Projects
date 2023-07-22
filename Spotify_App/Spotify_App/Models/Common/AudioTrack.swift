@@ -16,6 +16,9 @@ struct AudioTrack: Codable {
     let name: String
     let album: Album?
     
+    // playing audio
+    let preview_url: String?
+    
     // TODO: Track 시간 추가하기
 //    var duration_ms: String?
 }

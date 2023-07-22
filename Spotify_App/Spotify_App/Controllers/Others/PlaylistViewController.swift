@@ -201,20 +201,22 @@ extension PlaylistViewController: UICollectionViewDelegate, UICollectionViewData
                 
     }
     
+    // 하나의 track, 즉 cell을 눌렀을 때 (startPlayback, single tracks)
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
         let index = indexPath.item
         let track = tracks[index]
-        PlayBackPresenter.startPlayback(from: self, track: track)
+        PlayBackPresenter.shared.startPlayback(from: self, track: track)
     }
 }
 
+// play all button clicked (playBackPresent 내 startPlayback 메서드 실행)
 extension PlaylistViewController: PlaylistHeaderCollectionReusableViewDelegate {
     func PlaylistHeaderCollectionReusableViewDidTapPlayAll(_ header: PlaylistHeaderCollectionReusableView) {
         // Start play list play in queue
         print("Playing all")
         
         // playlists에 담겨있는 모든 track의 데이터를 보냄
-        PlayBackPresenter.startPlayback(from: self, track: tracks)
+        PlayBackPresenter.shared.startPlayback(from: self, tracks: tracks)
     }
 }

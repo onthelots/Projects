@@ -53,7 +53,6 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             DispatchQueue.main.async {
                 switch result {
                 case .success(let model) :
-                    print(model)
                     self?.updateUI(with: model)
                 case .failure(let error) :
                     print(error.localizedDescription)

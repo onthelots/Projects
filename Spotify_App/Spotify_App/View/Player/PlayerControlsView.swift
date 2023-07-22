@@ -13,13 +13,20 @@ protocol PlayerControlsViewDelegate: AnyObject {
     func playControlsViewDidTapPlayPause(_ playerControlsView: PlayerControlsView)
     func playControlsViewDidTapForwardButton(_ playerControlsView: PlayerControlsView)
     func playControlsViewDidTapBackwardButton(_ playerControlsView: PlayerControlsView)
-//    func playControlsViewDidTapPlayPause(_ playerControlsView: PlayerControlsView)
-//    func playControlsViewDidTapPlayPause(_ playerControlsView: PlayerControlsView)
+    func playControlsView(_ playerControlsView: PlayerControlsView, didSlideSlider value: Float)
+
+}
+
+struct PlayerControlsViewViewModel {
+    let title: String?
+    let subtitle: String?
 }
 
 class PlayerControlsView: UIView {
     
     weak var delegate: PlayerControlsViewDelegate?
+    
+    private var isPlaying: Bool = true
     
     // MARK: - Label & Slider & Buttons
     private let verticalStackView: UIStackView = {
@@ -65,16 +72,6 @@ class PlayerControlsView: UIView {
     }()
     
     // TODO: - iOS 15이후, UIButton 사용방식 업데이트에 따라 Button 전체 리팩토링
-    // likeButton
-//    private let likeButton: UIButton = {
-//        let button = UIButton()
-//        button.translatesAutoresizingMaskIntoConstraints = false
-//        let image = UIImage(systemName: "heart")
-//        button.setImage(image, for: .normal)
-//        button.backgroundColor = .clear
-//        button.tintColor = .systemGreen
-//        return button
-//    }()
     
     // MARK: - Slider
     private let volumeSlider: UISlider = {
@@ -105,7 +102,7 @@ class PlayerControlsView: UIView {
     // pause.fill (pause image)
     private let playAndPauseButton: UIButton = {
         let button = UIButton()
-        let image = UIImage(systemName: "play.fill")
+        let image = UIImage(systemName: "pause.circle", withConfiguration: UIImage.SymbolConfiguration(textStyle: .largeTitle))
         button.setImage(image, for: .normal)
         button.backgroundColor = .clear
         button.tintColor = .label
@@ -164,6 +161,14 @@ class PlayerControlsView: UIView {
         labelStackView.addArrangedSubview(trackNameLabel)
         labelStackView.addArrangedSubview(artistNameLabel)
         
+        // Slider Action
+        volumeSlider.addTarget(
+            self,
+            action: #selector(didSlideSlider),
+            for: .valueChanged
+        )
+        
+        
         // Buttons
         buttonStackView.addArrangedSubview(shuffleButton)
         buttonStackView.addArrangedSubview(backwardsButton)
@@ -207,8 +212,20 @@ class PlayerControlsView: UIView {
         ])
     }
     
+    // configure dataSource
+    func configure(with viewModel: PlayerControlsViewViewModel) {
+        trackNameLabel.text = viewModel.title
+        artistNameLabel.text = viewModel.subtitle
+    }
     
     // Actions
+    @objc func didSlideSlider(_ slider: UISlider) {
+        let value = slider.value
+        delegate?.playControlsView(
+            self, didSlideSlider: value
+        )
+    }
+    
     @objc func didTapBackward() {
         delegate?.playControlsViewDidTapBackwardButton(self)
     }
@@ -219,6 +236,17 @@ class PlayerControlsView: UIView {
     
     @objc func didTapPlayPause() {
         delegate?.playControlsViewDidTapPlayPause(self)
+        self.isPlaying = !isPlaying
+        
+        // Button icon Configuration
+        let pause = UIImage(systemName: "pause.circle",
+                            withConfiguration: UIImage.SymbolConfiguration(textStyle: .largeTitle))
+        
+        let play = UIImage(systemName: "play.circle.fill",
+                            withConfiguration: UIImage.SymbolConfiguration(textStyle: .largeTitle))
+        
+        // Updata icon
+        playAndPauseButton.setImage(isPlaying ? pause : play, for: .normal)
     }
 }
 

@@ -42,7 +42,7 @@ final class APICaller {
                     let result = try decorder.decode(AlbumDetailsResponse.self, from: data)
                     completion(.success(result))
                 } catch {
-                    print("Error : \(error.localizedDescription)")
+                    completion(.failure(error))
                 }
             }
             task.resume()
@@ -65,7 +65,7 @@ final class APICaller {
                     let result = try decorder.decode(PlaylistDetailsResponse.self, from: data)
                     completion(.success(result))
                 } catch {
-                    print("Error : \(error.localizedDescription)")
+                    completion(.failure(error))
                 }
             }
             task.resume()
@@ -90,7 +90,6 @@ final class APICaller {
                     let result = try decorder.decode(UserProfile.self, from: data)
                     completion(.success(result))
                 } catch {
-                    print("Error: \(error.localizedDescription)")
                     completion(.failure(error))
                 }
             }
@@ -115,7 +114,6 @@ final class APICaller {
                     let result = try decoder.decode(NewReleaseResponse.self, from: data)
                     completion(.success(result))
                 } catch {
-                    print("Error: \(error.localizedDescription)")
                     completion(.failure(error))
                 }
             }
@@ -165,7 +163,6 @@ final class APICaller {
                     let result = try decoder.decode(RecommendationsResponse.self, from: data)
                     completion(.success(result))
                 } catch {
-                    print(error)
                     completion(.failure(error))
                 }
             }
@@ -188,7 +185,6 @@ final class APICaller {
                     let result = try decoder.decode(RecommendedGenresResponse.self, from: data)
                     completion(.success(result))
                 } catch {
-                    print(error)
                     completion(.failure(error))
                 }
             }
@@ -249,7 +245,6 @@ final class APICaller {
         // addingPercentEncoding (인코딩을 실시할 때, Set에 없는 문자(한글, 띄어쓰기)를 %로 변환, 인코딩을 실시)
         createRequest(with: URL(string: Constants.baseAPIURL + "/search?limit=10&type=album,artist,playlist,track&q=\(query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")"),
                       type: .GET) { request in
-            print(request.url?.absoluteString ?? "none")
             let task = URLSession.shared.dataTask(with: request) { data, _, error in
                 guard let data = data, error == nil else {
                     completion(.failure(APIError.failedToGetData))
@@ -268,7 +263,6 @@ final class APICaller {
                     searchResults.append(contentsOf: result.tracks.items.compactMap({ .track(model: $0)}))
                     completion(.success(searchResults))
                 } catch {
-                    print(error.localizedDescription)
                     completion(.failure(error))
                 }
             }

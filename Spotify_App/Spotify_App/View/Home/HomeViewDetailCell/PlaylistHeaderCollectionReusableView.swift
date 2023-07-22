@@ -156,6 +156,7 @@ final class PlaylistHeaderCollectionReusableView: UICollectionReusableView {
         imageView.kf.setImage(with: viewModel.artworkURL)
     }
     
+    // 해당 VC로 위임함
     @objc private func didTapPlayAll() {
         delegate?.PlaylistHeaderCollectionReusableViewDidTapPlayAll(self)
     }

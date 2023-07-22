@@ -325,7 +325,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         case .recommendedTracks :
             let track = track[indexPath.item]
             // Modality -> PlayBackPresent 내 presnt 메서드 (PlayerViewController로 이동)
-            PlayBackPresenter.startPlayback(from: self, track: track)
+            PlayBackPresenter.shared.startPlayback(from: self, track: track)
          }
     }
     

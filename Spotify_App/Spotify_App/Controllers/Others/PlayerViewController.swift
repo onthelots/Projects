@@ -6,8 +6,21 @@
 //
 
 import UIKit
+import Kingfisher
+
+protocol PlayerControllerDelegate: AnyObject {
+    func didTapPlayPause()
+    func didTapFoward()
+    func didTapBackward()
+    func didSlideSlider(_ value: Float)
+}
 
 class PlayerViewController: UIViewController {
+    
+    // 5️⃣ MARK: - dataSource (playerDataSource protocol object)
+    weak var dataSource: PlayerDataSource?
+    
+    weak var delegate: PlayerControllerDelegate?
     
     // imageView
     private let imageView: UIImageView = {
@@ -32,6 +45,9 @@ class PlayerViewController: UIViewController {
         controlsView.translatesAutoresizingMaskIntoConstraints = false
         // NavigationBarButton configure
         configureBarButton()
+        
+        // configure playerDataSource (dataSource에 데이터를 할당)
+        configure()
     }
     
     override func viewDidLayoutSubviews() {
@@ -81,6 +97,20 @@ class PlayerViewController: UIViewController {
         navigationItem.rightBarButtonItem?.tintColor = .label
     }
     
+    // 6️⃣ configure playerDataSource (dataSource에 데이터를 할당)
+    // 여기서는 imageView 밖엔 없으니, 해당 ImageView에 dataSource.url을 할당
+    private func configure() {
+        // imageView
+        imageView.kf.setImage(with: dataSource?.imageURL)
+        
+        // controlsView
+        controlsView.configure(
+            with: PlayerControlsViewViewModel(
+                title: dataSource?.songName,
+                subtitle: dataSource?.subtitle)
+        )
+    }
+    
     // MARK: - Action
     // dismiss (LeftBarButtonItem)
     @objc private func didTapClose() {
@@ -95,14 +125,18 @@ class PlayerViewController: UIViewController {
 
 extension PlayerViewController: PlayerControlsViewDelegate {
     func playControlsViewDidTapPlayPause(_ playerControlsView: PlayerControlsView) {
-        //
+        delegate?.didTapPlayPause()
     }
     
     func playControlsViewDidTapForwardButton(_ playerControlsView: PlayerControlsView) {
-        //
+        delegate?.didTapFoward()
     }
     
     func playControlsViewDidTapBackwardButton(_ playerControlsView: PlayerControlsView) {
-        //
+        delegate?.didTapBackward()
+    }
+    
+    func playControlsView(_ playerControlsView: PlayerControlsView, didSlideSlider value: Float) {
+        delegate?.didSlideSlider(value)
     }
 }

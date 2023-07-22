@@ -38,21 +38,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // ⁉️ Navigation controller 는 여러개의 vc를 관리하는 컨테이너 형태의 배열임(pop, push가 가능함)
             // 따라서, NavigationController의 첫번째 vc인 WelcomeVC를 나타내기 위해 .first를 사용함
             navVC.viewControllers.first?.navigationItem.largeTitleDisplayMode = .always
-//            window.rootViewController = UINavigationController(rootViewController: WelcomeViewController())
             window.rootViewController = navVC
         }
-        
-        // 🟢 rootViewController (TabBar에서 가장 맨 처음 화면을 담당할 VC)
-//        window.rootViewController = HomeViewController()
         
         // keyWindow로 설정하기 위한 메서드(rootview를 세팅하게 되면, 지정한 vc가 현재 화면으로 세팅됨)
         window.makeKeyAndVisible()
         
         // AppDelegate의 변수 window의 값으로, 앞서 선언한 window를 할당함
         self.window = window
-        
-        // Auth URL이 작동이 잘 되는지 여부 확인
-//        print(AuthManager.shared.signInURL?.absoluteString ?? "URL이 잘못되었습니다.")
         
         // 🖐🏻 토큰 새로고침(refreshTokenIfNeeded) -> True가 되었을 경우, success 로그를
         AuthManager.shared.refreshTokenIfNeeded { success in
