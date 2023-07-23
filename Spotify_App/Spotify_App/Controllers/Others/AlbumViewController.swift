@@ -198,7 +198,11 @@ extension AlbumViewController: UICollectionViewDelegate, UICollectionViewDataSou
     // 하나의 track, 즉 cell을 눌렀을 때 (startPlayback, single tracks)
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        let track = tracks[indexPath.item]
+        
+        // TODO: - 무엇이 문제인가? (Album VC에서의 tracks와 Playlists에서의 tracks은 다른 속성을 가지고 있다?)
+        var track = tracks[indexPath.item]
+        track.album = self.album
+        
         PlayBackPresenter.shared.startPlayback(from: self, track: track)
     }
 }
@@ -206,9 +210,14 @@ extension AlbumViewController: UICollectionViewDelegate, UICollectionViewDataSou
 // 전체 Tracklist, 즉 All play 버튼을 눌렀을 때 (startPlayback, all tracks)
 extension AlbumViewController: PlaylistHeaderCollectionReusableViewDelegate {
     func PlaylistHeaderCollectionReusableViewDidTapPlayAll(_ header: PlaylistHeaderCollectionReusableView) {
-        // Start play list play in queue
-        print("Playing all")
         
-        PlayBackPresenter.shared.startPlayback(from: self, tracks: tracks)
+        // TODO: - 무엇이 문제인가? (Album VC에서의 tracks와 Playlists에서의 tracks은 다른 속성을 가지고 있다?)
+        let tracksWithAlbum: [AudioTrack] = tracks.compactMap { tracks in
+            var tracks = tracks
+            tracks.album = self.album
+            return tracks
+        }
+        
+        PlayBackPresenter.shared.startPlayback(from: self, tracks: tracksWithAlbum)
     }
 }

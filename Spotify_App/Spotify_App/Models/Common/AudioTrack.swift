@@ -14,7 +14,9 @@ struct AudioTrack: Codable {
     let external_urls: [String: String]
     let id: String
     let name: String
-    let album: Album?
+    
+    // track별로 Album이 다를 수 있으므로, var로 설정
+    var album: Album?
     
     // playing audio
     let preview_url: String?

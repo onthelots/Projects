@@ -24,6 +24,10 @@ final class PlayBackPresenter {
     private var track: AudioTrack?
     private var tracks = [AudioTrack]()
     
+    // delegate?
+    var playerVC: PlayerViewController?
+    
+    
     // MARK: - Audio Player
     var player: AVPlayer?
     var playerQueue: AVQueuePlayer? // playlist or album Player
@@ -59,6 +63,9 @@ final class PlayBackPresenter {
         self.track = track
         self.tracks = []
         
+        self.player?.volume = 0.1
+        self.player?.play()
+        
         let vc = PlayerViewController()
         vc.title = track.name
         vc.modalPresentationStyle = .fullScreen
@@ -70,10 +77,10 @@ final class PlayBackPresenter {
         vc.delegate = self
         viewController.present(
             UINavigationController(rootViewController: vc),
-            animated: true) { [weak self] in
-                self?.player?.volume = 0.1
-                self?.player?.play()
-            }
+            animated: true
+        )
+        
+        self.playerVC = vc
     }
     
     // Track 전체를 재생
@@ -90,6 +97,9 @@ final class PlayBackPresenter {
             return AVPlayerItem(url: url)
         }))
         
+        self.playerQueue?.volume = 0.1
+        self.playerQueue?.play()
+        
         let vc = PlayerViewController()
         vc.title = tracks.first?.name
         vc.modalPresentationStyle = .fullScreen
@@ -100,10 +110,10 @@ final class PlayBackPresenter {
         
         viewController.present(
             UINavigationController(rootViewController: vc),
-            animated: true) { [weak self] in
-                self?.player?.volume = 0.1
-                self?.player?.play()
-            }
+            animated: true
+        )
+        
+        self.playerVC = vc
     }
 }
 
@@ -152,11 +162,9 @@ extension PlayBackPresenter: PlayerControllerDelegate {
         }
         
         // tracks(items)의 첫번째 트랙
-        else if let firstItem = playerQueue?.items().first {
-            playerQueue?.pause() // 멈추고,
-            playerQueue?.removeAllItems() // Queue에 위치한 모든 아이템을 삭제하고
-            playerQueue = AVQueuePlayer(items: [firstItem]) // tracks에 해당 tracks의 첫번째 track을 할당하고
-            playerQueue?.play()
+        else if let player = playerQueue{
+            playerQueue?.advanceToNextItem()
+            playerVC?.refreshUI()
         }
     }
     
@@ -166,8 +174,12 @@ extension PlayBackPresenter: PlayerControllerDelegate {
             player?.pause() // 멈췄다가
             player?.play() // 다시 플레이
         }
-        else if let player = playerQueue {
-//            player.item
+        else if let firstItem = playerQueue?.items().first {
+//               else if let firstItem = playerQueue?.items().first {
+            playerQueue?.pause() // 멈추고,
+            playerQueue?.removeAllItems() // Queue에 위치한 모든 아이템을 삭제하고
+            playerQueue = AVQueuePlayer(items: [firstItem]) // tracks에 해당 tracks의 첫번째 track을 할당하고
+            playerQueue?.play()
         }
     }
     

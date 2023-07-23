@@ -121,6 +121,11 @@ class PlayerViewController: UIViewController {
     @objc private func didTapAction() {
         // Actions -> Share
     }
+    
+    // 다음 버튼, 뒤로 버튼이 눌렸을 경우 configure을 재 실시함
+    func refreshUI() {
+        configure()
+    }
 }
 
 extension PlayerViewController: PlayerControlsViewDelegate {
