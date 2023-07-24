@@ -295,7 +295,7 @@ final class APICaller {
             
             // HTTP Method
             request.httpMethod = type.rawValue
-            request.timeoutInterval = 30
+            request.timeoutInterval = 10
             completion(request)
         }
     }
