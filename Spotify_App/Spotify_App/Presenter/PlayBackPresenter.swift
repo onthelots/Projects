@@ -24,11 +24,11 @@ final class PlayBackPresenter {
     private var track: AudioTrack?
     private var tracks = [AudioTrack]()
     
-    // tracks의 index를 확인하기 위한 임의 변수
-    var index: Int = 0
-    
     // delegate?
     var playerVC: PlayerViewController?
+    
+    // 현재 PlayViewController 저장변수
+    private weak var currentPlayerVC: PlayerViewController?
     
     
     // MARK: - Audio Player
@@ -47,106 +47,109 @@ final class PlayBackPresenter {
             // didTapFoward에서 index 값을 할당함 (
             return tracks[index]
         }
-        
+
         return nil
     }
     
-    // Track 하나만 재생
-    func startPlayback(from viewController: UIViewController, track: AudioTrack) {
-        
-        guard let url = URL(string: track.preview_url ?? "") else {
-            return
-        }
-        player = AVPlayer(url: url)
-        
-        // 1️⃣ track이 하나이므로, tracks는 빈 배열로 (currentTrack의 값을 설정해주기 위해)
-        self.track = track
-        self.tracks = []
-        
-        self.player?.volume = 0.0
-        self.player?.play()
-        
-        let vc = PlayerViewController()
-        vc.title = track.name
-        vc.modalPresentationStyle = .fullScreen
-        
-        // dataSource (vc, playerViewController에서 선언한 weak 유형/PlayerDataSource 프로토콜 타입의 dataSource를 해당 Preseneter에서 위임받음
-        vc.dataSource = self
-        
-        // delegate -> playerControlsView에 위치한 버튼들의 실제 '액션을 정의'해주기 위해 위임받음
-        vc.delegate = self
-        
-        viewController.present(
-            UINavigationController(rootViewController: vc),
-            animated: true
-        )
-        
-        self.playerVC = vc
+    // track의 인덱스 값을 확인하는 변수
+    private var index: Int = 0
+    
+    // MARK: - Music Stop (기존에 재생 중이던 음악을 정지하는 메서드)
+//    func stopPlayback() {
+//        if let player = player {
+//            player.pause()
+//            self.track = nil
+//        }
+//        if let playerQueue = playerQueue {
+//            playerQueue.pause()
+//            self.playerQueue = nil
+//        }
+//    }
+    func stopPlayback() {
+        player?.pause()
+        player = nil
+        playerQueue?.pause()
+        playerQueue = nil
     }
     
-    // Track 전체를 재생
-    func startPlayback(from viewController: UIViewController, tracks: [AudioTrack]) {
-        
-        // 1️⃣ track이 여러개인 traks이므로, track은 nil값으로 (currentTrack의 값을 설정해주기 위해)
-        
-        if tracks.count == 1 {
-            if let track = tracks.first {
-                self.track = track
-                self.tracks = []
-                
-                guard let url = URL(string: track.preview_url ?? "") else {
-                    return
-                }
-                player = AVPlayer(url: url)
-                
-                self.player?.volume = 0.05
-                self.player?.play()
-                
+    // MARK: - startPlayback
+    
+    // 단일 트랙 재생
+    func startPlayback(from viewController: UIViewController, track: AudioTrack) {
+        DispatchQueue.global().async {
+            guard let url = URL(string: track.preview_url ?? "") else {
+                return
+            }
+
+            self.stopPlayback()
+            self.track = track
+            self.tracks = []
+
+            self.player = AVPlayer(url: url)
+            self.player?.volume = 0.05
+            self.player?.play()
+
+            DispatchQueue.main.async {
                 let vc = PlayerViewController()
                 vc.title = track.name
                 vc.modalPresentationStyle = .fullScreen
-                
+
                 vc.dataSource = self
                 vc.delegate = self
-                
+
                 viewController.present(
                     UINavigationController(rootViewController: vc),
                     animated: true
                 )
-                
+
                 self.playerVC = vc
+                print("현재 트랙: \(String(describing: self.playerVC?.dataSource?.songName))")
             }
-        } else {
-            self.tracks = tracks
-            self.track = nil
-            
-            self.playerQueue = AVQueuePlayer(items: tracks.compactMap({ items in
-                guard let url = URL(string: items.preview_url ?? "") else {
+        }
+    }
+
+    // 전체 트랙 재생
+    func startPlayback(from viewController: UIViewController, tracks: [AudioTrack]) {
+        DispatchQueue.global().async {
+            let playerItems: [AVPlayerItem] = tracks.compactMap { track in
+                guard let url = URL(string: track.preview_url ?? "") else {
                     return nil
                 }
                 return AVPlayerItem(url: url)
-            }))
+            }
+
+            self.stopPlayback()
             
+
+            self.playerQueue = AVQueuePlayer(items: playerItems)
             self.playerQueue?.volume = 0.05
             self.playerQueue?.play()
-            
-            let vc = PlayerViewController()
-            vc.title = tracks.first?.name
-            vc.modalPresentationStyle = .fullScreen
-            // 2️⃣ PlayerViewController에서 선언한 PlayerDataSource타입의 dataSource 객체는, 여기(self) PlayerBackPresenter에서 extension을 통해
-            // 선언된 값에서 담당함 (즉, 이미 위에서 선언한 currentTrack 객체의 데이터가 존재하니, 프로토콜 프로퍼티들의 값을 할당시켜줄 수 있음)
-            vc.dataSource = self
-            vc.delegate = self
-            
-            viewController.present(
-                UINavigationController(rootViewController: vc),
-                animated: true
-            )
-            
-            self.playerVC = vc
+
+            self.tracks = tracks
+            self.track = nil
+            self.index = 0
+
+            DispatchQueue.main.async {
+                let vc = PlayerViewController()
+                vc.title = tracks.first?.album?.name
+                vc.modalPresentationStyle = .fullScreen
+
+                vc.dataSource = self
+                vc.delegate = self
+
+                viewController.present(
+                    UINavigationController(rootViewController: vc),
+                    animated: true
+                )
+
+                self.playerVC = vc
+                print("현재 트랙: \(String(describing: self.playerVC?.dataSource?.songName))")
+            }
         }
     }
 }
+
+
 
 // 4️⃣ playerDataSource protocol 타입 내 정의된 프로퍼티를, 현재 PlayBackPresenter extension을 통해 데이터를 할당할 수 있도록 함
 extension PlayBackPresenter: PlayerDataSource {
@@ -188,38 +191,60 @@ extension PlayBackPresenter: PlayerControllerDelegate {
     // didTapFoward 기능 정의
     func didTapFoward() {
         if tracks.isEmpty {
-            player?.pause()
+            player?.seek(to: .zero, completionHandler: { [weak self] _ in
+                self?.player?.pause()
+            })
+            print("다음 트랙이 없습니다.")
         }
-        
         // tracks(items)의 첫번째 트랙
-        else if let player = playerQueue {
+        else if let playerQueue = playerQueue, !tracks.isEmpty {
             // 마지막 인덱스를 초과할 경우, 0으로 다시 수렴하도록 함
             // 처음 didTapFoward 함수를 실행했을 땐 1이며, 지속적으로 증가하다가 tracks의 숫자와 동일해졌을 때 다시 0으로
             self.index = (index + 1) % tracks.count
-            player.advanceToNextItem()
-            player.pause() // 다음 트랙을 재생하기 전, 현재 재생중인 트랙을 정지
+            playerQueue.seek(to: .zero)
+            playerQueue.pause() // 다음 트랙을 재생하기 전, 현재 재생중인 트랙을 정지시킴
+            playerQueue.advanceToNextItem() // playerQueue에서 다음 아이템으로 옮기고
+            playerQueue.play() // 재생함
+            print("현재 트랙 : \(String(describing: currentTrack?.name))")
         }
         playerVC?.refreshUI()
     }
     
     // didTapBackward 기능 정의
+    // AVQueueplayer는 단순히 Index를 통해 뒤로 이동할 수 없음(즉, 이전 Item으로 갈 수 없음)
     func didTapBackward() {
+        // tracks이긴 한데, 단일 트랙일 때
         if tracks.isEmpty {
             // Not playlist or album
-            player?.seek(to: .zero)
-            player?.play()
+            player?.seek(to: .zero, completionHandler: { [weak self] _ in
+                self?.player?.pause() // 멈췄다가
+                self?.player?.play() // 재생함
+            })
         }
-        else if let player = playerQueue {
-            if index > 0 {
-                index -= 1
-                player.seek(to: .zero)
-                print(index)
-            } else {
-                player.seek(to: .zero)
-                player.pause()
-                player.play()
-                print(index)
+        // tracks이고, 비어있지 않으며 playeQueue일 때
+        else if let playerQueue = playerQueue, !tracks.isEmpty {
+            playerQueue.pause()
+            // 인덱스 값을 감소시키는 대신, 0이 되지 않도록 함
+            index = (index-1 + tracks.count) % tracks.count
+            
+            // player에 새로운 아이템을 추가해야하므로, 기존 아이템을 모두 삭제함
+            playerQueue.removeAllItems()
+            
+            // 현재 트랙(즉, 감소된 트랙)부터 새로운 트랙배열의 마지막 트랙까지 Playerd에 추가시킴
+            let newPlayerItems: [AVPlayerItem] = tracks[index..<tracks.count].compactMap { track in
+                guard let url = URL(string: track.preview_url ?? "") else {
+                    return nil
+                }
+                return AVPlayerItem(url: url)
             }
+            
+            // 새로운 트랙을 player에 추가시킴 (그렇게 되면, Index가 줄어든 현재의 트랙에서부터 맨 마지막 트랙까지 다시 새롭게 playerQueue 아이템이 채워짐)
+            newPlayerItems.forEach { items in
+                playerQueue.insert(items, after: nil)
+            }
+            
+            playerQueue.seek(to: .zero) // 처음으로 돌리고,
+            playerQueue.play() // 재생
         }
         playerVC?.refreshUI()
     }

@@ -215,7 +215,7 @@ extension PlaylistViewController: PlaylistHeaderCollectionReusableViewDelegate {
     func PlaylistHeaderCollectionReusableViewDidTapPlayAll(_ header: PlaylistHeaderCollectionReusableView) {
         // Start play list play in queue
         print("Playing all")
-
+    
         // playlists에 담겨있는 모든 track의 데이터를 보냄
         PlayBackPresenter.shared.startPlayback(from: self, tracks: tracks)
     }
