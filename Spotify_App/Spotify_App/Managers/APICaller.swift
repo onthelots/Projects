@@ -250,7 +250,6 @@ final class APICaller {
                     completion(.failure(APIError.failedToGetData))
                     return
                 }
-                
                 do {
                     let decoder = JSONDecoder()
                     let result = try decoder.decode(SearchResultResponse.self, from: data)
@@ -270,6 +269,102 @@ final class APICaller {
         }
     }
     
+    // MARK: - Library API Call
+    
+    // 현재 UserProfile에 저장된 playlists 확인
+    public func getCurrentUserPlaylists(completion: @escaping (Result<[Playlist], Error>) -> Void) {
+        createRequest(with: URL(string: Constants.baseAPIURL + "/me/playlists?limit=50"),
+                      type: .GET) { request in
+            let task = URLSession.shared.dataTask(with: request) { data, _, error in
+                guard let data = data, error == nil else {
+                    completion(.failure(APIError.failedToGetData))
+                    return
+                }
+                
+                do {
+                    let decoder = JSONDecoder()
+                    let result = try decoder.decode(LibraryPlaylistsResponse.self, from: data)
+                    completion(.success(result.items))
+                } catch {
+                    print(error)
+                    completion(.failure(error))
+                }
+            }
+            task.resume()
+        }
+    }
+    
+    // createPlaylist (생성된 playlists에 따라 playlists 정보를 POST)
+    public func createPlaylist(with name: String, completion: @escaping (Bool) -> Void) {
+        
+        // 1. 현재 프로필을 불러오기
+        getCurrentUserProfile { [weak self] result in
+            switch result {
+                
+                //성공할 경우
+            case .success(let profile):
+                
+                // profile.id를 활용하여 playlist URL을 생성함
+                let urlString = Constants.baseAPIURL + "/users/\(profile.id)/playlists"
+                // createRequest를 통해, URL과 Post 타입으로 실행
+                self?.createRequest(with: URL(string: urlString), type: .POST, completion: { baseRequest in
+                    
+                
+                    var request = baseRequest
+                    
+                    // name은 플레이리스트의 명칭으로, createPlaylist 메서드의 파라미터 값으로 받아옴
+                    let json = [
+                        "name" : name
+                    ]
+                    
+                    // httpBody를 생성함 -> json 형식의 파일
+                    request.httpBody = try? JSONSerialization.data(withJSONObject: json, options: .fragmentsAllowed)
+                    
+                    // request(baseRequest + httpBody)가 생성되면, 이를 통해 URLSession task 객체를 생성하여 파싱한 결과값을 확인함
+                    let task = URLSession.shared.dataTask(with: request) { data, _, error in
+                        guard let data = data, error == nil else {
+                            completion(false)
+                            return
+                        }
+                        
+                        do {
+                            let result = try JSONSerialization.jsonObject(with: data, options: .fragmentsAllowed)
+                            if let response = result as? [String: Any], response["id"] as? String != nil {
+                                print("Created")
+                                completion(true)
+                                //                            let decoder = JSONDecoder()
+                                //                            let result = try decoder.decode(Playlist.self, from: data)
+                                //                            print(result)
+                                //                            completion(true)
+                            }
+                        }
+                        catch {
+                            print("Failed")
+                            completion(false)
+                        }
+                    }
+                    task.resume()
+                })
+            case .failure(let error):
+                print(error.localizedDescription)
+                break
+            }
+        }
+    }
+    
+    // addTrackToPlay (POST / 트랙 등록)
+    public func addTrackToPlaylist(track: AudioTrack,
+                                   playlist: Playlist,
+                                   completion: @escaping (Bool) -> Void) {
+        //
+    }
+    
+    // removeTrackFromPlaylists (addTrackToPlaylists 내 Track을 삭제함)
+    public func removeTrackFromPlaylists(track: AudioTrack,
+                                   playlist: Playlist,
+                                   completion: @escaping (Bool) -> Void) {
+        //
+    }
     
     // MARK: - Private
     // HTTP Method
