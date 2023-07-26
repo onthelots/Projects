@@ -65,9 +65,6 @@
 		3FB8C6DB2A6FEDE10049A03F /* ActionLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB8C6DA2A6FEDE10049A03F /* ActionLabelView.swift */; };
 		3FB8C6DD2A70BADB0049A03F /* LibraryAlbumsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB8C6DC2A70BADB0049A03F /* LibraryAlbumsResponse.swift */; };
 		3FC2AA572A557ABD00EE85F4 /* SettingModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC2AA562A557ABC00EE85F4 /* SettingModels.swift */; };
-		3FC2AA5D2A557C2B00EE85F4 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 3FC2AA5C2A557C2B00EE85F4 /* FirebaseAnalytics */; };
-		3FC2AA5F2A557C2B00EE85F4 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = 3FC2AA5E2A557C2B00EE85F4 /* FirebaseAnalyticsOnDeviceConversion */; };
-		3FC2AA612A557C2B00EE85F4 /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 3FC2AA602A557C2B00EE85F4 /* FirebaseAnalyticsSwift */; };
 		3FDBD3E42A64F2B000434F25 /* AlbumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FDBD3E32A64F2B000434F25 /* AlbumViewController.swift */; };
 		3FDBD3E62A64F4C900434F25 /* RecommendedTrackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FDBD3E52A64F4C900434F25 /* RecommendedTrackViewController.swift */; };
 		3FDBD3E82A64F75800434F25 /* AlbumDetailsRepsonse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FDBD3E72A64F75800434F25 /* AlbumDetailsRepsonse.swift */; };
@@ -158,6 +155,7 @@
 		3FB8C6D82A6FEBD40049A03F /* LibraryPlaylistsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryPlaylistsResponse.swift; sourceTree = "<group>"; };
 		3FB8C6DA2A6FEDE10049A03F /* ActionLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionLabelView.swift; sourceTree = "<group>"; };
 		3FB8C6DC2A70BADB0049A03F /* LibraryAlbumsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryAlbumsResponse.swift; sourceTree = "<group>"; };
+		3FB8C6DE2A71330C0049A03F /* AppConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = AppConfig.xcconfig; sourceTree = "<group>"; };
 		3FC2AA562A557ABC00EE85F4 /* SettingModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingModels.swift; sourceTree = "<group>"; };
 		3FDBD3E32A64F2B000434F25 /* AlbumViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumViewController.swift; sourceTree = "<group>"; };
 		3FDBD3E52A64F4C900434F25 /* RecommendedTrackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendedTrackViewController.swift; sourceTree = "<group>"; };
@@ -174,9 +172,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3FC2AA612A557C2B00EE85F4 /* FirebaseAnalyticsSwift in Frameworks */,
-				3FC2AA5D2A557C2B00EE85F4 /* FirebaseAnalytics in Frameworks */,
-				3FC2AA5F2A557C2B00EE85F4 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */,
 				3FFDFE5E2A55A5B800FBBF7B /* Kingfisher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -219,6 +214,7 @@
 		3F6228132A4D2DCC0048B7F9 = {
 			isa = PBXGroup;
 			children = (
+				3FB8C6DE2A71330C0049A03F /* AppConfig.xcconfig */,
 				3F62281E2A4D2DCC0048B7F9 /* Spotify_App */,
 				3F6228352A4D2DCD0048B7F9 /* Spotify_AppTests */,
 				3F62283F2A4D2DCD0048B7F9 /* Spotify_AppUITests */,
@@ -499,9 +495,6 @@
 			);
 			name = Spotify_App;
 			packageProductDependencies = (
-				3FC2AA5C2A557C2B00EE85F4 /* FirebaseAnalytics */,
-				3FC2AA5E2A557C2B00EE85F4 /* FirebaseAnalyticsOnDeviceConversion */,
-				3FC2AA602A557C2B00EE85F4 /* FirebaseAnalyticsSwift */,
 				3FFDFE5D2A55A5B800FBBF7B /* Kingfisher */,
 			);
 			productName = Spotify_App;
@@ -577,7 +570,6 @@
 			);
 			mainGroup = 3F6228132A4D2DCC0048B7F9;
 			packageReferences = (
-				3FC2AA5B2A557C2B00EE85F4 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				3FFDFE5C2A55A5B800FBBF7B /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = 3F62281D2A4D2DCC0048B7F9 /* Products */;
@@ -846,6 +838,7 @@
 		};
 		3F6228472A4D2DCD0048B7F9 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3FB8C6DE2A71330C0049A03F /* AppConfig.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -873,6 +866,7 @@
 		};
 		3F6228482A4D2DCD0048B7F9 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3FB8C6DE2A71330C0049A03F /* AppConfig.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1016,14 +1010,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		3FC2AA5B2A557C2B00EE85F4 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 10.0.0;
-			};
-		};
 		3FFDFE5C2A55A5B800FBBF7B /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
@@ -1035,21 +1021,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		3FC2AA5C2A557C2B00EE85F4 /* FirebaseAnalytics */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3FC2AA5B2A557C2B00EE85F4 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAnalytics;
-		};
-		3FC2AA5E2A557C2B00EE85F4 /* FirebaseAnalyticsOnDeviceConversion */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3FC2AA5B2A557C2B00EE85F4 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAnalyticsOnDeviceConversion;
-		};
-		3FC2AA602A557C2B00EE85F4 /* FirebaseAnalyticsSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3FC2AA5B2A557C2B00EE85F4 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAnalyticsSwift;
-		};
 		3FFDFE5D2A55A5B800FBBF7B /* Kingfisher */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 3FFDFE5C2A55A5B800FBBF7B /* XCRemoteSwiftPackageReference "Kingfisher" */;

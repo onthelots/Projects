@@ -15,8 +15,23 @@ final class AuthManager {
     
     struct Constants {
         // 클라이언트 ID, SecretID
-        static let clientID: String = "062b9465d36c449bbd9a59f3fba015a6"
-        static let clientSecret: String = "84e5e799f3554c22a821840bf5aa29cc"
+        static let clientID: String = {
+            guard let path = Bundle.main.path(forResource: "Info", ofType: "plist"),
+                  let dict = NSDictionary(contentsOfFile: path),
+                  let clientID = dict["CLIENT_ID"] as? String else {
+                fatalError("Info.plist에서 CLIENT_ID를 찾을 수 없습니다")
+            }
+            return clientID
+        }()
+        
+        static let clientSecret: String = {
+            guard let path = Bundle.main.path(forResource: "Info", ofType: "plist"),
+                  let dict = NSDictionary(contentsOfFile: path),
+                  let clientSecret = dict["CLIENT_SECRET"] as? String else {
+                fatalError("Info.plist에서 CLIENT_SECRET을 찾을 수 없습니다.")
+            }
+            return clientSecret
+        }()
         // Request Access Token을 위한 URL
         static let tokenAPIURL: String = "https://accounts.spotify.com/api/token"
         static let redirectURI: String = "https://iosdevlime.tistory.com/"
