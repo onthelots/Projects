@@ -153,7 +153,7 @@ final class PlaylistHeaderCollectionReusableView: UICollectionReusableView {
         nameLabel.text = viewModel.playlistName
         descriptionLabel.text = viewModel.description
         ownerLabel.text = viewModel.ownerName
-        imageView.kf.setImage(with: viewModel.artworkURL)
+        imageView.kf.setImage(with: viewModel.artworkURL, placeholder: UIImage(systemName: "photo"))
     }
     
     // 해당 VC로 위임함

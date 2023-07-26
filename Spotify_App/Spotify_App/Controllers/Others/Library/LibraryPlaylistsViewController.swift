@@ -1,6 +1,6 @@
 //
 //  LibraryPlaylistsViewController.swift
-//  Spotify_App
+//  Spotify_App/Users/onthelots/Desktop/GithubRepo/Projects/Spotify_App/Spotify_App/Managers
 //
 //  Created by Jae hyuk Yim on 2023/07/25.
 //
@@ -10,6 +10,9 @@ import UIKit
 class LibraryPlaylistsViewController: UIViewController {
     
     var playlists = [Playlist]()
+    
+    // MARK: - 특정 트랙을 LongPress 한 후, 저장버튼을 눌렀을 때 현재 View로 이동되는데, 이때 실행되는 Handler
+    public var selectionHandler: ((Playlist) -> Void)?
     
     // 플레이리스트가 없는 경우 나타낼 UIView()
     private let noPlaylistsView = ActionLabelView()
@@ -35,6 +38,16 @@ class LibraryPlaylistsViewController: UIViewController {
         setUpNoPlaylistView()
         
         fetchData()
+        
+        if selectionHandler != nil {
+            navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close,
+                                                               target: self,
+                                                               action: #selector(didTapClose))
+        }
+    }
+    
+    @objc func didTapClose() {
+        dismiss(animated: true)
     }
     
     override func viewDidLayoutSubviews() {
@@ -124,11 +137,14 @@ class LibraryPlaylistsViewController: UIViewController {
             }
             
             // MARK: - API createdPlaylists (POST)
-            APICaller.shared.createPlaylist(with: text) { success in
+            APICaller.shared.createUserPlaylist(with: text) { success in
                 if success {
-                    // Refresh list of playlists
+                    // Haptics
+                    HapticManager.shared.vibrate(for: .success)
+                    self.fetchData()
                 }
                 else {
+                    HapticManager.shared.vibrate(for: .error)
                     print("Failed to create Playlist")
                 }
             }
@@ -159,6 +175,32 @@ extension LibraryPlaylistsViewController: UITableViewDelegate, UITableViewDataSo
                                                                         subtitle: playlist.owner.display_name,
                                                                         imageURL: URL(string: playlist.images.first?.url ?? "")))
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        // Haptics
+        HapticManager.shared.vibrateForSelection()
+        
+        let playlist = playlists[indexPath.row]
+        
+        // MARK: - selectionHandler
+        guard selectionHandler == nil else {
+            // 만약, selectionHandler가 비어있다면?
+            // selectionHandler는 현재 선택된(row) Playlist 값이 할당됨
+            selectionHandler?(playlist)
+            dismiss(animated: true)
+            return
+        }
+        
+        
+        let vc = PlaylistViewController(playlist: playlist)
+        vc.navigationItem.largeTitleDisplayMode = .never
+        vc.isOwner = true
+        navigationController?.pushViewController(vc, animated: true)
+        
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

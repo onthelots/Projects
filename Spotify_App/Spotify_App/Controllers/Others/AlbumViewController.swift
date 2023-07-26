@@ -94,30 +94,22 @@ class AlbumViewController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         
-        // HomeViewController -> didSelected한 item의 값을 album타입에 맞게 받아오고, 이를 APICaller에 위치한 getAlbumDetails 메서드의 매개변수로 할당함으로서 데이터를 할당하게 됨
-        APICaller.shared.getAlbumDetails(for: album) { [weak self] result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let model) :
-                    self?.tracks = model.tracks.items
-                    self?.viewModels = model.tracks.items.compactMap({ item in
-                        AlbumCollectionViewCellViewModel(name: item.name,
-                                                         artistName: item.artists.first?.name ?? "-")
-                    })
-                    
-                    self?.collectionView.reloadData()
-                case .failure(let error) :
-                    print(error.localizedDescription)
-                }
-            }
-        }
+        fetchData()
         
         // Share Function
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
+        let shareButton: UIBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .action,
             target: self,
             action: #selector(didTapShare)
         )
+        
+        let addAlbumButton: UIBarButtonItem  = UIBarButtonItem(
+            barButtonSystemItem: .add,
+            target: self,
+            action: #selector(didTapSave)
+        )
+        
+        navigationItem.rightBarButtonItems = [shareButton, addAlbumButton]
     }
     
     // Share Button Tapped (navigationItem.rightBarButtonItem)
@@ -140,6 +132,57 @@ class AlbumViewController: UIViewController {
         // 탭을 진행했을 때 해당 vc를 present함
         present(vc, animated: true)
     }
+    
+    // Save Button Tapped (navigationItem.rightBarButtonItem)
+    @objc private func didTapSave() {
+        
+        // TODO: - 이미 동일한 앨범이 저장되어 있다면 X
+        
+        let actionSheet = UIAlertController(title: album.name,
+                                            message: "즐겨찾는 앨범으로 저장하시겠습니까?",
+                                            preferredStyle: .actionSheet)
+        
+        actionSheet.addAction(UIAlertAction(title: "취소", style: .cancel))
+        
+        actionSheet.addAction(UIAlertAction(title: "저장", style: .default, handler: { [weak self] _ in
+            
+            guard let strongSelf = self else { return }
+            APICaller.shared.addAlbumToUserAlbum(album: strongSelf.album) { success in
+                if success {
+                    HapticManager.shared.vibrate(for: .success)
+                    NotificationCenter.default.post(name: .albumSavedNotification, object: nil)
+                }
+                else {
+                    HapticManager.shared.vibrate(for: .error)
+                }
+            }
+        }))
+        
+        
+        // 탭을 진행했을 때 해당 vc를 present함
+        present(actionSheet, animated: true)
+    }
+    
+    private func fetchData() {
+        // HomeViewController -> didSelected한 item의 값을 album타입에 맞게 받아오고, 이를 APICaller에 위치한 getAlbumDetails 메서드의 매개변수로 할당함으로서 데이터를 할당하게 됨
+        APICaller.shared.getAlbumDetails(for: album) { [weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let model) :
+                    self?.tracks = model.tracks.items
+                    self?.viewModels = model.tracks.items.compactMap({ item in
+                        AlbumCollectionViewCellViewModel(name: item.name,
+                                                         artistName: item.artists.first?.name ?? "-")
+                    })
+                    
+                    self?.collectionView.reloadData()
+                case .failure(let error) :
+                    print(error.localizedDescription)
+                }
+            }
+        }
+    }
+    
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()

@@ -32,7 +32,7 @@ class LibraryViewController: UIViewController {
         
         scrollView.delegate = self
         view.addSubview(scrollView)
-        scrollView.backgroundColor = .yellow
+        scrollView.backgroundColor = .systemBackground
         
         // TODO: - AutoLayout으로 변경
         scrollView.contentSize = CGSize(width: view.width*2, height: scrollView.height)

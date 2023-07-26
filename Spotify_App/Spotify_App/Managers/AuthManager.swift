@@ -286,4 +286,21 @@ final class AuthManager {
                                        forKey: "expires_in")
 
     }
+    
+    // SignOut (캐시함수를 전체 삭제해버림)
+    public func signOut(completion: @escaping (Bool) -> Void){
+        // UserDefaults (Local Cache)
+        UserDefaults.standard.setValue(nil,
+                                       forKey: "access_token")
+        
+        // Refresh_Token (Local Cache)
+        UserDefaults.standard.setValue(nil,
+                                       forKey: "refresh_token")
+        
+        UserDefaults.standard.setValue(nil,
+                                       forKey: "expires_in")
+        
+        completion(true)
+        
+    }
 }

@@ -70,6 +70,9 @@ class HomeViewController: UIViewController {
         
         // Fetch API Data
         fetchData()
+        
+        // add playlists
+        addLongTapGesture()
     }
     
     // viewDidLayoutSubViews()
@@ -77,6 +80,67 @@ class HomeViewController: UIViewController {
         super.viewDidLayoutSubviews()
         
         collectionView.frame = view.bounds
+    }
+    
+    // MARK: - Add Playlists Gesture
+    private func addLongTapGesture() {
+        let gesture = UILongPressGestureRecognizer(target: self,
+                                             action: #selector(didLongPress(_:)))
+        collectionView.isUserInteractionEnabled = true
+        collectionView.addGestureRecognizer(gesture)
+    }
+    
+    @objc func didLongPress(_ gesture: UILongPressGestureRecognizer) {
+        guard gesture.state == .began else {
+            return
+        }
+        
+        // touchPoint(CGPoint) : gesture(LongPress)가 시작된 지점
+        let touchPoint = gesture.location(in: collectionView)
+        
+        // indexPath : collectionView에서 선택한 아이템의 IndexPath(위치는 touchPoint)
+        guard let indexPath = collectionView.indexPathForItem(at: touchPoint),
+              // 추가로, IndexPath의 section이 2번째 (즉, Recommended Track일 때)
+              indexPath.section == 2 else {
+            return
+        }
+        
+        // selectedItem은 Recommended Track의 indexPath에 따른 Track(AudioTrack)
+        let selectedItem = track[indexPath.item]
+        
+        // actionSheet (alert)
+        let actionSheet = UIAlertController(
+            title: selectedItem.name,
+            message: "플레이리스트에 저장하시겠습니까?",
+            preferredStyle: .actionSheet
+        )
+        
+        actionSheet.addAction(UIAlertAction(title: "취소",
+                                            style: .cancel))
+        
+        // MARK: - 저장 버튼을 눌렀을 때
+        actionSheet.addAction(UIAlertAction(title: "저장",
+                                            style: .default, handler: { [weak self] _ in
+            
+            // 어디 플레이리스트에 저장할 것인데?
+            DispatchQueue.main.async {
+                // vc로 해당 LibraryPlaylist VC를 선언하고
+                let vc = LibraryPlaylistsViewController()
+                // 해당 vc에서 public 프로퍼티로 선언된 selectionHandler에 값을 할당함
+                vc.selectionHandler = { playlist in
+                    APICaller.shared.addTrackToUserPlaylist(track: selectedItem,
+                                                        playlist: playlist) { success in
+                        print("플레이리스트에 트랙이 저장되었습니다 : \(success)")
+                    }
+                }
+                
+                vc.title = "저장할 플레이리스트를 선택해주세요"
+                self?.present(UINavigationController(rootViewController: vc), animated: true)
+            }
+        }))
+        
+        // present actionSheet
+        present(actionSheet, animated: true)
     }
     
     
@@ -186,7 +250,7 @@ class HomeViewController: UIViewController {
             guard let newAlbum = newReleases?.albums.items,
                   let playlists = featuredPlaylists?.playlists.items,
                   let tracks = recommendedTracks?.tracks else {
-                return
+                fatalError("Models are nil")
             }
             
             // API가 정상적으로 할당되었을 때 -> configureModel 메서드(section에 model 데이터를 함께 심는 과정)를 실행함
@@ -306,6 +370,10 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     // selected Items
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
+        
+        // Haptics
+        HapticManager.shared.vibrateForSelection()
+        
         let section = sections[indexPath.section]
         
         // 각각의 Section 내부의 item으로 접근(didSelectedItem)하기 위한 과정

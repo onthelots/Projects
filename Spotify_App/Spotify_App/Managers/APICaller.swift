@@ -72,7 +72,7 @@ final class APICaller {
         }
     }
     
-    // MARK: - Home API Call
+    // MARK: - User Profile APl Call
     
     // UserProfile
     public func getCurrentUserProfile(completion: @escaping (Result<UserProfile, Error>) -> Void) {
@@ -124,7 +124,7 @@ final class APICaller {
     // Featured Playlists
     public func getFeaturedPlaylists(completion: @escaping (Result<FeaturedPlaylistsResponse, Error>) -> Void) {
         
-        createRequest(with: URL(string: Constants.baseAPIURL + "/browse/featured-playlists?limit=8"),
+        createRequest(with: URL(string: Constants.baseAPIURL + "/browse/featured-playlists?limit=50"),
                       type: .GET) { request in
 
             let task = URLSession.shared.dataTask(with: request) { data, _, error in
@@ -295,7 +295,7 @@ final class APICaller {
     }
     
     // createPlaylist (생성된 playlists에 따라 playlists 정보를 POST)
-    public func createPlaylist(with name: String, completion: @escaping (Bool) -> Void) {
+    public func createUserPlaylist(with name: String, completion: @escaping (Bool) -> Void) {
         
         // 1. 현재 프로필을 불러오기
         getCurrentUserProfile { [weak self] result in
@@ -332,10 +332,6 @@ final class APICaller {
                             if let response = result as? [String: Any], response["id"] as? String != nil {
                                 print("Created")
                                 completion(true)
-                                //                            let decoder = JSONDecoder()
-                                //                            let result = try decoder.decode(Playlist.self, from: data)
-                                //                            print(result)
-                                //                            completion(true)
                             }
                         }
                         catch {
@@ -353,17 +349,137 @@ final class APICaller {
     }
     
     // addTrackToPlay (POST / 트랙 등록)
-    public func addTrackToPlaylist(track: AudioTrack,
+    public func addTrackToUserPlaylist(track: AudioTrack,
                                    playlist: Playlist,
                                    completion: @escaping (Bool) -> Void) {
-        //
+        createRequest(with: URL(string: Constants.baseAPIURL + "/playlists/\(playlist.id)/tracks"),
+                      type: .POST) { baseRequest in
+            // 1. baseRequest
+            var request = baseRequest
+            // 2. json 형식이 body 선언
+            let json = [
+                "uris" : [
+                    "spotify:track:\(track.id)"
+                ]
+            ]
+            // 3. baseRequest에 httpBody 붙이기 (JSONSerialization)
+            request.httpBody = try? JSONSerialization.data(withJSONObject: json, options: .fragmentsAllowed)
+            
+            // 4. header 형식 구현
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            
+            let task = URLSession.shared.dataTask(with: request) { data, _, error in
+                guard let data = data, error == nil else {
+                    return
+                }
+                do {
+                    // result -> (baseRequest + httpBody + header) 형식을 통해 내려받는 데이터(data)
+                    let result = try JSONSerialization.jsonObject(with: data, options: .fragmentsAllowed)
+                    
+                    // 5. response(정상적으로 올리기 위한 200대)가 result data인데, [String: Any] 딕셔너리 타입이고
+                    if let response = result as? [String: Any],
+                       // 해당 response의 snapshot_id(플레이리스트 이름)이 비어있지 않을때
+                       response["snapshot_id"] as? String != nil {
+                        completion(true)
+                    } else {
+                        completion(false)
+                    }
+                } catch {
+                    completion(false)
+                }
+            }
+            task.resume()
+        }
     }
     
     // removeTrackFromPlaylists (addTrackToPlaylists 내 Track을 삭제함)
-    public func removeTrackFromPlaylists(track: AudioTrack,
+    public func removeTrackFromUserPlaylists(track: AudioTrack,
                                    playlist: Playlist,
                                    completion: @escaping (Bool) -> Void) {
-        //
+        createRequest(with: URL(string: Constants.baseAPIURL + "/playlists/\(playlist.id)/tracks"),
+                      type: .DELETE) { baseRequest in
+            // 1. baseRequest
+            var request = baseRequest
+            // 2. json 형식이 body 선언
+            let json = [
+                "tracks" : [
+                    [
+                        "uri": "spotify:track:\(track.id)"
+                    ]
+                ]
+            ]
+                
+            
+            request.httpBody = try? JSONSerialization.data(withJSONObject: json, options: .fragmentsAllowed)
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            
+            let task = URLSession.shared.dataTask(with: request) { data, _, error in
+                guard let data = data, error == nil else {
+                    return
+                }
+                do {
+                    // result -> (baseRequest + httpBody + header) 형식을 통해 내려받는 데이터(data)
+                    let result = try JSONSerialization.jsonObject(with: data, options: .fragmentsAllowed)
+                    
+                    // 5. response(정상적으로 올리기 위한 200대)가 result data인데, [String: Any] 딕셔너리 타입이고
+                    if let response = result as? [String: Any],
+                       // 해당 response의 snapshot_id(플레이리스트 이름)이 비어있지 않을때
+                       response["snapshot_id"] as? String != nil {
+                        completion(true)
+                    } else {
+                        completion(false)
+                    }
+                } catch {
+                    completion(false)
+                }
+            }
+            task.resume()
+        }
+    }
+    
+    // User Albums (GET)
+    public func getCurrnUserAlbums(completion: @escaping (Result<[Album], Error>) -> Void) {
+        createRequest(with: URL(string: Constants.baseAPIURL + "/me/albums"),
+                      type: .GET) { request in
+            let task = URLSession.shared.dataTask(with: request) { data, _, error in
+                guard let data = data, error == nil else {
+                    completion(.failure(APIError.failedToGetData))
+                    return
+                }
+                
+                do {
+                    let decoder = JSONDecoder()
+                    let result = try decoder.decode(LibraryAlbumsResponse.self, from: data)
+                    completion(.success(result.items.compactMap({ item in
+                        item.album
+                    })))
+                } catch {
+                    completion(.failure(error))
+                }
+            }
+            task.resume()
+        }
+    }
+    
+    // save Album (PUT) -> Response만 받는 메서드
+    public func addAlbumToUserAlbum(album: Album, completion: @escaping (Bool) -> Void) {
+        createRequest(with: URL(string: Constants.baseAPIURL + "/me/albums?ids=\(album.id)"),
+                      type: .PUT) { baseRequest in
+            
+            var request = baseRequest
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            
+            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                guard let code = (response as? HTTPURLResponse)?.statusCode,
+                      error == nil else {
+                    completion(false)
+                    return
+                }
+                print(code)
+                completion(code == 200)
+            }
+            task.resume()
+        }
     }
     
     // MARK: - Private
@@ -371,6 +487,8 @@ final class APICaller {
     enum HTTPMethod: String {
         case GET
         case POST
+        case DELETE
+        case PUT
     }
     
     // MARK: - API 요청을 위하여 해당 User의 Token 유효성 여부 파악(withValidToken)

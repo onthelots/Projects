@@ -12,6 +12,8 @@ class PlaylistViewController: UIViewController {
     // HomeViewController에서 Item을 didSelected할 경우, 해당 Index.item의 데이터를 할당받게 됨
     private let playlist: Playlist
     
+    public var isOwner = false
+    
     // rendering (section이 하나이므로, 매개변수값은 없음)
     private let collectionView = UICollectionView(
         frame: .zero,
@@ -123,6 +125,56 @@ class PlaylistViewController: UIViewController {
             target: self,
             action: #selector(didTapShare)
         )
+        
+        // gesture 추가
+        let gesture = UILongPressGestureRecognizer(target: self,
+                                                   action: #selector(didLongPress(_:)))
+        collectionView.addGestureRecognizer(gesture)
+    }
+    
+    @objc func didLongPress(_ gesture: UILongPressGestureRecognizer) {
+        guard gesture.state == .began else {
+            return
+        }
+        let touchPoint = gesture.location(in: collectionView)
+        
+        guard let indexPath = collectionView.indexPathForItem(at: touchPoint) else {
+            return
+        }
+        
+        let trackToDelete = tracks[indexPath.item]
+        
+        let actionSheet = UIAlertController(
+            title: trackToDelete.name,
+            message: "해당 트랙을 플레이리스트에서 삭제합니까?",
+            preferredStyle: .actionSheet
+        )
+        
+        actionSheet.addAction(UIAlertAction(title: "취소",
+                                            style: .cancel))
+        
+        actionSheet.addAction(UIAlertAction(title: "삭제",
+                                            style: .default, handler: { [weak self] _ in
+            
+            // handler는 weak 참조 유형의 메서드다 보니, 아래 APICaller의 매개변수 값으로 할당되는 현재 viewController의 playlist는 strongSelf라는 바인딩 된 viewController를 할당함
+            guard let strongSelf = self else {
+                return
+            }
+            // 삭제 버튼을 눌렀을 때
+            APICaller.shared.removeTrackFromUserPlaylists(track: trackToDelete,
+                                                      playlist: strongSelf.playlist) { success in
+                
+                DispatchQueue.main.async {
+                    if success {
+                        strongSelf.tracks.remove(at: indexPath.item)
+                        strongSelf.viewModels.remove(at: indexPath.item)
+                        strongSelf.collectionView.reloadData()
+                    }
+                }
+            }
+        }))
+        
+        present(actionSheet, animated: true)
     }
     
     // Share Button Tapped (navigationItem.rightBarButtonItem)

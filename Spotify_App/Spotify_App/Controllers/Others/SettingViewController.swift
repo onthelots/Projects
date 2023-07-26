@@ -62,8 +62,38 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         navigationController?.pushViewController(vc, animated: true)
     }
     
+    // MARK: - SignOut 과정
     private func signOutTapped() {
-        //
+        let alert = UIAlertController(title: "로그아웃",
+                                      message: "정말 로그아웃 하시겠습니까?",
+                                      preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "아니오",
+                                      style: .cancel))
+        
+        alert.addAction(UIAlertAction(title: "네",
+                                      style: .destructive, handler: { _ in
+            // SignOut 메서드 실행
+            AuthManager.shared.signOut { [weak self] signOut in
+                if signOut {
+                    DispatchQueue.main.async {
+                        // 로그아웃 후, WelcomeVC을 나타냄
+                        let navVC = UINavigationController(rootViewController: WelcomeViewController()) // WelcomeVC를 루트뷰로 설정
+                        navVC.navigationBar.prefersLargeTitles = true // 속성 1
+                        navVC.viewControllers.first?.navigationItem.largeTitleDisplayMode = .always // 네비게이션 컨트롤러에 첫번째 배열의 속성 설정
+                        navVC.modalPresentationStyle = .fullScreen // 네비게이션 컨트롤러의 모달 특징 설정 (뒤로 가는 버튼이 없도록)
+                        
+                        // 네비게이션 컨트롤러로 다시 돌아가
+                        self?.present(navVC, animated: true, completion: {
+                            // 첫번째 rootView, 즉 WelcomeView로 돌아감
+                            self?.navigationController?.popToRootViewController(animated: false)
+                        })
+                    }
+                }
+            }
+        }))
+        
+        present(alert, animated: true)
     }
     
     
