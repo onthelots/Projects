@@ -66,11 +66,17 @@
 > 3-3. Player Music
 ```
 1. 개별 트랙(Track, single track) 혹은 재생목록(Playlists, tracks) Player UI 구현(Modality)
+2. AVPlayer framework를 활용하여 [재생&일시정지] [이전 트랙] [다음 트랙] 기능 구현 (AVPlayer, AVQueuePlayer)
+```
+
+> 3-4. Player Music
+```
+1. UIScrollView 내 2개의 child ViewController를 할당, 로그인한 유저정보를 기반으로 나만의 Playlist 생성 및 삭제, Album 저장기능 구현 
 ```
 
 <br> 
 
-` [Feature 4] `
+` [Feature 4] Haptic 기능 추가 및 UI 다듬기`
 
 > ...
 ```
