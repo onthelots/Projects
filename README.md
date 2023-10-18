@@ -4,19 +4,13 @@
 
 <br>
 
-`🎧 Spotify`
-> Spotify Web API를 활용한 음악검색, 플레이리스트 저장 외 앱 기능 전반 구현 (진행중)
-```
-- UIKit, Code-base+Storyboard
-- Spotify API
-- MVVM 패턴
-```
+`🎧 WebSocket, WebRTC을 활용한 교육 시스템 구축`
+> WebSocket, WebRTC을 통한 클라우드 기반 커뮤니케이션 교육 플랫폼
 
-<br>
-
-`📱 Custom AppStore`
-> iTunes API를 활용한 앱 스토어 구현 (진행중)
 ```
-- UIKit, AutLayout(Storyboard)
-- MVVM 패턴
+- Framework : UIKit
+- Key Skills : Web Socket(채팅), WebRTC(오디오, 영상)
+- Architecture: Clean Architecture, MVVM
+- Reactive Programming : Combine
+- Lib : realm, FlexLayout(선언형 UI 연습)
 ```
